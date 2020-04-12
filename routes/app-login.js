@@ -13,36 +13,48 @@ router.post('/', function(req, res, next) {
   var message = "";
   var data = {};
 
-  connection.query('SELECT * FROM tbl_users WHERE email = ?',[email], function (error, results) {
-    if (error) {
-       message = 'Error occured! Try again.';
-       res.send({sucess: success, code: code, message: message, data: data});
-    }
-    else {
-       if (results.length > 0) {
-          decryptedPassword = cryptr.decrypt(results[0].password);
-          if (password == decryptedPassword) {
-             data['user_id'] = results['user_id']
-             data['email'] = results['email']
-             success = true;
-             code = 1;
-             message = "Successfully Logged In!";
-             res.send({sucess: success, code: code, message: message, data: data});
-          }
-          else {
-             code = 2;
-             message = 'Incorrect Password!';
-             res.send({sucess: success, code: code, message: message, data: data});
-          }
-       }
-       else {
-          code = 3;
-          message = 'Email does not exist!';
-          res.send({sucess: success, code: code, message: message, data: data});
-       }
-    }
- });
+   if ((email != "" && email != null) && (password != "" && password != null))  {
+      const encryptedPassword = cryptr.encrypt(password);
+      doLogin(email, encryptedPassword);
+   }
+   else {
+      code = 2;
+      message = "Some fields are empty!";
+      res.send({sucess: success, code: code, message: message});
+   }
 
+   function doLogin(email, password) {
+      connection.query('SELECT * FROM tbl_users WHERE email = ?',[email], function (error, results) {
+         if (error) {
+            message = 'Error occured! Try again.';
+            res.send({sucess: success, code: code, message: message, data: data});
+         }
+         else {
+            if (results.length > 0) {
+              //  decryptedPassword = cryptr.decrypt(results[0].password);
+               if (password == results[0].password) {
+                  data['user_id'] = results['user_id']
+                  data['email'] = results['email']
+                  success = true;
+                  code = 1;
+                  message = "Successfully Logged In!";
+                  res.send({sucess: success, code: code, message: message, data: data});
+               }
+               else {
+                  code = 4;
+                  message = 'Incorrect Password!';
+                  res.send({sucess: success, code: code, message: message, data: data});
+               }
+            }
+            else {
+               code = 3;
+               message = 'Email does not exist!';
+               res.send({sucess: success, code: code, message: message, data: data});
+            }
+         }
+      });
+   }
+  
 });
 
 module.exports = router;
