@@ -14,8 +14,7 @@ router.post('/', function(req, res, next) {
   var data = {};
 
    if ((email != "" && email != null) && (password != "" && password != null))  {
-      const encryptedPassword = cryptr.encrypt(password);
-      doLogin(email, encryptedPassword);
+      doLogin(email, password);
    }
    else {
       code = 2;
@@ -31,8 +30,8 @@ router.post('/', function(req, res, next) {
          }
          else {
             if (results.length > 0) {
-              //  decryptedPassword = cryptr.decrypt(results[0].password);
-               if (password == results[0].password) {
+               const decryptedPassword = cryptr.decrypt(results[0].password);
+               if (password === decryptedPassword) {
                   data['user_id'] = results['common_user_id']
                   data['email'] = results['email']
                   success = true;

@@ -15,8 +15,9 @@ router.post('/', function(req, res, next) {
     var code = 0;
     var message = "";
 
-    if ((email != "" && email != null) && (password != "" && password != null))  {
+    if ((email != "" && email != null) && (password != "" && password != null) && (confirmPassword != "" && confirmPassword != null))  {
         if (password === confirmPassword) {
+            const encryptedPassword = cryptr.encrypt(password);
             doSignUp(email, encryptedPassword);
         }
         else {
