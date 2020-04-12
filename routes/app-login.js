@@ -24,7 +24,7 @@ router.post('/', function(req, res, next) {
    }
 
    function doLogin(email, password) {
-      connection.query('SELECT * FROM tbl_users WHERE email = ?',[email], function (error, results) {
+      connection.query('SELECT * FROM tbl_common_user WHERE email = ?',[email], function (error, results) {
          if (error) {
             message = 'Error occured! Try again.';
             res.send({sucess: success, code: code, message: message, data: data});
@@ -33,7 +33,7 @@ router.post('/', function(req, res, next) {
             if (results.length > 0) {
               //  decryptedPassword = cryptr.decrypt(results[0].password);
                if (password == results[0].password) {
-                  data['user_id'] = results['user_id']
+                  data['user_id'] = results['common_user_id']
                   data['email'] = results['email']
                   success = true;
                   code = 1;

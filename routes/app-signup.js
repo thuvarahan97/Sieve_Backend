@@ -32,14 +32,14 @@ router.post('/', function(req, res, next) {
     }
 
     function doSignUp(email, password) {
-        connection.query('SELECT * FROM tbl_users WHERE email = ?',[email], function (error, results) {
+        connection.query('SELECT * FROM tbl_common_user WHERE email = ?',[email], function (error, results) {
             if (error) {
                 message = 'Error occured! Try again.';
                 res.send({sucess: success, code: code, message: message, data: data});
             }
             else {
                 if (results.length == 0) {
-                    connection.query('INSERT INTO `tbl_users` VALUES(?,?) AS output',[firstname,lastname,email,encryptedPassword], function (error, results) {
+                    connection.query('INSERT INTO tbl_common_user (email, password) VALUES(?,?)',[email, password], function (error, results) {
                         if (error) {
                             message = "Error occured! Try again.";
                             res.send({sucess: success, code: code, message: message});
