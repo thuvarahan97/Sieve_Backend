@@ -4,8 +4,8 @@ const hashFunctions = require('../utils/hash_function');
 module.exports = class User {
     constructor(params) {
         this.id = params.common_user_id,
-            this.email = params.email,
-            this.password = params.password
+        this.email = params.email,
+        this.password = params.password
     }
 
     static insert(userInput) {
@@ -18,11 +18,9 @@ module.exports = class User {
         }).catch((err) => {
             console.log(err);
         });
-
     }
 
     static getUserFromEmail(email) {
-
         return new Promise((resolve) => {
             resolve(db.query("SELECT * FROM tbl_common_user WHERE email = ?", [email]))
         }).then(value => {
@@ -34,4 +32,3 @@ module.exports = class User {
     }
 
 };
-

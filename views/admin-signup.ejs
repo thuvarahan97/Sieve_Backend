@@ -4,11 +4,17 @@
     <div class="login-area">
         <div class="container">
             <div class="login-box ptb--100">
-                <form action="/admin/signup" method="POST">
+                <form action="/signup" method="POST">
                     <div class="login-form-head">
                         <h4>Sign up</h4>
                         <!-- <p>Sieve Admin</p> -->
                     </div>
+                    <% if (locals.error) { %>
+                        <div class="alert alert-danger"><%= error %></div>
+                    <% } %>
+                    <% if (locals.success) { %>
+                        <div class="alert alert-success">Successfully Registered!</div>
+                    <% } %>
                     <div class="login-form-body">
                         <div class="form-gp">
                             <label for="exampleInputEmail1">Email address</label>
@@ -40,7 +46,7 @@
                             </div> -->
                         </div>
                         <div class="form-footer text-center mt-5">
-                            <p class="text-muted">Don't have an account? <a href="login.html">Sign in</a></p>
+                            <p class="text-muted">Don't have an account? <a href="/login">Sign in</a></p>
                         </div>
                     </div>
                 </form>

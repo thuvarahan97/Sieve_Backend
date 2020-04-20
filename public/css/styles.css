@@ -1715,9 +1715,11 @@ table.dbkit-table tr td {
 
 .alert {
     letter-spacing: 0;
-    font-size: 13px;
+    font-size: 14px;
     border: none;
     padding: 10px 16px;
+    margin-bottom: 0;
+
 }
 
 .alert strong,

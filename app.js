@@ -1,16 +1,17 @@
 var createError = require('http-errors');
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-//const ur = require('./controllers/privacyTipsController');
-
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/userRoute');
 var privacyTipsRoute = require('./routes/privacyTipsRoute');
 var privacyLawsRoute = require('./routes/privacyLawsRoute');
 var suggestionRoute = require('./routes/suggestionRoute');
+
+var adminRoute = require('./routes/adminRoute');
+var homeRoute = require('./routes/homeRoute');
 
 var app = express();
 
@@ -23,15 +24,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+	secret: 'SotkanaiScoreboard',
+	resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000
+    }
+}));
 
-app.use('/', indexRouter);
+// App Routes
 app.use('/user', usersRouter);
 app.use('/privacy_tips',privacyTipsRoute);
 app.use('/privacy_laws',privacyLawsRoute);
 app.use('/suggestion',suggestionRoute);
 
+// Admin Page Routes
+app.use('/', adminRoute);
+app.use('/home', homeRoute);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  if (!req.session.loggedin) {
+      req.session.admin_id = '';
+  }
+  res.locals.loggedin = req.session.loggedin;
+  res.locals.admin_id = req.session.admin_id;
+  res.locals.admin_email = req.session.admin_email;
   next(createError(404));
 });
 
@@ -45,9 +65,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-//console.log(ur.encrypt('Test@123'));
-
- //ur.view_all();
 
 module.exports = app;

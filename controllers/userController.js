@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Admin = require('../models/adminModel');
 const hashFunctions = require('../utils/hash_function');
 const validation = require('../utils/validation');
 
@@ -58,5 +59,4 @@ exports.user_signup = (req, res, next) => {
     }else{
         res.status(404).json({ serverError: false, error: 'Incorrect Email or Password' });
     }
-
 }
