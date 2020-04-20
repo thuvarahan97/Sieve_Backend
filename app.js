@@ -4,15 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//const ur = require('./controllers/privacyTipsController');
+
 var indexRouter = require('./routes/index');
-var appLoginRouter = require('./routes/app-login');
-var appSignupRouter = require('./routes/app-signup');
+var usersRouter = require('./routes/userRoute');
+var privacyTipsRoute = require('./routes/privacyTipsRoute');
+var privacyLawsRoute = require('./routes/privacyLawsRoute');
+var suggestionRoute = require('./routes/suggestionRoute');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -21,8 +25,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/app/login', appLoginRouter);
-app.use('/app/signup', appSignupRouter);
+app.use('/user', usersRouter);
+app.use('/privacy_tips',privacyTipsRoute);
+app.use('/privacy_laws',privacyLawsRoute);
+app.use('/suggestion',suggestionRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -39,5 +45,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//console.log(ur.encrypt('Test@123'));
+
+ //ur.view_all();
 
 module.exports = app;
