@@ -28,6 +28,8 @@ router.get('/signup', function(req, res, next) {
     }
 });
 
+router.get('/logout', userController.admin_logout);
+
 router.post('/login', userController.admin_login);
 router.post('/signup', userController.admin_signup);
 

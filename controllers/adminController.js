@@ -12,7 +12,7 @@ exports.admin_login = (req, res, next) => {
                 req.session.loggedin = true;
                 req.session.admin_id = user.id.toString();
                 req.session.admin_email = user.email;
-                res.redirect('/');
+                res.redirect('/categories');
             }
             else {
                 res.status(404).render('admin-login', { serverError: false, error: 'Incorrect Password' });
@@ -62,3 +62,9 @@ exports.admin_signup = (req, res, next) => {
         res.status(404).render('admin-signup', { serverError: false, error: 'Invalid Email' });
     }
 }
+
+exports.admin_logout = function(req, res){
+    req.session.destroy(function(err) {
+       res.redirect("/login");
+    });
+};
