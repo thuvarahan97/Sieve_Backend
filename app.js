@@ -22,6 +22,12 @@ var usersRoute = require('./routes/adminRoutes/adminUsersRoute');
 var suggestionsRoute = require('./routes/adminRoutes/adminSuggestionsRoute');
 
 //* App Routes Files
+var appUsersRouter = require('./routes/appRoutes/userRoute');
+var appPrivacyTipsRoute = require('./routes/appRoutes/privacyTipsRoute');
+var appPrivacyLawsRoute = require('./routes/appRoutes/privacyLawsRoute');
+var appSuggestionRoute = require('./routes/appRoutes/suggestionRoute');
+
+//* App Routes Files
 
 var app = express();
 
@@ -69,6 +75,10 @@ app.use('/users', usersRoute);
 app.use('/suggestions',suggestionsRoute);
 
 //* App Routes
+app.use('/app/user', appUsersRouter);
+app.use('/app/privacy_tips',appPrivacyTipsRoute);
+app.use('/app/privacy_laws',appPrivacyLawsRoute);
+app.use('/app/suggestion',appSuggestionRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
