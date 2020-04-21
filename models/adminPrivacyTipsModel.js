@@ -8,7 +8,7 @@ module.exports = class Suggestions {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_common_user_suggestion"))
+            resolve(db.query("SELECT * FROM tbl_privacy_tip"))
         }).catch((err) => {
             console.log(err);
         });

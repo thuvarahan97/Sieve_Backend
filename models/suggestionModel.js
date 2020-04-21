@@ -1,7 +1,7 @@
 const db = require('../utils/database');
 const hashFunctions = require('../utils/hash_function');
 
-module.exports = class Suggestion {
+module.exports = class Suggestions {
     constructor(params) {
         this.userId = params.common_user_id,
             this.sId = params.s_id,

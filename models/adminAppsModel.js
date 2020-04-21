@@ -11,7 +11,7 @@ module.exports = class Apps {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT A.*, C.category_name AS app_category FROM tbl_application A LEFT OUTER JOIN tbl_app_category B ON A.app_id = B.app_id INNER JOIN tbl_category C ON B.category_id = C.category_id"))
+            resolve(db.query("SELECT A.*, C.category_name AS app_category FROM tbl_application A INNER JOIN tbl_app_category B ON A.app_id = B.app_id INNER JOIN tbl_category C ON B.category_id = C.category_id"))
         }).catch((err) => {
             console.log(err);
         });

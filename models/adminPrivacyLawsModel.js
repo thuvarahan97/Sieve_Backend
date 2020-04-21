@@ -1,14 +1,17 @@
 const db = require('../utils/database');
 
-module.exports = class Suggestions {
+module.exports = class PrivacyLaws {
     constructor(params) {
-        this.common_user_id = params.common_user_id,
-        this.email = params.email
+        this.law_id = params.law_id,
+        this.title = params.title,
+        this.full_link = params.full_link,
+        this.description = params.description,
+        this.content_id = params.content_id
     }
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_common_user_suggestion"))
+            resolve(db.query("SELECT * FROM tbl_privacy_law"))
         }).catch((err) => {
             console.log(err);
         });

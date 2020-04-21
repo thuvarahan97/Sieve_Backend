@@ -8,7 +8,7 @@ module.exports = class Suggestions {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_common_user_suggestion"))
+            resolve(db.query("SELECT * FROM tbl_content A INNER JOIN tbl_intersting_news B USING (content_id) WHERE A.deleted = 'false'"))
         }).catch((err) => {
             console.log(err);
         });
