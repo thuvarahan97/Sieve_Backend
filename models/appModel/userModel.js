@@ -4,16 +4,15 @@ const hashFunctions = require('../../utils/hash_function');
 module.exports = class User {
     constructor(params) {
         this.id = params.common_user_id,
-        this.email = params.email,
-        this.password = params.password
+            this.email = params.email,
+            this.password = params.password
     }
 
     static insert(userInput) {
         return new Promise((resolve) => {
             console.log(userInput);
-            resolve(db.query("INSERT INTO tbl_common_user (common_user_id, email, password) VALUES (?,?,?)",
-                ["5",
-                userInput.email,
+            resolve(db.query("INSERT INTO tbl_common_user (email, password) VALUES (?,?)",
+                [userInput.email,
                 hashFunctions.encrypt(userInput.password)]))
         }).catch((err) => {
             console.log(err);
