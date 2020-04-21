@@ -11,7 +11,7 @@ exports.viewAll = (req, res, next) => {
             });
         };
         fetchData().then((result)=>{
-            res.status(200).render('categories', { result: result });
+            res.status(200).render('suggestions', { result: result });
         }).catch((err) => {
             if (err) {
                 res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });

@@ -12,7 +12,7 @@ var logger = require('morgan');
 
 var adminRoute = require('./routes/adminRoute');
 var categoriesRoute = require('./routes/adminCategoriesRoute');
-var categoriesRoute = require('./routes/adminAppsRoute');
+var appsRoute = require('./routes/adminAppsRoute');
 var newsfeedsRoute = require('./routes/adminNewsFeedsRoute');
 var privacyTipsRoute = require('./routes/adminPrivacyTipsRoute');
 var privacyLawsRoute = require('./routes/adminPrivacyLawsRoute');
@@ -57,7 +57,7 @@ app.use(function(req, res, next) {
 // Admin Page Routes
 app.use('/', adminRoute);
 app.use('/categories', categoriesRoute);
-app.use('/apps', categoriesRoute);
+app.use('/apps', appsRoute);
 app.use('/newsfeeds', newsfeedsRoute);
 app.use('/privacy_tips',privacyTipsRoute);
 app.use('/privacy_laws',privacyLawsRoute);
