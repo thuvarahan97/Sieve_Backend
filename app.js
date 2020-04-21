@@ -10,15 +10,18 @@ var logger = require('morgan');
 // var privacyLawsRoute = require('./routes/privacyLawsRoute');
 // var suggestionRoute = require('./routes/suggestionRoute');
 
-var adminRoute = require('./routes/adminRoute');
-var categoriesRoute = require('./routes/adminCategoriesRoute');
-var appsRoute = require('./routes/adminAppsRoute');
-var newsfeedsRoute = require('./routes/adminNewsFeedsRoute');
-var privacyTipsRoute = require('./routes/adminPrivacyTipsRoute');
-var privacyLawsRoute = require('./routes/adminPrivacyLawsRoute');
-var adminsRoute = require('./routes/adminAdminsRoute');
-var usersRoute = require('./routes/adminUsersRoute');
-var suggestionsRoute = require('./routes/adminSuggestionsRoute');
+//* Admin Routes Files
+var adminRoute = require('./routes/adminRoutes/adminRoute');
+var categoriesRoute = require('./routes/adminRoutes/adminCategoriesRoute');
+var appsRoute = require('./routes/adminRoutes/adminAppsRoute');
+var newsfeedsRoute = require('./routes/adminRoutes/adminNewsFeedsRoute');
+var privacyTipsRoute = require('./routes/adminRoutes/adminPrivacyTipsRoute');
+var privacyLawsRoute = require('./routes/adminRoutes/adminPrivacyLawsRoute');
+var adminsRoute = require('./routes/adminRoutes/adminAdminsRoute');
+var usersRoute = require('./routes/adminRoutes/adminUsersRoute');
+var suggestionsRoute = require('./routes/adminRoutes/adminSuggestionsRoute');
+
+//* App Routes Files
 
 var app = express();
 
@@ -54,7 +57,7 @@ app.use(function(req, res, next) {
 // app.use('/privacy_laws',privacyLawsRoute);
 // app.use('/suggestion',suggestionRoute);
 
-// Admin Page Routes
+//* Admin Page Routes
 app.use('/', adminRoute);
 app.use('/categories', categoriesRoute);
 app.use('/apps', appsRoute);
@@ -64,6 +67,8 @@ app.use('/privacy_laws',privacyLawsRoute);
 app.use('/admins', adminsRoute);
 app.use('/users', usersRoute);
 app.use('/suggestions',suggestionsRoute);
+
+//* App Routes
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
