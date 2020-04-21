@@ -5,13 +5,20 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var usersRouter = require('./routes/userRoute');
-var privacyTipsRoute = require('./routes/privacyTipsRoute');
-var privacyLawsRoute = require('./routes/privacyLawsRoute');
-var suggestionRoute = require('./routes/suggestionRoute');
+// var usersRouter = require('./routes/userRoute');
+// var privacyTipsRoute = require('./routes/privacyTipsRoute');
+// var privacyLawsRoute = require('./routes/privacyLawsRoute');
+// var suggestionRoute = require('./routes/suggestionRoute');
 
 var adminRoute = require('./routes/adminRoute');
-var categoriesRoute = require('./routes/categoriesRoute');
+var categoriesRoute = require('./routes/adminCategoriesRoute');
+var categoriesRoute = require('./routes/adminAppsRoute');
+var newsfeedsRoute = require('./routes/adminNewsFeedsRoute');
+var privacyTipsRoute = require('./routes/adminPrivacyTipsRoute');
+var privacyLawsRoute = require('./routes/adminPrivacyLawsRoute');
+var adminsRoute = require('./routes/adminAdminsRoute');
+var usersRoute = require('./routes/adminUsersRoute');
+var suggestionsRoute = require('./routes/adminSuggestionsRoute');
 
 var app = express();
 
@@ -42,14 +49,21 @@ app.use(function(req, res, next) {
 });
 
 // App Routes
-app.use('/user', usersRouter);
-app.use('/privacy_tips',privacyTipsRoute);
-app.use('/privacy_laws',privacyLawsRoute);
-app.use('/suggestion',suggestionRoute);
+// app.use('/user', usersRouter);
+// app.use('/privacy_tips',privacyTipsRoute);
+// app.use('/privacy_laws',privacyLawsRoute);
+// app.use('/suggestion',suggestionRoute);
 
 // Admin Page Routes
 app.use('/', adminRoute);
 app.use('/categories', categoriesRoute);
+app.use('/apps', categoriesRoute);
+app.use('/newsfeeds', newsfeedsRoute);
+app.use('/privacy_tips',privacyTipsRoute);
+app.use('/privacy_laws',privacyLawsRoute);
+app.use('/admins', adminsRoute);
+app.use('/users', usersRoute);
+app.use('/suggestions',suggestionsRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

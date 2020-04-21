@@ -1,4 +1,4 @@
-const Categories = require('../models/categoriesModel');
+const Suggestions = require('../models/adminSuggestionsModel');
 
 exports.viewAll = (req, res, next) => {
     if (!req.session.loggedin) {
@@ -7,7 +7,7 @@ exports.viewAll = (req, res, next) => {
     else {
         const fetchData =  () => {
             return new Promise((resolve, reject) => {
-                resolve((Categories.getAllData()));
+                resolve((Suggestions.getAllData()));
             });
         };
         fetchData().then((result)=>{

@@ -4,7 +4,7 @@
     <div class="col-12 mt-5">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Categories Table
+                <h4 class="header-title">Apps Table
                     <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
                 </h4>
                 <div class="single-table">
@@ -14,8 +14,9 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
                                     <th scope="col">Category</th>
-                                    <th scope="col">Icon</th>
+                                    <th scope="col">Logo</th>
                                     <th scope="col">action</th>
                                 </tr>
                             </thead>
@@ -24,9 +25,10 @@
                                 <% for (var i = 0; i < result.length; i++) { %>
                                 <tr>
                                     <th scope="row"><%= i+1; %></th>
-                                    <td><%= result[i]['category_id']; %></td>
-                                    <td><%= result[i]['category_name']; %></td>
-                                    <td><img src="<%= result[i]['icon_link']; %>" width="35px" height="35px"></td>
+                                    <td><%= result[i]['app_id']; %></td>
+                                    <td><%= result[i]['app_name']; %></td>
+                                    <td>Social Media</td>
+                                    <td><img src="<%= result[i]['icon_image']; %>" width="35px" height="35px"></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
                                             <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
@@ -36,7 +38,7 @@
                                 </tr>
                                 <% } %>
                             <% } else { %>
-                                <tr style="text-align: center; padding: 100px;"><td colspan="5">No results found.</td></tr>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="6">No results found.</td></tr>
                             <% } %>
                             </tbody>
                         </table>

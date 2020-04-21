@@ -1,4 +1,4 @@
-const Categories = require('../models/categoriesModel');
+const Categories = require('../models/adminCategoriesModel');
 
 exports.viewAll = (req, res, next) => {
     if (!req.session.loggedin) {
