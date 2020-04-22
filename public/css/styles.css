@@ -110,7 +110,7 @@
     height: 100vh;
     width: 280px;
     overflow: hidden;
-    background: #303641;
+    background: #265699;
     box-shadow: 2px 0 32px rgba(0, 0, 0, 0.05);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
@@ -140,8 +140,8 @@
 
 .sidebar-header {
     padding: 19px 32px 20px;
-    background: #303641;
-    border-bottom: 1px solid #343e50;
+    background: #265699;
+    border-bottom: 1px solid #1BA0F2;
 }
 .sidebar-menu .logo{
     text-align: center;
@@ -157,7 +157,7 @@
 .metismenu li a {
     position: relative;
     display: block;
-    color: #8d97ad;
+    color: #ffffff;
     font-size: 15px;
     text-transform: capitalize;
     padding: 15px 15px;
@@ -166,7 +166,7 @@
 }
 
 .metismenu li a i {
-    color: #6a56a5;
+    color: #ffffff;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
@@ -177,7 +177,7 @@
     font-family: fontawesome;
     right: 15px;
     top: 12px;
-    color: #8d97ad;
+    color: #1BA0F2;
     font-size: 20px;
 }
 
@@ -208,18 +208,18 @@
 
 .metismenu >li:hover>a,
 .metismenu >li.active>a {
-    color: #fff;
-    background: #343942;
+    color: #ffffff;
+    background: #ffffff;
 }
 
 .metismenu li:hover>a,
 .metismenu li.active>a {
-    color: #fff;
+    color: #265699;
 }
 
 .metismenu li:hover>a i,
 .metismenu li.active>a i {
-    color: #fff;
+    color: #265699;
 }
 
 .metismenu li li a:after {
@@ -516,7 +516,8 @@
     position: absolute;
     right: -5px;
     top: -7px;
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: 'Questrial', sans-serif;
     font-size: 10px;
     font-weight: 600;
     color: #fff;
@@ -717,8 +718,8 @@ ul.breadcrumbs {
             align-items: center;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-    background: -webkit-linear-gradient(left, #8914fe 0%, #8063f5 100%);
-    background: linear-gradient(to right, #8914fe 0%, #8063f5 100%);
+    background: -webkit-linear-gradient(left, #265699  0%, #1BA0F2 100%);
+    background: linear-gradient(to right, #265699  0%, #1BA0F2 100%);
     padding: 17px 38px;
     position: relative;
 }
@@ -837,7 +838,7 @@ ul.breadcrumbs {
 }
 
 .header-title {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
@@ -1188,7 +1189,7 @@ table.dbkit-table tr td {
 }
 
 .footer-area p {
-    color: #676666;
+    color: #265699 ;
     margin-bottom: 0;
 }
 
@@ -1899,7 +1900,7 @@ p.card-text {
 }
 
 .pagination li a {
-    font-family: 'lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
 }
 
 /*-------------------- END Pagination ------------------- */
@@ -1997,7 +1998,7 @@ label {
     color: #444;
     margin: 9px 0;
     display: inline-block;
-    font-family: 'lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
 }
 
 .fw-icons a:hover {
@@ -2046,7 +2047,7 @@ label {
     color: #444;
     margin: 9px 0;
     display: inline-block;
-    font-family: 'lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
@@ -2284,7 +2285,7 @@ table.dataTable thead td {
     padding: 12px 19px;
     border-radius: 3px;
     text-transform: capitalize;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
     font-weight: 600;
     letter-spacing: 0.03em;
     margin-left: 6px;
@@ -2320,7 +2321,7 @@ table.dataTable thead td {
 
 .login-form-head {
     text-align: center;
-    background: #8655FC;
+    background: #265699;
     padding: 50px;
 }
 
@@ -2351,14 +2352,14 @@ table.dataTable thead td {
     position: absolute;
     left: 0;
     top: 0;
-    color: #b3b2b2;
+    color: #265699;
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
 
 .form-gp.focused label {
     top: -15px;
-    color: #7e74ff;
+    color: #265699;
 }
 
 .form-gp input {
@@ -2387,7 +2388,7 @@ table.dataTable thead td {
 .form-gp i {
     position: absolute;
     right: 5px;
-    color: #7e74ff;
+    color: #265699;
     font-size: 16px;
 }
 
@@ -2408,19 +2409,19 @@ table.dataTable thead td {
     height: 50px;
     border: none;
     background: #fff;
-    color: #585b5f;
+    color: #265699;
     border-radius: 40px;
     text-transform: uppercase;
     letter-spacing: 0;
     font-weight: 600;
     font-size: 12px;
-    box-shadow: 0 0 22px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 0 22px rgba(0, 0.5, 0, 0.07);
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
 }
 
 .submit-btn-area button:hover {
-    background: #2c71da;
+    background: #1BA0F2;
     color: #ffffff;
 }
 
@@ -2453,7 +2454,7 @@ table.dataTable thead td {
 }
 
 .login-other a.fb-login {
-    background: #8655FC;
+    background: #265699;
     color: #fff;
 }
 
@@ -2557,11 +2558,11 @@ table.dataTable thead td {
 }
 
 .prc-head h4 {
-    background: #805ff5;
+    background: #265699;
     color: #fff;
     padding: 28px;
     letter-spacing: 0;
-    font-family: 'lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
     font-weight: 500;
 }
 
@@ -2585,7 +2586,7 @@ table.dataTable thead td {
 .prc-list>a {
     display: inline-block;
     margin-top: 40px;
-    background: #805ff5;
+    background: #265699;
     color: #fff;
     padding: 11px 20px;
     border-radius: 40px;
@@ -2632,7 +2633,7 @@ table.dataTable thead td {
     color: #686cdc;
     margin-bottom: 28px;
     text-shadow: -3px -3px 0 #ffffff, 3px -3px 0 #ffffff, -3px 3px 0 #ffffff, 3px 3px 0 #ffffff, 4px 4px 0 #6569dc, 5px 5px 0 #6569dc, 6px 6px 0 #6569dc, 7px 7px 0 #6569dc;
-    font-family: 'lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
 }
 
 .error-content img {
@@ -2710,7 +2711,7 @@ table.dataTable thead td {
     font-size: 16px;
     color: #444;
     font-weight: 600;
-    font-family: 'lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
     position: relative;
     padding-bottom: 15px;
 }
@@ -2753,7 +2754,7 @@ table.dataTable thead td {
 }
 
 .offset-settings h4 {
-    font-family: 'lato', sans-serif;
+    font-family: 'Questrial', sans-serif;
     font-size: 18px;
     letter-spacing: 0;
     font-weight: 700;
