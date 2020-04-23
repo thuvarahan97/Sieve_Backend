@@ -11,7 +11,7 @@ module.exports = class PrivacyLaws {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_privacy_law"))
+            resolve(db.query("SELECT * FROM tbl_content A INNER JOIN tbl_privacy_law B USING (content_id)"))
         }).catch((err) => {
             console.log(err);
         });
