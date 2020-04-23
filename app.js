@@ -26,6 +26,7 @@ var appUsersRouter = require('./routes/appRoutes/userRoute');
 var appPrivacyTipsRoute = require('./routes/appRoutes/privacyTipsRoute');
 var appPrivacyLawsRoute = require('./routes/appRoutes/privacyLawsRoute');
 var appSuggestionRoute = require('./routes/appRoutes/suggestionRoute');
+var interestingNewsRoute = require('./routes/appRoutes/interestingNewsRoute');
 
 //* App Routes Files
 
@@ -79,6 +80,7 @@ app.use('/app/user', appUsersRouter);
 app.use('/app/privacy_tips',appPrivacyTipsRoute);
 app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
+app.use('/app/interesting_news',interestingNewsRoute);
 
 //Session Variables
 app.use(function (req, res, next) {
