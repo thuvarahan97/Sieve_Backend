@@ -21,7 +21,7 @@ module.exports = class InterestingNews {
 
     static getAllInterestingNews() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_interesting_news"))
+            resolve(db.query("SELECT * FROM tbl_intersting_news"))
         }).catch((err) => {
             console.log(err);
         });
