@@ -16,6 +16,7 @@
                                     <th scope="col">ID</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">Date Created</th>
                                     <th scope="col">action</th>
                                 </tr>
                             </thead>
@@ -24,9 +25,10 @@
                                 <% for (var i = 0; i < result.length; i++) { %>
                                 <tr>
                                     <th scope="row"><%= i+1; %></th>
-                                    <td><%= result[i]['law_id']; %></td>
-                                    <td><%= result[i]['tip']; %></td>
+                                    <td><%= result[i]['pt_id']; %></td>
+                                    <td><%= result[i]['title']; %></td>
                                     <td><%= result[i]['description']; %></td>
+                                    <td><%= result[i]['date_created']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
                                             <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>

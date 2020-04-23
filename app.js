@@ -80,6 +80,13 @@ app.use('/app/privacy_tips',appPrivacyTipsRoute);
 app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
 
+//Session Variables
+app.use(function (req, res, next) {
+  res.locals.loggedin = req.session.loggedin,
+  res.locals.admin_id = req.session.admin_id,
+  res.locals.admin_email = req.session.admin_email
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

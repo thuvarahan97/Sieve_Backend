@@ -1,8 +1,8 @@
 exports.database = {
     host: 'localhost',
     user: 'root',
-    name: 'sieve1',
+    name: 'sieve',
     password: '',
-    port: '3307',
+    port: '3306',
     multipleStatements: true
 };
