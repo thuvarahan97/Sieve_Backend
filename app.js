@@ -5,10 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// var usersRouter = require('./routes/userRoute');
-// var privacyTipsRoute = require('./routes/privacyTipsRoute');
-// var privacyLawsRoute = require('./routes/privacyLawsRoute');
-// var suggestionRoute = require('./routes/suggestionRoute');
+var c = require('./utils/hash_function');
 
 //* Admin Routes Files
 var adminRoute = require('./routes/adminRoutes/adminRoute');
