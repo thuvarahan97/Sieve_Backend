@@ -5,3 +5,6 @@ const router = express.Router();
 router.get('/', privacyLawsController.viewAll);
 
 module.exports = router;
+
+
+
