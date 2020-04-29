@@ -5,16 +5,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// var usersRouter = require('./routes/userRoute');
-// var privacyTipsRoute = require('./routes/privacyTipsRoute');
-// var privacyLawsRoute = require('./routes/privacyLawsRoute');
-// var suggestionRoute = require('./routes/suggestionRoute');
-
 //* Admin Routes Files
 var adminRoute = require('./routes/adminRoutes/adminRoute');
 var categoriesRoute = require('./routes/adminRoutes/adminCategoriesRoute');
 var appsRoute = require('./routes/adminRoutes/adminAppsRoute');
-var newsfeedsRoute = require('./routes/adminRoutes/adminNewsFeedsRoute');
+var interestingNewsRoute = require('./routes/adminRoutes/adminInterestingNewsRoute');
 var privacyTipsRoute = require('./routes/adminRoutes/adminPrivacyTipsRoute');
 var privacyLawsRoute = require('./routes/adminRoutes/adminPrivacyLawsRoute');
 var adminsRoute = require('./routes/adminRoutes/adminAdminsRoute');
@@ -41,9 +36,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-	secret: 'SotkanaiScoreboard',
+	secret: 'SieveSession',
 	resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   unset: 'destroy',
   cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000
@@ -57,17 +52,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-// App Routes
-// app.use('/user', usersRouter);
-// app.use('/privacy_tips',privacyTipsRoute);
-// app.use('/privacy_laws',privacyLawsRoute);
-// app.use('/suggestion',suggestionRoute);
-
 //* Admin Page Routes
 app.use('/', adminRoute);
 app.use('/categories', categoriesRoute);
 app.use('/apps', appsRoute);
-app.use('/newsfeeds', newsfeedsRoute);
+app.use('/interesting_news', interestingNewsRoute);
 app.use('/privacy_tips',privacyTipsRoute);
 app.use('/privacy_laws',privacyLawsRoute);
 app.use('/admins', adminsRoute);

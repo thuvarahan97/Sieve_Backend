@@ -27,10 +27,10 @@
                                 <tr>
                                     <th scope="row"><%= i+1; %></th>
                                     <td><%= result[i]['news_id']; %></td>
-                                    <td><%= result[i]['title']; %></td>
-                                    <td><%= result[i]['description']; %></td>
-                                    <!-- <td>www.link.com/info/uber/data_breach.html</td> -->
-                                    <td><%= result[i]['date_created']; %></td>
+                                    <td><%= result[i]['news']; %></td>
+                                    <td class="text-left"><%= result[i]['description']; %></td>
+                                    <td class="text-left"><%= result[i]['full_link']; %></td>
+                                    <td class="text-left"><%= result[i]['date_created']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
                                             <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>

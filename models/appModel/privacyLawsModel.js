@@ -3,9 +3,9 @@ const db = require('../../utils/database');
 module.exports = class PrivacyLaws {
     constructor(params) {
         this.id = params.law_id,
-            this.law = params.law,
-            this.fullLink = params.full_link,
-            this.desc = params.description
+        this.law = params.law,
+        this.fullLink = params.full_link,
+        this.desc = params.description
     }
 
     static getPrivacyLawsFromId(id) {
