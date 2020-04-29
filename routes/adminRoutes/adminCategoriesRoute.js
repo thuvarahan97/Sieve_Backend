@@ -4,4 +4,8 @@ const router = express.Router();
 
 router.get('/', categoriesController.viewAll);
 
+router.get('/add', categoriesController.viewAddForm);
+
+router.post('/add', categoriesController.insert);
+
 module.exports = router;

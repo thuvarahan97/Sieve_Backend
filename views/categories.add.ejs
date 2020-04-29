@@ -1,0 +1,39 @@
+<%- include ('header') %>
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Add New Category</h4>
+                <form action="/categories/add" method="POST">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Name</label>
+                        <input class="form-control" type="text" id="name" name="name" required>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="example-url-input" class="col-form-label">URL</label>
+                        <input class="form-control" type="url" value="https://getbootstrap.com" id="example-url-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Select</label>
+                        <select class="form-control">
+                            <option>Select</option>
+                            <option>Large select</option>
+                            <option>Small select</option>
+                        </select>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="col-form-label">Icon</label>
+                        <select class="custom-select" name="icon" required>
+                            <option selected="selected" value="">Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<%- include ('footer') %>

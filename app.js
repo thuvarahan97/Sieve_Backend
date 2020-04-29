@@ -35,6 +35,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/categories', express.static(path.join(__dirname, 'public')));
+app.use('/interesting_news', express.static(path.join(__dirname, 'public')));
+app.use('/apps', express.static(path.join(__dirname, 'public')));
+app.use('/users', express.static(path.join(__dirname, 'public')));
 app.use(session({
 	secret: 'SieveSession',
 	resave: false,
@@ -45,7 +49,16 @@ app.use(session({
   }
 }));
 
-app.use(function(req, res, next) {
+// app.use(function (req, res, next){
+//   if (!req.session.loggedin && req.url != '/login') {
+//     res.redirect('/login');
+//     return;
+//   }
+//   next();
+// });
+
+//Session Variables
+app.use(function (req, res, next) {
   res.locals.loggedin = req.session.loggedin;
   res.locals.admin_id = req.session.admin_id;
   res.locals.admin_email = req.session.admin_email;
@@ -68,13 +81,6 @@ app.use('/app/user', appUsersRouter);
 app.use('/app/privacy_tips',appPrivacyTipsRoute);
 app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
-
-//Session Variables
-app.use(function (req, res, next) {
-  res.locals.loggedin = req.session.loggedin,
-  res.locals.admin_id = req.session.admin_id,
-  res.locals.admin_email = req.session.admin_email
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
