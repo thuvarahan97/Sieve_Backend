@@ -38,5 +38,13 @@ module.exports = class Categories {
             console.log(err);
         });
     }
+    
+    static delete(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("DELETE FROM tbl_category WHERE category_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 };
 

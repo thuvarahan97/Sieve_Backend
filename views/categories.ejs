@@ -30,7 +30,8 @@
                                     <td>
                                         <ul class="d-flex justify-content-center">
                                             <li class="mr-3"><a href="/categories/edit?id=<%= result[i]['category_id']; %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="/categories/delete?id=<%= result[i]['category_id']; %>" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% id = result[i]['category_id']; %>
+                                            <li><a onclick="return confirmDelete('/categories/delete?id=<%= id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>

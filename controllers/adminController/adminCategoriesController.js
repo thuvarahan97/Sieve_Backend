@@ -25,7 +25,6 @@ exports.viewEditForm = (req, res, next) => {
     if((id != "") && (id != null)){
         Categories.fetch(id).then((result)=>{
             if (result.length > 0) {
-                console.log(result)
                 res.status(200).render('categories.edit.ejs', { result: result });
             }
             else {
@@ -79,5 +78,25 @@ exports.update = (req, res, next) => {
     }
     else{
         res.status(404).render('categories.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+    }
+}
+
+exports.delete = (req, res, next) => {
+    const id = req.query.id;
+
+    if((id != "") && (id != null)){
+        Categories.delete(id).then((result)=>{
+            if (result != null) {
+                res.status(404).redirect('/categories');
+            }
+            else {
+                res.status(404).redirect('/categories');
+            }
+        }).catch(()=>{
+            res.status(404).redirect('/categories');
+        });
+    }
+    else{
+        res.status(404).redirect('/categories');
     }
 }
