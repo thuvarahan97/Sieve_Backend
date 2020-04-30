@@ -8,6 +8,8 @@ router.get('/add', categoriesController.viewAddForm);
 
 router.post('/add', categoriesController.insert);
 
-// router.post('/add', categoriesController.insert);
+router.get('/edit', categoriesController.viewEditForm);
+
+router.post('/edit', categoriesController.update);
 
 module.exports = router;

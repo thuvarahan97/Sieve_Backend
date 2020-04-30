@@ -9,7 +9,7 @@ module.exports = class Categories {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_category"))
+            resolve(db.query("SELECT * FROM tbl_category"));
         }).catch((err) => {
             console.log(err);
         });
@@ -18,6 +18,22 @@ module.exports = class Categories {
     static insert(input) {
         return new Promise((resolve) => {
             resolve(db.query("INSERT INTO tbl_category (category_name, icon_link) VALUES (?,?)", [input.name, input.icon]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetch(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM tbl_category WHERE category_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static update(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_category SET category_name = ?, icon_link = ? WHERE category_id = ?", [input.name, input.icon, input.id]));
         }).catch((err) => {
             console.log(err);
         });
