@@ -4,6 +4,7 @@ var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var materialicons = require('material-icons/iconfont/codepoints.json');
 
 //* Admin Routes Files
 var adminRoute = require('./routes/adminRoutes/adminRoute');
@@ -48,6 +49,12 @@ app.use(session({
       maxAge: 7 * 24 * 60 * 60 * 1000
   }
 }));
+
+//Material Icons
+app.use(function (req, res, next) {
+  res.locals.materialicons = materialicons;
+  next();
+});
 
 // app.use(function (req, res, next){
 //   if (!req.session.loggedin && req.url != '/login') {

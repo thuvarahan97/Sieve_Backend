@@ -21,7 +21,6 @@ module.exports = class Categories {
         }).catch((err) => {
             console.log(err);
         });
-
     }
 };
 

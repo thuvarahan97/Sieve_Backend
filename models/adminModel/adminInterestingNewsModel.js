@@ -13,5 +13,13 @@ module.exports = class InterestingNews {
             console.log(err);
         });
     }
+
+    static insert(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("INSERT INTO tbl_intersting_news (news, description, full_link) VALUES (?,?,?)", [input.title, input.description, input.link]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 };
 

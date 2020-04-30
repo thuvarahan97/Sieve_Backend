@@ -24,11 +24,15 @@ exports.insert = (req, res, next) => {
     const icon = req.body.icon;
 
     if((name !== "") && (icon !== "")){
-        Categories.insert(req.body).then(()=>{
-            res.status(200).redirect('/categories');
-            // res.status(200).render('categories.add.ejs', {success: true});
+        Categories.insert(req.body).then((result)=>{
+            if (result != null) {
+                res.status(200).redirect('/categories');
+            }
+            else {
+                res.status(404).render('categories.add.ejs', {serverError: false, error: 'Data already exists!'});
+            }
         }).catch(()=>{
-            res.status(404).render('categories.add.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
         })
     }else{
         res.status(404).render('categories.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });

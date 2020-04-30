@@ -8,4 +8,6 @@ router.get('/add', categoriesController.viewAddForm);
 
 router.post('/add', categoriesController.insert);
 
+// router.post('/add', categoriesController.insert);
+
 module.exports = router;

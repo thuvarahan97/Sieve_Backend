@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Interesting News Table
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/interesting_news/add"><i class="fa fa-plus"></i></a>
                 </h4>
                 <div class="single-table">
                     <div class="table-responsive">
@@ -16,7 +16,7 @@
                                     <th scope="col">ID</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Description</th>
-                                    <!-- <th scope="col">Link</th> -->
+                                    <th scope="col">Link</th>
                                     <th scope="col">Date Created</th>
                                     <th scope="col">action</th>
                                 </tr>
@@ -29,7 +29,7 @@
                                     <td><%= result[i]['news_id']; %></td>
                                     <td><%= result[i]['news']; %></td>
                                     <td class="text-left"><%= result[i]['description']; %></td>
-                                    <td class="text-left"><%= result[i]['full_link']; %></td>
+                                    <td class="text-left"><a href="<%= result[i]['full_link']; %>" target="_blank"><%= result[i]['full_link']; %></a></td>
                                     <td class="text-left"><%= result[i]['date_created']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
