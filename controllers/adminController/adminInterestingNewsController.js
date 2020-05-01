@@ -39,3 +39,65 @@ exports.insert = (req, res, next) => {
         res.status(404).render('interesting_news.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
     }
 }
+
+exports.viewEditForm = (req, res, next) => {
+    const id = req.query.id;
+
+    if((id != "") && (id != null)){
+        InterestingNews.fetch(id).then((result)=>{
+            if (result.length > 0) {
+                res.status(200).render('interesting_news.edit.ejs', { result: result });
+            }
+            else {
+                res.status(404).redirect('/interesting_news');
+            }
+        }).catch(()=>{
+            res.status(404).redirect('/interesting_news');
+        });
+    }
+    else{
+        res.status(404).redirect('/interesting_news');
+    }
+}
+
+exports.update = (req, res, next) => {
+    const title = req.body.link;
+    const description = req.body.description;
+    const link = req.body.link;
+
+    if((title !== "") && (description !== "") && (link !== "")){
+        InterestingNews.update(req.body).then((result)=>{
+            if (result != null) {
+                res.status(200).redirect('/interesting_news');
+            }
+            else {
+                res.status(404).render('interesting_news.edit.ejs', { serverError: false, error: 'Unable to update data!' });
+            }
+        }).catch(()=>{
+            res.status(404).render('interesting_news.edit.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+        });
+    }
+    else{
+        res.status(404).render('interesting_news.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+    }
+}
+
+exports.delete = (req, res, next) => {
+    const id = req.query.id;
+
+    if((id != "") && (id != null)){
+        InterestingNews.delete(id).then((result)=>{
+            if (result != null) {
+                res.status(404).redirect('/interesting_news');
+            }
+            else {
+                res.status(404).redirect('/interesting_news');
+            }
+        }).catch(()=>{
+            res.status(404).redirect('/interesting_news');
+        });
+    }
+    else{
+        res.status(404).redirect('/interesting_news');
+    }
+}

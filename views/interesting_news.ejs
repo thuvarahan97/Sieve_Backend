@@ -33,8 +33,9 @@
                                     <td class="text-left"><%= result[i]['date_created']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <li class="mr-3"><a href="/interesting_news/edit?id=<%= result[i]['news_id']; %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <% id = result[i]['news_id']; %>
+                                            <li><a onclick="return confirmDelete('/interesting_news/delete?id=<%= id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>

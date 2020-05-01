@@ -8,4 +8,10 @@ router.get('/add', interestingNewsController.viewAddForm);
 
 router.post('/add', interestingNewsController.insert);
 
+router.get('/edit', interestingNewsController.viewEditForm);
+
+router.post('/edit', interestingNewsController.update);
+
+router.get('/delete', interestingNewsController.delete);
+
 module.exports = router;
