@@ -4,4 +4,6 @@ const router = express.Router();
 
 router.get('/', appsController.viewAll);
 
+router.get('/app', appsController.viewApp);
+
 module.exports = router;
