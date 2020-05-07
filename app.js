@@ -5,7 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var c = require('./utils/hash_function');
+var c = require('./controllers/appController/privacyPolicyController');
 
 //* Admin Routes Files
 var adminRoute = require('./routes/adminRoutes/adminRoute');
@@ -23,7 +23,8 @@ var appUsersRouter = require('./routes/appRoutes/userRoute');
 var appPrivacyTipsRoute = require('./routes/appRoutes/privacyTipsRoute');
 var appPrivacyLawsRoute = require('./routes/appRoutes/privacyLawsRoute');
 var appSuggestionRoute = require('./routes/appRoutes/suggestionRoute');
-var interestingNewsRoute = require('./routes/appRoutes/interestingNewsRoute');
+var appInterestingNewsRoute = require('./routes/appRoutes/interestingNewsRoute');
+var appPrivacyPolicyRoute = require('./routes/appRoutes/privacyPolicyRoute');
 
 //* App Routes Files
 
@@ -77,7 +78,8 @@ app.use('/app/user', appUsersRouter);
 app.use('/app/privacy_tips',appPrivacyTipsRoute);
 app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
-app.use('/app/interesting_news',interestingNewsRoute);
+app.use('/app/interesting_news',appInterestingNewsRoute);
+app.use('/app/privacy_policy',appPrivacyPolicyRoute);
 
 //Session Variables
 app.use(function (req, res, next) {
@@ -101,5 +103,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// c.view_all2();
 
 module.exports = app;
