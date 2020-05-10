@@ -4,8 +4,8 @@ const hashFunctions = require('../../utils/hash_function');
 module.exports = class Suggestions {
     constructor(params) {
         this.userId = params.common_user_id,
-            this.sId = params.s_id,
-            this.suggestion = params.suggestion
+        this.sId = params.s_id,
+        this.suggestion = params.suggestion
     }
 
     static insert(userInput) {
