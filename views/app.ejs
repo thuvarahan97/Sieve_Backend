@@ -1,10 +1,9 @@
 <%- include ('header') %>
 
-    <!-- Progress Table start -->
     <div class="col-12 mt-5">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Apps Table
+                <h4 class="header-title">Data Types Collected
                     <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
                 </h4>
                 <div class="single-table">
@@ -45,6 +44,95 @@
             </div>
         </div>
     </div>
-    <!-- Progress Table end -->
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Data Usage Policy
+                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                </h4>
+                <div class="single-table">
+                    <div class="table-responsive">
+                        <table class="table table-hover progress-table text-center">
+                            <thead class="text-uppercase">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Usage Policy</th>
+                                    <th scope="col">Date Modified</th>
+                                    <th scope="col">action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% if (result.usages.length > 0) { %>
+                                <% for (var i = 0; i < result.usages.length; i++) { %>
+                                <tr>
+                                    <th scope="row"><%= i+1; %></th>
+                                    <td><%= result.usages[i]['id']; %></td>
+                                    <td class="text-left"><a><%= result.usages[i]['policy']; %></a></td>
+                                    <td><%= result.usages[i]['date_modified']; %></td>
+                                    <td>
+                                        <ul class="d-flex justify-content-center">
+                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            <% } else { %>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="6">No results found.</td></tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Data Removal Policy
+                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                </h4>
+                <div class="single-table">
+                    <div class="table-responsive">
+                        <table class="table table-hover progress-table text-center">
+                            <thead class="text-uppercase">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Removal Policy</th>
+                                    <th scope="col">Date Modified</th>
+                                    <th scope="col">action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% if (result.removals.length > 0) { %>
+                                <% for (var i = 0; i < result.removals.length; i++) { %>
+                                <tr>
+                                    <th scope="row"><%= i+1; %></th>
+                                    <td><%= result.removals[i]['id']; %></td>
+                                    <td class="text-left"><a><%= result.removals[i]['policy']; %></a></td>
+                                    <td><%= result.removals[i]['date_modified']; %></td>
+                                    <td>
+                                        <ul class="d-flex justify-content-center">
+                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            <% } else { %>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="6">No results found.</td></tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <%- include ('footer') %>
