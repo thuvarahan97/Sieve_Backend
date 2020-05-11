@@ -14,21 +14,19 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Logo</th>
+                                    <th scope="col">Data Type</th>
+                                    <th scope="col">Date Modified</th>
                                     <th scope="col">action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <% if (result.length > 0) { %>
-                                <% for (var i = 0; i < result.length; i++) { %>
+                            <% if (result.types.length > 0) { %>
+                                <% for (var i = 0; i < result.types.length; i++) { %>
                                 <tr>
                                     <th scope="row"><%= i+1; %></th>
-                                    <td><%= result[i]['app_id']; %></td>
-                                    <td><a><%= result[i]['app_name']; %></a></td>
-                                    <td><%= result[i]['app_category']; %></td>
-                                    <td><img src="<%= result[i]['icon_image']; %>" width="35px" height="35px"></td>
+                                    <td><%= result.types[i]['data_type_id']; %></td>
+                                    <td><a><%= result.types[i]['data_type_name']; %></a></td>
+                                    <td><%= result.types[i]['date_modified']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
                                             <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
