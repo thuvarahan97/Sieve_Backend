@@ -3,6 +3,62 @@
     <div class="col-12 mt-5">
         <div class="card">
             <div class="card-body">
+                <h4 class="header-title">Application: <%= result.content[0].app_name;%></h4>
+                <div class="cripto-live mt-5" style="margin-bottom: 40px;">
+                    <ul>
+                        <li>
+                            <i class="fa fa-asterisk"></i> ID:<span><%= result.content[0].app_id;%></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Name:<span><%= result.content[0].app_name;%></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Description:<span><%= result.content[0].description;%></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Privacy Policy Link:<span><a target="_blank" href="<%= result.content[0].privacy_policy_link;%>"><%= result.content[0].privacy_policy_link;%></a></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Icon:<span><img  src="<%= result.content[0]['icon_image']; %>" width="35px" height="35px"></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Image:<div style="margin: 10px 0px;"><img src="<%= result.content[0].background_image;%>" width="300px" height="300px"></div></li>
+                    </ul>
+                </div>
+                <h6>App Privacy Officer Contact Details:</h6>
+                <div class="cripto-live mt-4">
+                    <ul>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Contact Link:<span><%= result.contacts[0].contact_link;%></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Email Address:<span><%= result.contacts[0].email_address;%></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Address:
+                            <span>
+                                <% if (result.contacts[0].first_line!=="" && result.contacts[0].first_line) { %>
+                                    <%= result.contacts[0].first_line;%>,
+                                    <br>
+                                <% } %>
+                                <% if (result.contacts[0].second_line!=="" && result.contacts[0].second_line) { %>
+                                    <%= result.contacts[0].second_line;%>,
+                                    <br>
+                                <% } %>
+                                <% if (result.contacts[0].third_line!=="" && result.contacts[0].third_line) { %>
+                                    <%= result.contacts[0].third_line;%>,
+                                    <br>
+                                <% } %>
+                                <% if (result.contacts[0].fourth_line!=="" && result.contacts[0].fourth_line) { %>
+                                    <%= result.contacts[0].fourth_line;%>
+                                <% } %>
+                                <% if (result.contacts[0].first_line=="" || !result.contacts[0].first_line) { %>
+                                    <i style="color: grey;">Unavailable</i>
+                                <% } %>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
                 <h4 class="header-title">Data Types Collected
                     <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
                 </h4>
@@ -28,7 +84,6 @@
                                     <td><%= result.types[i]['date_modified']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
                                             <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
