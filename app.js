@@ -22,6 +22,7 @@ var suggestionsRoute = require('./routes/adminRoutes/adminSuggestionsRoute');
 
 //* App Routes Files
 var appUsersRouter = require('./routes/appRoutes/userRoute');
+var appCategoriesRouter = require('./routes/appRoutes/categoriesRoute');
 var appPrivacyTipsRoute = require('./routes/appRoutes/privacyTipsRoute');
 var appPrivacyLawsRoute = require('./routes/appRoutes/privacyLawsRoute');
 var appSuggestionRoute = require('./routes/appRoutes/suggestionRoute');
@@ -90,6 +91,7 @@ app.use('/suggestions',suggestionsRoute);
 
 //* App Routes
 app.use('/app/user', appUsersRouter);
+app.use('/app/categories', appCategoriesRouter);
 app.use('/app/privacy_tips',appPrivacyTipsRoute);
 app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
