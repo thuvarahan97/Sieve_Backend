@@ -1,4 +1,4 @@
-const Dashboard = require('../../models/appModel/Dashboard');
+const Dashboard = require('../../models/appModel/dashboardModel');
 
 exports.view_all = (req, res, next) => {
     const fetchDashboard =  () => {
