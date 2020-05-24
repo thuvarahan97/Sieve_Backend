@@ -27,6 +27,7 @@ var appPrivacyLawsRoute = require('./routes/appRoutes/privacyLawsRoute');
 var appSuggestionRoute = require('./routes/appRoutes/suggestionRoute');
 var appInterestingNewsRoute = require('./routes/appRoutes/interestingNewsRoute');
 var appPrivacyPolicyRoute = require('./routes/appRoutes/privacyPolicyRoute');
+var appDashboardRoute = require('./routes/appRoutes/dashboardRoute');
 
 //* App Routes Files
 
@@ -45,6 +46,7 @@ app.use('/categories', express.static(path.join(__dirname, 'public')));
 app.use('/interesting_news', express.static(path.join(__dirname, 'public')));
 app.use('/apps', express.static(path.join(__dirname, 'public')));
 app.use('/users', express.static(path.join(__dirname, 'public')));
+
 app.use(session({
 	secret: 'SieveSession',
 	resave: false,
@@ -95,6 +97,7 @@ app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
 app.use('/app/interesting_news',appInterestingNewsRoute);
 app.use('/app/privacy_policy',appPrivacyPolicyRoute);
+app.use('/app/dashboard',appDashboardRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
