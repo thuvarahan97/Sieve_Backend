@@ -1,9 +1,11 @@
-const Categories = require('../../models/appModel/categoriesModel');
+const Apps = require('../../models/appModel/appsModel');
 
 exports.view_all = (req, res, next) => {
-    Categories.getAllCategories().then((categories)=>{
+    const category_id = req.body.category_id
+
+    Apps.getAllApps(category_id).then((apps)=>{
         res.json({
-            categories: categories
+            apps: apps
         });
     }).catch((err) => {
         if (err) {
