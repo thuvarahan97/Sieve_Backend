@@ -17,7 +17,7 @@
                         <select class="custom-select" name="icon" required>
                             <option selected="selected" value="">Select an icon</option>
                             <% Object.keys(materialicons).forEach(function(key) { %>
-                                <option class="material-icons" value="<%= key %>"><%= key %></option>
+                                <option class="material-icons" value="<%= materialicons[key] %>"><%= key %></option>
                             <% }); %>
                         </select>
                     </div>
