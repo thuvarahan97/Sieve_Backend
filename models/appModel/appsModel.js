@@ -8,4 +8,12 @@ module.exports = class Apps {
             console.log(err);
         });
     }
+
+    static getAllAppsForSearch() {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM view_app_categories"))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 };
