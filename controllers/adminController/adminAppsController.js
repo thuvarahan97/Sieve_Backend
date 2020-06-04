@@ -2,12 +2,7 @@ const Apps = require('../../models/adminModel/adminAppsModel');
 const Categories = require('../../models/adminModel/adminCategoriesModel');
 
 exports.viewAll = (req, res, next) => {
-    const fetchData =  () => {
-        return new Promise((resolve, reject) => {
-            resolve((Apps.getAllData()));
-        });
-    };
-    fetchData().then((result)=>{
+    Apps.getAllData().then((result)=>{
         res.status(200).render('apps', { result: result });
     }).catch((err) => {
         if (err) {
@@ -29,11 +24,12 @@ exports.viewAddForm = (req, res, next) => {
 exports.insert = (req, res, next) => {
     const name = req.body.name;
     const description = req.body.description;
+    const category_id = req.body.category_id;
     const icon = req.body.icon;
     const bg = req.body.bg;
     const link = req.body.link;
 
-    if((name !== "") && (description !== "") && (icon !== "") && (bg !== "") && (link !== "")){
+    if((name !== "") && (description !== "") && (category_id != "") && (icon !== "") && (bg !== "") && (link !== "")){
         Apps.insert(req.body).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('/apps');
@@ -73,11 +69,12 @@ exports.viewEditForm = (req, res, next) => {
 exports.update = (req, res, next) => {
     const name = req.body.name;
     const description = req.body.description;
+    const category_id = req.body.category_id;
     const icon = req.body.icon;
     const bg = req.body.bg;
     const link = req.body.link;
 
-    if((name !== "") && (description !== "") && (icon !== "") && (bg !== "") && (link !== "")){
+    if((name !== "") && (description !== "") && (category_id != "") && (icon !== "") && (bg !== "") && (link !== "")){
         Apps.update(req.body).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('/apps');
