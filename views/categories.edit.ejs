@@ -20,7 +20,7 @@
                         <label class="col-form-label">Icon</label>
                         <select class="custom-select" name="icon" required>
                             <% Object.keys(materialicons).forEach(function(key) { %>
-                                <% var selected = ( key == result[0].icon_link ) ? "selected" : ""; %>
+                                <% var selected = ( materialicons[key] == result[0].icon_link ) ? "selected" : ""; %>
                                 <option class="material-icons" value="<%= materialicons[key] %>" <%=selected %>><%= key %></option>
                             <% }); %>
                         </select>

@@ -4,15 +4,15 @@ const router = express.Router();
 
 router.get('/', appsController.viewAll);
 
-// router.get('/add', appsController.viewAddForm);
+router.get('/add', appsController.viewAddForm);
 
-// router.post('/add', appsController.insert);
+router.post('/add', appsController.insert);
 
-// router.get('/edit', appsController.viewEditForm);
+router.get('/edit', appsController.viewEditForm);
 
-// router.post('/edit', appsController.update);
+router.post('/edit', appsController.update);
 
-// router.get('/delete', appsController.delete);
+router.get('/delete', appsController.delete);
 
 router.get('/app', appsController.viewApp);
 

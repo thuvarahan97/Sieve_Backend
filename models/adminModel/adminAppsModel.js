@@ -9,7 +9,40 @@ module.exports = class Apps {
             console.log(err);
         });
     }
+
+    static insert(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("INSERT INTO tbl_application (app_name, description, icon_image, background_image, privacy_policy_link) VALUES (?,?,?,?,?)", [input.name, input.description, input.icon, input.bg, input.link]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetch(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM tbl_application WHERE app_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static update(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_application SET app_name = ?, description = ?, icon_image = ?, background_image = ?, privacy_policy_link = ? WHERE app_id = ?", [input.name, input.description, input.icon, input.bg, input.link, input.id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
     
+    static delete(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("DELETE FROM tbl_application WHERE app_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    // Single App View
     static getAppData(app_id) {
         return new Promise((resolve) => {
             resolve(db.query("SELECT A.*, C.category_name AS app_category FROM tbl_application A INNER JOIN tbl_app_category B ON A.app_id = B.app_id INNER JOIN tbl_category C ON B.category_id = C.category_id WHERE A.app_id = ?", [app_id]))

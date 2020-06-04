@@ -93,7 +93,7 @@ app.use('/suggestions',suggestionsRoute);
 //* App Routes
 app.use('/app/user', appUsersRouter);
 app.use('/app/categories', appCategoriesRouter);
-app.use('/app/apps', appCategoriesRouter);
+app.use('/app/apps', appAppsRouter);
 app.use('/app/privacy_tips',appPrivacyTipsRoute);
 app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
