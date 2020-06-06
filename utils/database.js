@@ -53,7 +53,7 @@ exports.transaction = function(body, done) {
             if (err) return done(err);
 
             body(function(err) {
-                if (err) return conn.rollback(function() {
+                if (err) return conn.rollback(function(ff, fff) {
                     done(err);
                 });
         

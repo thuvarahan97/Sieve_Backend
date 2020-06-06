@@ -36,6 +36,32 @@ module.exports = class Apps {
         });
     }
 
+    static insertAppContacts(input) {
+        return new Promise((resolve) => {
+            db.transaction(function(done){
+                db.query("INSERT INTO tbl_privacy_officer (contact_link, email_address, first_line, second_line, third_line, fourth_line) VALUES (?,?,?,?,?,?)", 
+                [input.contact_link, input.email_address, input.first_line, input.second_line, input.third_line, input.fourth_line])
+                .then(result => {
+                    const privacy_officer_id = result.insertId;
+
+                    db.query("INSERT INTO tbl_app_officer (app_id, privacy_officer_id) VALUES (?,?)", 
+                    [input.id, privacy_officer_id])
+                    .then(result => {
+                        done('success');
+                    }, error => {
+                        done(error);
+                    });
+                }, error => {
+                    done(error);
+                });
+            }, function(output){
+                resolve(output)
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     static fetch(id) {
         return new Promise((resolve) => {
             resolve(db.query("SELECT * FROM tbl_application WHERE app_id = ?", [id]));
@@ -44,14 +70,70 @@ module.exports = class Apps {
         });
     }
 
-    static update(input, icon_link, bg_link) {
+    static fetchAppCategory(id) {
         return new Promise((resolve) => {
-            resolve(db.query("UPDATE tbl_application SET app_name = ?, description = ?, icon_image = ?, background_image = ?, privacy_policy_link = ? WHERE app_id = ?", [input.name, input.description, icon_link, bg_link, input.link, input.id]));
+            resolve(db.query("SELECT * FROM tbl_app_category WHERE app_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAppContacts(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM view_app_privacy_officer WHERE app_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static update(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_application SET app_name = ?, description = ?, privacy_policy_link = ? WHERE app_id = ?", [input.name, input.description, input.link, input.id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static updateAppCategory(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_app_category SET category_id = ? WHERE app_id = ?", [input.category_id, input.id]));
         }).catch((err) => {
             console.log(err);
         });
     }
     
+    static updateAppIcon(input, icon_link) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_application SET icon_image = ? WHERE app_id = ?", [icon_link, input.id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static updateAppBG(input, bg_link) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_application SET background_image = ? WHERE app_id = ?", [bg_link, input.id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static updateAppContacts(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE view_app_privacy_officer SET contact_link = ?, email_address = ?, first_line = ?, second_line = ?, third_line = ?, fourth_line = ? WHERE app_id = ?", [input.contact_link, input.email_address, input.first_line, input.second_line, input.third_line, input.fourth_line, input.id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static deleteAppContacts(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("DELETE A FROM tbl_privacy_officer A INNER JOIN tbl_app_officer B USING(privacy_officer_id) WHERE B.app_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     static delete(id) {
         return new Promise((resolve) => {
             resolve(db.query("DELETE FROM tbl_application WHERE app_id = ?", [id]));

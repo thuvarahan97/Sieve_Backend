@@ -13,6 +13,32 @@ router.get('/edit', appsController.viewEditForm);
 
 router.post('/edit', appsController.update);
 
+router.get('/edit_app', appsController.viewEditAppForm);
+
+router.post('/edit_app', appsController.updateApp);
+
+router.get('/edit_appcategory', appsController.viewEditAppCategoryForm);
+
+router.post('/edit_appcategory', appsController.updateAppCategory);
+
+router.get('/edit_appicon', appsController.viewEditAppIconForm);
+
+router.post('/edit_appicon', uploadFile.upload.any(), appsController.updateAppIcon);
+
+router.get('/edit_appbg', appsController.viewEditAppBGForm);
+
+router.post('/edit_appbg', uploadFile.upload.any(), appsController.updateAppBG);
+
+router.get('/add_appcontacts', appsController.viewAddAppContactsForm);
+
+router.post('/add_appcontacts', appsController.insertAppContacts);
+
+router.get('/edit_appcontacts', appsController.viewEditAppContactsForm);
+
+router.post('/edit_appcontacts', appsController.updateAppContacts);
+
+router.get('/delete_appcontacts', appsController.deleteAppContacts);
+
 router.get('/delete', appsController.delete);
 
 router.get('/app', appsController.viewApp);

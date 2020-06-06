@@ -31,8 +31,9 @@
                                     <td><img src="<%= result[i]['icon_image']; %>" width="35px" height="35px"></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <li class="mr-3"><a href="/apps/edit?id=<%= result[i]['app_id']; %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <% id = result[i]['app_id']; %>
+                                            <li><a onclick="return confirmDelete('/apps/delete?id=<%= id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>
