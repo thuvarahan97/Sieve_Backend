@@ -1,12 +1,13 @@
 const express = require('express');
 const appsController = require('../../controllers/adminController/adminAppsController');
 const router = express.Router();
+const uploadFile = require('../../utils/file_upload');
 
 router.get('/', appsController.viewAll);
 
 router.get('/add', appsController.viewAddForm);
 
-router.post('/add', appsController.insert);
+router.post('/add', uploadFile.upload.any(), appsController.insert);
 
 router.get('/edit', appsController.viewEditForm);
 

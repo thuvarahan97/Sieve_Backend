@@ -10,9 +10,27 @@ module.exports = class Apps {
         });
     }
 
-    static insert(input) {
+    static insert(input, icon_link, bg_link) {
         return new Promise((resolve) => {
-            resolve(db.query("INSERT INTO tbl_application (app_name, description, icon_image, background_image, privacy_policy_link) VALUES (?,?,?,?,?)", [input.name, input.description, input.icon, input.bg, input.link]));
+            db.transaction(function(done){
+                db.query("INSERT INTO tbl_application (app_name, description, icon_image, background_image, privacy_policy_link) VALUES (?,?,?,?,?)", 
+                [input.name, input.description, icon_link, bg_link, input.link])
+                .then(result => {
+                    const app_id = result.insertId;
+
+                    db.query("INSERT INTO tbl_app_category (app_id, category_id) VALUES (?,?)", 
+                    [app_id, input.category_id])
+                    .then(result => {
+                        done('success');
+                    }, error => {
+                        done(error);
+                    });
+                }, error => {
+                    done(error);
+                });
+            }, function(output){
+                resolve(output)
+            });
         }).catch((err) => {
             console.log(err);
         });
@@ -26,9 +44,9 @@ module.exports = class Apps {
         });
     }
 
-    static update(input) {
+    static update(input, icon_link, bg_link) {
         return new Promise((resolve) => {
-            resolve(db.query("UPDATE tbl_application SET app_name = ?, description = ?, icon_image = ?, background_image = ?, privacy_policy_link = ? WHERE app_id = ?", [input.name, input.description, input.icon, input.bg, input.link, input.id]));
+            resolve(db.query("UPDATE tbl_application SET app_name = ?, description = ?, icon_image = ?, background_image = ?, privacy_policy_link = ? WHERE app_id = ?", [input.name, input.description, icon_link, bg_link, input.link, input.id]));
         }).catch((err) => {
             console.log(err);
         });

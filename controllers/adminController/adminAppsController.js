@@ -25,25 +25,31 @@ exports.insert = (req, res, next) => {
     const name = req.body.name;
     const description = req.body.description;
     const category_id = req.body.category_id;
-    const icon = req.body.icon;
-    const bg = req.body.bg;
     const link = req.body.link;
+    const icon_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[0].filename;
+    const bg_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[1].filename;
 
-    if((name !== "") && (description !== "") && (category_id != "") && (icon !== "") && (bg !== "") && (link !== "")){
-        Apps.insert(req.body).then((result)=>{
-            if (result != null) {
-                res.status(200).redirect('/apps');
-            }
-            else {
-                res.status(404).render('apps.add.ejs', { serverError: false, error: 'Data already exists!' });
-            }
-        }).catch(()=>{
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
-        });
-    }
-    else{
-        res.status(404).render('apps.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
-    }
+    Categories.getAllData().then((categories)=>{
+        if((name !== "") && (description !== "") && (category_id != "") && (link !== "")){
+            Apps.insert(req.body, icon_link, bg_link).then((result)=>{
+                if (result == 'success') {
+                    res.status(200).redirect('/apps');
+                }
+                else {
+                    res.status(404).render('apps.add.ejs', { serverError: false, error: 'Unable to add data!', categories: categories });
+                }
+            }).catch(()=>{
+                res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
+            });
+        }
+        else{
+            res.status(404).render('apps.add.ejs', { serverError: false, error: 'Input fields cannot be empty.', categories: categories });
+        }
+    }).catch((err) => {
+        if (err) {
+            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+        }
+    });
 }
 
 exports.viewEditForm = (req, res, next) => {
@@ -75,7 +81,7 @@ exports.update = (req, res, next) => {
     const link = req.body.link;
 
     if((name !== "") && (description !== "") && (category_id != "") && (icon !== "") && (bg !== "") && (link !== "")){
-        Apps.update(req.body).then((result)=>{
+        Apps.update(req.body, icon_link, bg_link).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('/apps');
             }

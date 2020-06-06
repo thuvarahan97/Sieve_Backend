@@ -6,9 +6,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var materialicons = require('material-icons/iconfont/codepoints.json');
 
-
-var c = require('./controllers/appController/privacyPolicyController');
-
 //* Admin Routes Files
 var adminRoute = require('./routes/adminRoutes/adminRoute');
 var categoriesRoute = require('./routes/adminRoutes/adminCategoriesRoute');
@@ -30,8 +27,6 @@ var appSuggestionRoute = require('./routes/appRoutes/suggestionRoute');
 var appInterestingNewsRoute = require('./routes/appRoutes/interestingNewsRoute');
 var appPrivacyPolicyRoute = require('./routes/appRoutes/privacyPolicyRoute');
 var appDashboardRoute = require('./routes/appRoutes/dashboardRoute');
-
-//* App Routes Files
 
 var app = express();
 
@@ -78,6 +73,13 @@ app.use(function (req, res, next) {
   res.locals.loggedin = req.session.loggedin;
   res.locals.admin_id = req.session.admin_id;
   res.locals.admin_email = req.session.admin_email;
+  next();
+});
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
   next();
 });
 
