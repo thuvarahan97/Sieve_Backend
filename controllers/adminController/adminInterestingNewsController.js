@@ -23,10 +23,11 @@ exports.insert = (req, res, next) => {
     const title = req.body.title;
     const description = req.body.description;
     const link = req.body.link;
+    const admin_id = req.session.admin_id;
 
     if((title !== "") && (description !== "") && (link !== "")){
-        InterestingNews.insert(req.body).then((result)=>{
-            if (result != null) {
+        InterestingNews.insert(req.body, admin_id).then((result)=>{
+            if (result == 'success') {
                 res.status(200).redirect('/interesting_news');
             }
             else {

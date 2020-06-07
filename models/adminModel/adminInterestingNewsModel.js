@@ -14,9 +14,26 @@ module.exports = class InterestingNews {
         });
     }
 
-    static insert(input) {
+    static insert(input, admin_id) {
         return new Promise((resolve) => {
-            resolve(db.query("INSERT INTO tbl_intersting_news (news, description, full_link) VALUES (?,?,?)", [input.title, input.description, input.link]));
+            db.transaction(function(done){
+                db.query("INSERT INTO tbl_content (admin_id, deleted) VALUES (?,?)", 
+                [admin_id, 'False'])
+                .then(result => {
+                    const content_id = result.insertId;
+
+                    db.query("INSERT INTO tbl_intersting_news (content_id, news, description, full_link) VALUES (?,?,?,?)", [content_id, input.title, input.description, input.link])
+                    .then(result => {
+                        done('success');
+                    }, error => {
+                        done(error);
+                    });
+                }, error => {
+                    done(error);
+                });
+            }, function(output){
+                resolve(output)
+            });
         }).catch((err) => {
             console.log(err);
         });
