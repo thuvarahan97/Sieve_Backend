@@ -60,10 +60,18 @@ app.use(function (req, res, next) {
   next();
 });
 
+//User session redirection
 app.use(function (req, res, next){
-  if (!req.session.loggedin && req.url != '/login') {
-    res.redirect('/login');
-    return;
+  if (!req.session.loggedin) {
+    if (req.url != '/' && req.url != '/login' && req.url != '/signup') {
+      res.redirect('/login');
+      return;
+    }
+  } else {
+    if (req.url == '/' || req.url == '/login' || req.url == '/signup') {
+      res.redirect('/categories');
+      return;
+    }
   }
   next();
 });
