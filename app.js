@@ -46,11 +46,11 @@ app.use('/users', express.static(path.join(__dirname, 'public')));
 
 app.use(session({
 	secret: 'SieveSession',
-	resave: false,
-  saveUninitialized: false,
+  resave: false,
+  saveUninitialized: true,
   unset: 'destroy',
   cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      maxAge: Date.now() + (30 * 24 * 60 * 60 * 1000)
   }
 }));
 
@@ -60,19 +60,20 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(function (req, res, next){
-//   if (!req.session.loggedin && req.url != '/login') {
-//     res.redirect('/login');
-//     return;
-//   }
-//   next();
-// });
+app.use(function (req, res, next){
+  if (!req.session.loggedin && req.url != '/login') {
+    res.redirect('/login');
+    return;
+  }
+  next();
+});
 
 //Session Variables
 app.use(function (req, res, next) {
   res.locals.loggedin = req.session.loggedin;
   res.locals.admin_id = req.session.admin_id;
   res.locals.admin_email = req.session.admin_email;
+  res.locals.admin_role = req.session.admin_role;
   next();
 });
 
