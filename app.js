@@ -6,9 +6,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var materialicons = require('material-icons/iconfont/codepoints.json');
 
-
-var c = require('./controllers/appController/privacyPolicyController');
-
 //* Admin Routes Files
 var adminRoute = require('./routes/adminRoutes/adminRoute');
 var categoriesRoute = require('./routes/adminRoutes/adminCategoriesRoute');
@@ -29,8 +26,7 @@ var appPrivacyLawsRoute = require('./routes/appRoutes/privacyLawsRoute');
 var appSuggestionRoute = require('./routes/appRoutes/suggestionRoute');
 var appInterestingNewsRoute = require('./routes/appRoutes/interestingNewsRoute');
 var appPrivacyPolicyRoute = require('./routes/appRoutes/privacyPolicyRoute');
-
-//* App Routes Files
+// var appDashboardRoute = require('./routes/appRoutes/dashboardRoute');
 
 var app = express();
 
@@ -45,16 +41,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/categories', express.static(path.join(__dirname, 'public')));
 app.use('/interesting_news', express.static(path.join(__dirname, 'public')));
-app.use('/privacy_laws', express.static(path.join(__dirname, 'public')));    //added 
 app.use('/apps', express.static(path.join(__dirname, 'public')));
 app.use('/users', express.static(path.join(__dirname, 'public')));
+app.use('/privacy_laws', express.static(path.join(__dirname, 'public')));
+app.use('/privacy_tips', express.static(path.join(__dirname, 'public')));
+app.use('/suggestions', express.static(path.join(__dirname, 'public')));
 app.use(session({
 	secret: 'SieveSession',
-	resave: false,
-  saveUninitialized: false,
+  resave: false,
+  saveUninitialized: true,
   unset: 'destroy',
   cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      maxAge: Date.now() + (30 * 24 * 60 * 60 * 1000)
   }
 }));
 
@@ -64,19 +62,27 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(function (req, res, next){
-//   if (!req.session.loggedin && req.url != '/login') {
-//     res.redirect('/login');
-//     return;
-//   }
-//   next();
-// });
+app.use(function (req, res, next){
+  if (!req.session.loggedin && req.url != '/login') {
+    res.redirect('/login');
+    return;
+  }
+  next();
+});
 
 //Session Variables
 app.use(function (req, res, next) {
   res.locals.loggedin = req.session.loggedin;
   res.locals.admin_id = req.session.admin_id;
   res.locals.admin_email = req.session.admin_email;
+  res.locals.admin_role = req.session.admin_role;
+  next();
+});
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE");
   next();
 });
 
@@ -94,12 +100,13 @@ app.use('/suggestions',suggestionsRoute);
 //* App Routes
 app.use('/app/user', appUsersRouter);
 app.use('/app/categories', appCategoriesRouter);
-app.use('/app/apps', appCategoriesRouter);
+app.use('/app/apps', appAppsRouter);
 app.use('/app/privacy_tips',appPrivacyTipsRoute);
 app.use('/app/privacy_laws',appPrivacyLawsRoute);
 app.use('/app/suggestion',appSuggestionRoute);
 app.use('/app/interesting_news',appInterestingNewsRoute);
 app.use('/app/privacy_policy',appPrivacyPolicyRoute);
+// app.use('/app/dashboard',appDashboardRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

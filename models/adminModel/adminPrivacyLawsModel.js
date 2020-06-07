@@ -1,17 +1,11 @@
 const db = require('../../utils/database');
 
 module.exports = class PrivacyLaws {
-    constructor(params) {
-        this.law_id = params.law_id,
-        this.title = params.law,
-        this.full_link = params.full_link,
-        this.description = params.description,
-        this.content_id = params.content_id
-    }
+
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_content A INNER JOIN tbl_privacy_law B USING (content_id) WHERE A.deleted='false'"))
+            resolve(db.query("SELECT * FROM tbl_content A INNER JOIN tbl_privacy_law B USING (content_id) WHERE A.deleted='False'"))
         }).catch((err) => {
             console.log(err);
         });
@@ -25,7 +19,7 @@ module.exports = class PrivacyLaws {
                 .then(result=>{
                     const content_id=result.insertId;
 
-                    db.query("INSERT INTO tbl_privacy_law(content_id,description,news,full_link) VALUES (?,?,?,?)",[content_id,input.title,input.description,input.full_link])
+                    db.query("INSERT INTO tbl_privacy_law(content_id,description,law,full_link) VALUES (?,?,?,?)",[content_id,input.description,input.title,input.link])
                     .then(result=>{
                         done('success');
                     },error => {

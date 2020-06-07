@@ -14,3 +14,25 @@ exports.viewAll = (req, res, next) => {
         }
     });
 }
+
+//updated suggestion delete
+
+// exports.delete = (req, res, next) => {
+//     const id = req.query.id;
+
+//     if((id != "") && (id != null)){
+//         Suggestions.delete(id).then((result)=>{
+//             if (result != null) {
+//                 res.status(404).redirect('/suggestion');
+//             }
+//             else {
+//                 res.status(404).redirect('/suggestion');
+//             }
+//         }).catch(()=>{
+//             res.status(404).redirect('/suggestion');
+//         });
+//     }
+//     else{
+//         res.status(404).redirect('/suggestion');
+//     }
+// }
