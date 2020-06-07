@@ -13,9 +13,10 @@
                             <thead class="text-uppercase">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">User_ID</th>
-                                    <th scope="col">Suggestion</th>
-                                    
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Icon</th>
+                                    <th scope="col">action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -23,8 +24,8 @@
                                 <% for (var i = 0; i < result.length; i++) { %>
                                 <tr>
                                     <th scope="row"><%= i+1; %></th>
-                                    <td><%= result[i]['common_user_id']; %></td>
-                                    <td><%= result[i]['suggestion']; %></td>
+                                    <td><%= result[i]['category_id']; %></td>
+                                    <td><%= result[i]['category_name']; %></td>
                                     <td><img src="<%= result[i]['icon_link']; %>" width="35px" height="35px"></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">

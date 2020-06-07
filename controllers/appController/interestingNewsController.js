@@ -1,4 +1,4 @@
-const InterestingNews = require('.../models/appModel/interestingNewsModel');
+const InterestingNews = require('../../models/appModel/interestingNewsModel');
 
 exports.view_all = (req, res, next) => {
     const fetchInterestingNews =  () => {
