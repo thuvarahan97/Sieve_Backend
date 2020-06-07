@@ -4,7 +4,7 @@
         <div class="card form-card">
             <div class="card-body">
                 <h4 class="header-title">Edit App Category</h4>
-                <form action="/apps/edit_appcategory" method="POST">
+                <form action="/apps/edit_appcategory?id=<%= result[0].app_id %>" method="POST">
                     <% if (locals.error) { %>
                         <div class="alert alert-danger error-msg"><%= error %></div>
                     <% } %>

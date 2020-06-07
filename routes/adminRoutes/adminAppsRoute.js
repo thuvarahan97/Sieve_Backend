@@ -43,22 +43,30 @@ router.get('/delete', appsController.delete);
 
 router.get('/app', appsController.viewApp);
 
-// router.get('/app/datatypes/add', appsController.viewApp);
+router.get('/add_appdatatypes', appsController.viewAddAppDataTypesForm);
 
-// router.get('/app/datatypes/edit', appsController.viewApp);
+router.post('/add_appdatatypes', appsController.insertAppDataTypes);
 
-// router.get('/app/datatypes/delete', appsController.viewApp);
+router.get('/delete_appdatatypes', appsController.deleteAppDataTypes);
 
-// router.get('/app/datausagepolicy/add', appsController.viewApp);
+router.get('/add_appdatausagepolicy', appsController.viewAddAppDataUsagePolicyForm);
 
-// router.get('/app/datausagepolicy/edit', appsController.viewApp);
+router.post('/add_appdatausagepolicy', appsController.insertAppDataUsagePolicy);
 
-// router.get('/app/datausagepolicy/delete', appsController.viewApp);
+router.get('/edit_appdatausagepolicy', appsController.viewEditAppDataUsagePolicyForm);
 
-// router.get('/app/dataremovalpolicy/add', appsController.viewApp);
+router.post('/edit_appdatausagepolicy', appsController.updateAppDataUsagePolicy);
 
-// router.get('/app/dataremovalpolicy/edit', appsController.viewApp);
+router.get('/delete_appdatausagepolicy', appsController.deleteAppDataUsagePolicy);
 
-// router.get('/app/dataremovalpolicy/delete', appsController.viewApp);
+router.get('/add_appdataremovalpolicy', appsController.viewAddAppDataRemovalPolicyForm);
+
+router.post('/add_appdataremovalpolicy', appsController.insertAppDataRemovalPolicy);
+
+router.get('/edit_appdataremovalpolicy', appsController.viewEditAppDataRemovalPolicyForm);
+
+router.post('/edit_appdataremovalpolicy', appsController.updateAppDataRemovalPolicy);
+
+router.get('/delete_appdataremovalpolicy', appsController.deleteAppDataRemovalPolicy);
 
 module.exports = router;

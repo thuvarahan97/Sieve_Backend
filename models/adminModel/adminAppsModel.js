@@ -36,27 +36,17 @@ module.exports = class Apps {
         });
     }
 
-    static insertAppContacts(input) {
+    static update(input) {
         return new Promise((resolve) => {
-            db.transaction(function(done){
-                db.query("INSERT INTO tbl_privacy_officer (contact_link, email_address, first_line, second_line, third_line, fourth_line) VALUES (?,?,?,?,?,?)", 
-                [input.contact_link, input.email_address, input.first_line, input.second_line, input.third_line, input.fourth_line])
-                .then(result => {
-                    const privacy_officer_id = result.insertId;
+            resolve(db.query("UPDATE tbl_application SET app_name = ?, description = ?, privacy_policy_link = ? WHERE app_id = ?", [input.name, input.description, input.link, input.id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 
-                    db.query("INSERT INTO tbl_app_officer (app_id, privacy_officer_id) VALUES (?,?)", 
-                    [input.id, privacy_officer_id])
-                    .then(result => {
-                        done('success');
-                    }, error => {
-                        done(error);
-                    });
-                }, error => {
-                    done(error);
-                });
-            }, function(output){
-                resolve(output)
-            });
+    static delete(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("DELETE FROM tbl_application WHERE app_id = ?", [id]));
         }).catch((err) => {
             console.log(err);
         });
@@ -73,22 +63,6 @@ module.exports = class Apps {
     static fetchAppCategory(id) {
         return new Promise((resolve) => {
             resolve(db.query("SELECT * FROM tbl_app_category WHERE app_id = ?", [id]));
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
-
-    static fetchAppContacts(id) {
-        return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM view_app_privacy_officer WHERE app_id = ?", [id]));
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
-
-    static update(input) {
-        return new Promise((resolve) => {
-            resolve(db.query("UPDATE tbl_application SET app_name = ?, description = ?, privacy_policy_link = ? WHERE app_id = ?", [input.name, input.description, input.link, input.id]));
         }).catch((err) => {
             console.log(err);
         });
@@ -118,6 +92,40 @@ module.exports = class Apps {
         });
     }
 
+    static insertAppContacts(input) {
+        return new Promise((resolve) => {
+            db.transaction(function(done){
+                db.query("INSERT INTO tbl_privacy_officer (contact_link, email_address, first_line, second_line, third_line, fourth_line) VALUES (?,?,?,?,?,?)", 
+                [input.contact_link, input.email_address, input.first_line, input.second_line, input.third_line, input.fourth_line])
+                .then(result => {
+                    const privacy_officer_id = result.insertId;
+
+                    db.query("INSERT INTO tbl_app_officer (app_id, privacy_officer_id) VALUES (?,?)", 
+                    [input.id, privacy_officer_id])
+                    .then(result => {
+                        done('success');
+                    }, error => {
+                        done(error);
+                    });
+                }, error => {
+                    done(error);
+                });
+            }, function(output){
+                resolve(output)
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAppContacts(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM view_app_privacy_officer WHERE app_id = ?", [id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     static updateAppContacts(input) {
         return new Promise((resolve) => {
             resolve(db.query("UPDATE view_app_privacy_officer SET contact_link = ?, email_address = ?, first_line = ?, second_line = ?, third_line = ?, fourth_line = ? WHERE app_id = ?", [input.contact_link, input.email_address, input.first_line, input.second_line, input.third_line, input.fourth_line, input.id]));
@@ -134,9 +142,89 @@ module.exports = class Apps {
         });
     }
 
-    static delete(id) {
+    static fetchCommonDataTypes() {
         return new Promise((resolve) => {
-            resolve(db.query("DELETE FROM tbl_application WHERE app_id = ?", [id]));
+            resolve(db.query("SELECT * FROM tbl_data_type"))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static insertAppDataTypes(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("INSERT INTO tbl_app_data_type (app_id, data_type_id) VALUES (?,?)", [input.id, input.data_type_id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static deleteAppDataTypes(app_id, data_type_id) {
+        return new Promise((resolve) => {
+            resolve(db.query("DELETE FROM tbl_app_data_type WHERE app_id = ? AND data_type_id = ?", [app_id, data_type_id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static insertAppDataUsagePolicy(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("INSERT INTO tbl_app_data_usage (app_id, policy) VALUES (?,?)", [input.id, input.policy]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAppDataUsagePolicy(id, policy_id) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM tbl_app_data_usage WHERE app_id = ? AND id = ?", [id, policy_id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static updateAppDataUsagePolicy(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_app_data_usage SET policy = ? WHERE id = ?", [input.policy, input.policy_id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static deleteAppDataUsagePolicy(policy_id) {
+        return new Promise((resolve) => {
+            resolve(db.query("DELETE FROM tbl_app_data_usage WHERE id = ?", [policy_id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static insertAppDataRemovalPolicy(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("INSERT INTO tbl_app_data_removal (app_id, policy) VALUES (?,?)", [input.id, input.policy]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAppDataRemovalPolicy(id, policy_id) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM tbl_app_data_removal WHERE app_id = ? AND id = ?", [id, policy_id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static updateAppDataRemovalPolicy(input) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_app_data_removal SET policy = ? WHERE id = ?", [input.policy, input.policy_id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static deleteAppDataRemovalPolicy(policy_id) {
+        return new Promise((resolve) => {
+            resolve(db.query("DELETE FROM tbl_app_data_removal WHERE id = ?", [policy_id]));
         }).catch((err) => {
             console.log(err);
         });
@@ -154,14 +242,6 @@ module.exports = class Apps {
     static getAllDataTypes(app_id) {
         return new Promise((resolve) => {
             resolve(db.query("SELECT * FROM `tbl_app_data_type` INNER JOIN tbl_data_type USING (data_type_id) WHERE app_id = ?", [app_id]))
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
-
-    static getAllDataUsage(app_id) {
-        return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_app_data_usage WHERE app_id = ?", [app_id]))
         }).catch((err) => {
             console.log(err);
         });

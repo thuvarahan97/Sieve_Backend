@@ -85,7 +85,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Data Types Collected
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/apps/add_appdatatypes?id=<%= result.content[0].app_id; %>"><i class="fa fa-plus"></i></a>
                 </h4>
                 <div class="single-table">
                     <div class="table-responsive">
@@ -109,7 +109,9 @@
                                     <td><%= result.types[i]['date_modified']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% id = result.content[0].app_id; %>
+                                            <% data_type_id = result.types[i]['data_type_id']; %>
+                                            <li><a onclick="return confirmDelete('/apps/delete_appdatatypes?id=<%= id %>&data_type_id=<%= data_type_id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>
@@ -129,7 +131,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Data Usage Policy
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/apps/add_appdatausagepolicy?id=<%= result.content[0].app_id; %>"><i class="fa fa-plus"></i></a>
                 </h4>
                 <div class="single-table">
                     <div class="table-responsive">
@@ -153,8 +155,10 @@
                                     <td><%= result.usages[i]['date_modified']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% id = result.content[0].app_id; %>
+                                            <% data_usage_id = result.usages[i]['id']; %>
+                                            <li class="mr-3"><a href="/apps/edit_appdatausagepolicy?id=<%= id %>&policy_id=<%= data_usage_id %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <li><a onclick="return confirmDelete('/apps/delete_appdatausagepolicy?id=<%= id %>&policy_id=<%= data_usage_id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>
@@ -174,7 +178,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Data Removal Policy
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/apps/add_appdataremovalpolicy?id=<%= result.content[0].app_id; %>"><i class="fa fa-plus"></i></a>
                 </h4>
                 <div class="single-table">
                     <div class="table-responsive">
@@ -198,8 +202,10 @@
                                     <td><%= result.removals[i]['date_modified']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% id = result.content[0].app_id; %>
+                                            <% data_removal_id = result.removals[i]['id']; %>
+                                            <li class="mr-3"><a href="/apps/edit_appdataremovalpolicy?id=<%= id %>&policy_id=<%= data_removal_id %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <li><a onclick="return confirmDelete('/apps/delete_appdataremovalpolicy?id=<%= id %>&policy_id=<%= data_removal_id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>
