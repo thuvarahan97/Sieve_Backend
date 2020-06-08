@@ -131,7 +131,7 @@ exports.viewEditAppForm = (req, res, next) => {
     if((id != "") && (id != null)){
         Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
-                res.status(200).render('apps.edit.ejs', { result: result });
+                res.status(200).render('apps.edit.app.ejs', { result: result });
             }
             else {
                 res.status(404).redirect('app?app_id=' + id);
@@ -159,14 +159,14 @@ exports.updateApp = (req, res, next) => {
                         res.status(200).redirect('app?app_id=' + id);
                     }
                     else {
-                        res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                        res.status(404).render('apps.edit.app.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
                     }
                 }).catch(()=>{
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });
             }
             else{
-                res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
+                res.status(404).render('apps.edit.app.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
@@ -572,7 +572,7 @@ exports.viewEditAppDataUsagePolicyForm = (req, res, next) => {
     const id = req.query.id;
     const policy_id = req.query.policy_id;
 
-    if((id != "") && (id != null)){
+    if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
         Apps.fetchAppDataUsagePolicy(id, policy_id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.appdatausagepolicy.ejs', { id: id, policy_id: policy_id, result: result });
@@ -597,7 +597,7 @@ exports.updateAppDataUsagePolicy = (req, res, next) => {
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
         Apps.fetchAppDataUsagePolicy(id, policy_id).then((results)=>{
             if (results.length > 0) {
-                if((policy_id != "") && (policy_id != null) && (policy != "") && (policy != null)){
+                if((policy != "") && (policy != null)){
                     Apps.updateAppDataUsagePolicy(req.body).then((result)=>{
                         if (result != null) {
                             res.status(200).redirect('app?app_id=' + id);
@@ -690,7 +690,7 @@ exports.viewEditAppDataRemovalPolicyForm = (req, res, next) => {
     const id = req.query.id;
     const policy_id = req.query.policy_id;
 
-    if((id != "") && (id != null)){
+    if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
         Apps.fetchAppDataRemovalPolicy(id, policy_id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.appdataremovalpolicy.ejs', { id: id, policy_id: policy_id, result: result });
@@ -714,8 +714,8 @@ exports.updateAppDataRemovalPolicy = (req, res, next) => {
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
         Apps.fetchAppDataRemovalPolicy(id, policy_id).then((results)=>{
-            if (result.length > 0) {
-                if((policy_id != "") && (policy_id != null) && (policy != "") && (policy != null)){
+            if (results.length > 0) {
+                if((policy != "") && (policy != null)){
                     Apps.updateAppDataRemovalPolicy(req.body).then((result)=>{
                         if (result != null) {
                             res.status(200).redirect('app?app_id=' + id);

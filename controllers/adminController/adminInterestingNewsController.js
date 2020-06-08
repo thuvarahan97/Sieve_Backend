@@ -24,7 +24,7 @@ exports.insert = (req, res, next) => {
     const title = req.body.title;
     const description = req.body.description;
     const link = req.body.link;
-    const admin_id = req.session.admin_id;
+    const admin_id = req.session.admin.id;
 
     if((title !== "") && (description !== "") && (link !== "")){
         InterestingNews.insert(req.body, admin_id).then((result)=>{

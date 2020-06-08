@@ -79,9 +79,7 @@ app.use(function (req, res, next){
 //Session Variables
 app.use(function (req, res, next) {
   res.locals.loggedin = req.session.loggedin;
-  res.locals.admin_id = req.session.admin_id;
-  res.locals.admin_email = req.session.admin_email;
-  res.locals.admin_role = req.session.admin_role;
+  res.locals.admin = req.session.admin;
   next();
 });
 

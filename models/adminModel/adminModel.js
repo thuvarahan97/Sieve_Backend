@@ -5,8 +5,7 @@ module.exports = class Admin {
     constructor(params) {
         this.id = params.admin_id,
         this.email = params.email,
-        this.password = params.password,
-        this.role = params.role
+        this.privilege_level = params.privilege_level
     }
 
     static insert(userInput) {
@@ -25,7 +24,8 @@ module.exports = class Admin {
             resolve(db.query("SELECT * FROM tbl_admin WHERE email = ?", [email]))
         }).then(value => {
             const detail = value[0];
-            return new Admin(detail);
+            const admin = new Admin(detail);
+            return { admin: admin, password: detail.password };
         }).catch((err) => {
             console.log(err);
         });

@@ -56,19 +56,19 @@
                             <i class="fa fa-asterisk"></i> Address:
                             <span>
                                 <% if (result.contacts[0] && result.contacts[0].first_line!=="" && result.contacts[0].first_line) { %>
-                                    <%= result.contacts[0].first_line;%>,
-                                    <br>
+                                    <div style="display: block; float: left"><%= result.contacts[0].first_line;%></div>
                                 <% } %>
                                 <% if (result.contacts[0] && result.contacts[0].second_line!=="" && result.contacts[0].second_line) { %>
-                                    <%= result.contacts[0].second_line;%>,
-                                    <br>
+                                    ,<br>
+                                    <div style="display: block; float: left"><%= result.contacts[0].second_line;%></div>
                                 <% } %>
                                 <% if (result.contacts[0] && result.contacts[0] && result.contacts[0].third_line!=="" && result.contacts[0].third_line) { %>
-                                    <%= result.contacts[0].third_line;%>,
-                                    <br>
+                                    ,<br>
+                                    <div style="display: block; float: left"><%= result.contacts[0].third_line;%></div>
                                 <% } %>
                                 <% if (result.contacts[0] && result.contacts[0].fourth_line!=="" && result.contacts[0].fourth_line) { %>
-                                    <%= result.contacts[0].fourth_line;%>
+                                    ,<br>
+                                    <div style="display: block; float: left"><%= result.contacts[0].fourth_line;%></div>
                                 <% } %>
                                 <% if (!result.contacts[0] || result.contacts[0].first_line=="" || !result.contacts[0].first_line) { %>
                                     <i style="color: grey;">Unavailable</i>

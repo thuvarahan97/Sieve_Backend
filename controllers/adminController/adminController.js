@@ -7,13 +7,11 @@ exports.admin_login = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password
     
-    Admin.getAdminFromEmail(email).then((user) => {
-        if (user) {
-            if (hashFunctions.checkHash(password, user.password)) {
+    Admin.getAdminFromEmail(email).then((result) => {
+        if (result) {
+            if (hashFunctions.checkHash(password, result.password)) {
                 req.session.loggedin = true;
-                req.session.admin_id = user.id.toString();
-                req.session.admin_email = user.email;
-                req.session.admin = user;
+                req.session.admin = result.admin;
                 res.redirect('/categories');
             }
             else {
