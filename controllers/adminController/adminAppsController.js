@@ -1,12 +1,13 @@
 const Apps = require('../../models/adminModel/adminAppsModel');
 const Categories = require('../../models/adminModel/adminCategoriesModel');
+var createError = require('http-errors');
 
 exports.viewAll = (req, res, next) => {
     Apps.getAllData().then((result)=>{
         res.status(200).render('apps', { result: result });
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
@@ -16,7 +17,7 @@ exports.viewAddForm = (req, res, next) => {
         res.status(200).render('apps.add.ejs', { categories: categories });
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
@@ -39,7 +40,7 @@ exports.insert = (req, res, next) => {
                     res.status(404).render('apps.add.ejs', { serverError: false, error: 'Unable to add data!', categories: categories });
                 }
             }).catch(()=>{
-                res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
+                res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
@@ -47,7 +48,7 @@ exports.insert = (req, res, next) => {
         }
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
@@ -64,7 +65,7 @@ exports.viewEditForm = (req, res, next) => {
                 res.status(404).redirect('/apps');
             }
         }).catch(()=>{
-            res.status(404).redirect('/apps');
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -73,24 +74,34 @@ exports.viewEditForm = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
+    const id = req.query.id;
     const name = req.body.name;
     const description = req.body.description;
     const link = req.body.link;
 
-    if((name !== "") && (description !== "") && (link !== "")){
-        Apps.update(req.body).then((result)=>{
-            if (result != null) {
-                res.status(200).redirect('/apps');
+    if((id != "") && (id != null)){
+        Apps.fetch(id).then((results)=>{
+            if((name !== "") && (description !== "") && (link !== "")){
+                Apps.update(req.body).then((result)=>{
+                    if (result != null) {
+                        res.status(200).redirect('/apps');
+                    }
+                    else {
+                        res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                    }
+                }).catch(()=>{
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
+                });
             }
-            else {
-                res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Unable to update data!' });
+            else{
+                res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
-            res.status(404).render('apps.edit.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(404).redirect('/apps');
     }
 }
 
@@ -126,7 +137,7 @@ exports.viewEditAppForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -135,24 +146,34 @@ exports.viewEditAppForm = (req, res, next) => {
 }
 
 exports.updateApp = (req, res, next) => {
+    const id = req.query.id;
     const name = req.body.name;
     const description = req.body.description;
     const link = req.body.link;
 
-    if((name !== "") && (description !== "") && (link !== "")){
-        Apps.update(req.body).then((result)=>{
-            if (result != null) {
-                res.status(200).redirect('app?app_id=' + id);
+    if((id != "") && (id != null)){
+        Apps.fetch(id).then((results)=>{
+            if((name !== "") && (description !== "") && (link !== "")){
+                Apps.update(req.body).then((result)=>{
+                    if (result != null) {
+                        res.status(200).redirect('app?app_id=' + id);
+                    }
+                    else {
+                        res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                    }
+                }).catch(()=>{
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
+                });
             }
-            else {
-                res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Unable to update data!' });
+            else{
+                res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
-            res.status(404).render('apps.edit.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(404).redirect('app?app_id=' + id);
     }
 }
 
@@ -169,7 +190,7 @@ exports.viewEditAppCategoryForm = (req, res, next) => {
                     res.status(404).redirect('app?app_id=' + id);
                 }
             }).catch(()=>{
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
@@ -177,33 +198,43 @@ exports.viewEditAppCategoryForm = (req, res, next) => {
         }
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
 
 exports.updateAppCategory = (req, res, next) => {
+    const id = req.query.id;
     const category_id = req.body.category_id;
 
     Categories.getAllData().then((categories)=>{
-        if(category_id !== ""){
-            Apps.updateAppCategory(req.body).then((result)=>{
-                if (result != null) {
-                    res.status(200).redirect('app?app_id=' + req.body.id);
+        if((id != "") && (id != null)){
+            Apps.fetchAppCategory(id).then((results)=>{
+                if(category_id !== ""){
+                    Apps.updateAppCategory(req.body).then((result)=>{
+                        if (result != null) {
+                            res.status(200).redirect('app?app_id=' + id);
+                        }
+                        else {
+                            res.status(404).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results, categories: categories });
+                        }
+                    }).catch(()=>{
+                        res.status(500).render('error', { serverError: true, error: createError(500) });
+                    });
                 }
-                else {
-                    res.status(404).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Unable to update data!', categories: categories });
+                else{
+                    res.status(404).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results, categories: categories });
                 }
             }).catch(()=>{
-                res.status(404).render('apps.edit.appcategory.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+                res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
-            res.status(404).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Input fields cannot be empty.', categories: categories });
+            res.status(404).redirect('app?app_id=' + id);
         }
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
@@ -220,7 +251,7 @@ exports.viewEditAppIconForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -229,22 +260,32 @@ exports.viewEditAppIconForm = (req, res, next) => {
 }
 
 exports.updateAppIcon = (req, res, next) => {
+    const id = req.query.id;
     const icon_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[0].filename;
 
-    if((req.files[0].filename !== "")){
-        Apps.updateAppIcon(req.body, icon_link).then((result)=>{
-            if (result != null) {
-                res.status(200).redirect('app?app_id=' + req.body.id);
+    if((id != "") && (id != null)){
+        Apps.fetch(id).then((results)=>{
+            if((req.files[0].filename !== "")){
+                Apps.updateAppIcon(req.body, icon_link).then((result)=>{
+                    if (result != null) {
+                        res.status(200).redirect('app?app_id=' + id);
+                    }
+                    else {
+                        res.status(404).render('apps.edit.appicon.ejs', { serverError: false, error: 'Unable to update icon!', id: id, result: results });
+                    }
+                }).catch(()=>{
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
+                });
             }
-            else {
-                res.status(404).render('apps.edit.appicon.ejs', { serverError: false, error: 'Unable to update icon!' });
+            else{
+                res.status(404).render('apps.edit.appicon.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
-            res.status(404).render('apps.edit.appicon.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.edit.appicon.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(404).redirect('app?app_id=' + id);
     }
 }
 
@@ -260,7 +301,7 @@ exports.viewEditAppBGForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -269,22 +310,32 @@ exports.viewEditAppBGForm = (req, res, next) => {
 }
 
 exports.updateAppBG = (req, res, next) => {
+    const id = req.query.id;
     const bg_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[0].filename;
 
-    if((req.files[0].filename !== "")){
-        Apps.updateAppBG(req.body, bg_link).then((result)=>{
-            if (result != null) {
-                res.status(200).redirect('app?app_id=' + req.body.id);
+    if((id != "") && (id != null)){
+        Apps.fetch(id).then((results)=>{
+            if((req.files[0].filename !== "")){
+                Apps.updateAppBG(req.body, bg_link).then((result)=>{
+                    if (result != null) {
+                        res.status(200).redirect('app?app_id=' + id);
+                    }
+                    else {
+                        res.status(404).render('apps.edit.appbg.ejs', { serverError: false, error: 'Unable to update background image!', id: id, result: results });
+                    }
+                }).catch(()=>{
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
+                });
             }
-            else {
-                res.status(404).render('apps.edit.appbg.ejs', { serverError: false, error: 'Unable to update background image!' });
+            else{
+                res.status(404).render('apps.edit.appbg.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
-            res.status(404).render('apps.edit.appbg.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.edit.appbg.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(404).redirect('app?app_id=' + id);
     }
 }
 
@@ -300,7 +351,7 @@ exports.viewAddAppContactsForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -322,7 +373,7 @@ exports.insertAppContacts = (req, res, next) => {
                 res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to add data!', result: [{app_id: req.body.id}] });
             }
         }).catch(()=>{
-            res.status(404).render('apps.add.appcontacts.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -342,7 +393,7 @@ exports.viewEditAppContactsForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -351,24 +402,34 @@ exports.viewEditAppContactsForm = (req, res, next) => {
 }
 
 exports.updateAppContacts = (req, res, next) => {
+    const id = req.query.id;
     const contact_link = req.body.contact_link;
     const email_address = req.body.email_address;
     const first_line = req.body.first_line;
 
-    if((contact_link !== "") || (email_address !== "") || (first_line !== "")){
-        Apps.updateAppContacts(req.body).then((result)=>{
-            if (result != null) {
-                res.status(200).redirect('app?app_id=' + req.body.id);
+    if((id != "") && (id != null)){
+        Apps.fetchAppContacts(id).then((results)=>{
+            if((contact_link !== "") || (email_address !== "") || (first_line !== "")){
+                Apps.updateAppContacts(req.body).then((result)=>{
+                    if (result != null) {
+                        res.status(200).redirect('app?app_id=' + id);
+                    }
+                    else {
+                        res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                    }
+                }).catch(()=>{
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
+                });
             }
-            else {
-                res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to update data!', result: [{app_id: req.body.id}] });
+            else{
+                res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id, result: results });
             }
         }).catch(()=>{
-            res.status(404).render('apps.add.appcontacts.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', result: [{app_id: req.body.id}] });
+        res.status(404).redirect('app?app_id=' + id);
     }
 }
 
@@ -384,7 +445,7 @@ exports.deleteAppContacts = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).render('apps.add.appcontacts.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(200).redirect('app?app_id=' + id);
         });
     }
     else{
@@ -405,7 +466,7 @@ exports.viewAddAppDataTypesForm = (req, res, next) => {
                     res.status(404).redirect('app?app_id=' + id);
                 }
             }).catch(()=>{
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
@@ -413,7 +474,7 @@ exports.viewAddAppDataTypesForm = (req, res, next) => {
         }
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
@@ -432,7 +493,7 @@ exports.insertAppDataTypes = (req, res, next) => {
                     res.status(404).render('apps.add.appdatatypes.ejs', { serverError: false, error: 'Unable to add data!', id: id, datatypes: datatypes });
                 }
             }).catch(()=>{
-                res.status(404).render('apps.add.appdatatypes.ejs', { serverError: true, error: 'Database Connection Faliure!', id: id, datatypes: datatypes })
+                res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
@@ -440,7 +501,7 @@ exports.insertAppDataTypes = (req, res, next) => {
         }
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
@@ -478,7 +539,7 @@ exports.viewAddAppDataUsagePolicyForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -499,7 +560,7 @@ exports.insertAppDataUsagePolicy = (req, res, next) => {
                 res.status(404).render('apps.add.appdatausagepolicy.ejs', { serverError: false, error: 'Unable to add data!', id: id });
             }
         }).catch(()=>{
-            res.status(404).render('apps.add.appdatausagepolicy.ejs', { serverError: true, error: 'Database Connection Faliure!', id: id })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -520,7 +581,7 @@ exports.viewEditAppDataUsagePolicyForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -534,28 +595,28 @@ exports.updateAppDataUsagePolicy = (req, res, next) => {
     const policy = req.body.policy;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.fetchAppDataUsagePolicy(id, policy_id).then((result)=>{
-            if (result.length > 0) {
+        Apps.fetchAppDataUsagePolicy(id, policy_id).then((results)=>{
+            if (results.length > 0) {
                 if((policy_id != "") && (policy_id != null) && (policy != "") && (policy != null)){
                     Apps.updateAppDataUsagePolicy(req.body).then((result)=>{
                         if (result != null) {
                             res.status(200).redirect('app?app_id=' + id);
                         }
                         else {
-                            res.status(404).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: result });
+                            res.status(404).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: results });
                         }
                     }).catch(()=>{
-                        res.status(404).render('apps.edit.appdatausagepolicy.ejs', { serverError: true, error: 'Database Connection Faliure!', id: id, policy_id: policy_id, result: result })
+                        res.status(500).render('error', { serverError: true, error: createError(500) });
                     });
                 }
                 else{
-                    res.status(404).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: result });
+                    res.status(404).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: results });
                 }
             } else {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -596,7 +657,7 @@ exports.viewAddAppDataRemovalPolicyForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -617,7 +678,7 @@ exports.insertAppDataRemovalPolicy = (req, res, next) => {
                 res.status(404).render('apps.add.appdataremovalpolicy.ejs', { serverError: false, error: 'Unable to add data!', id: id });
             }
         }).catch(()=>{
-            res.status(404).render('apps.add.appdataremovalpolicy.ejs', { serverError: true, error: 'Database Connection Faliure!', id: id })
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -638,7 +699,7 @@ exports.viewEditAppDataRemovalPolicyForm = (req, res, next) => {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -652,7 +713,7 @@ exports.updateAppDataRemovalPolicy = (req, res, next) => {
     const policy = req.body.policy;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.fetchAppDataRemovalPolicy(id, policy_id).then((result)=>{
+        Apps.fetchAppDataRemovalPolicy(id, policy_id).then((results)=>{
             if (result.length > 0) {
                 if((policy_id != "") && (policy_id != null) && (policy != "") && (policy != null)){
                     Apps.updateAppDataRemovalPolicy(req.body).then((result)=>{
@@ -660,20 +721,20 @@ exports.updateAppDataRemovalPolicy = (req, res, next) => {
                             res.status(200).redirect('app?app_id=' + id);
                         }
                         else {
-                            res.status(404).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: result });
+                            res.status(404).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: results });
                         }
                     }).catch(()=>{
-                        res.status(404).render('apps.edit.appdataremovalpolicy.ejs', { serverError: true, error: 'Database Connection Faliure!', id: id, policy_id: policy_id, result: result })
+                        res.status(500).render('error', { serverError: true, error: createError(500) });
                     });
                 }
                 else{
-                    res.status(404).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: result });
+                    res.status(404).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: results });
                 }
             } else {
                 res.status(404).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
@@ -752,22 +813,22 @@ exports.viewApp = (req, res, next) => {
                             res.status(200).render('app', { result: result });
                         }).catch((err) => {
                             if (err) {
-                                res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+                                res.status(500).render('error', { serverError: true, error: createError(500) });
                             }
                         });
                     }).catch((err) => {
                         if (err) {
-                            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+                            res.status(500).render('error', { serverError: true, error: createError(500) });
                         }
                     });
                 }).catch((err) => {
                     if (err) {
-                        res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+                        res.status(500).render('error', { serverError: true, error: createError(500) });
                     }
                 });
             }).catch((err) => {
                 if (err) {
-                    res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
                 }
             });
         } else {
@@ -775,7 +836,7 @@ exports.viewApp = (req, res, next) => {
         }
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }

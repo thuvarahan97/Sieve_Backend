@@ -1,6 +1,7 @@
 const Admin = require('../../models/adminModel/adminModel');
 const hashFunctions = require('../../utils/hash_function');
 const validation = require('../../utils/validation');
+var createError = require('http-errors');
 
 exports.admin_login = (req, res, next) => {
     const email = req.body.email;
@@ -12,6 +13,7 @@ exports.admin_login = (req, res, next) => {
                 req.session.loggedin = true;
                 req.session.admin_id = user.id.toString();
                 req.session.admin_email = user.email;
+                req.session.admin = user;
                 res.redirect('/categories');
             }
             else {
@@ -22,7 +24,7 @@ exports.admin_login = (req, res, next) => {
         }
     }).catch((err) => {
         if (err) {
-            res.status(404).render('admin-login', { serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).render('error', { serverError: true, error: createError(500) });
         }
     });
 }
@@ -40,14 +42,14 @@ exports.admin_signup = (req, res, next) => {
                         Admin.insert(req.body).then(() => {
                             res.status(200).render('admin-signup', { success: true });
                         }).catch(() => {
-                            res.status(404).render('admin-signup', { serverError: true, error: 'Database Connection Faliure!' })
+                            res.status(500).render('error', { serverError: true, error: createError(500) });
                         });
                     }
                     else {
                         res.status(404).render('admin-signup', { serverError: false, error: 'Email already exists!' });
                     }
                 }).catch(() => {
-                    res.status(404).render('admin-signup', { serverError: true, error: 'Database Connection Faliure!' })
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
                 });;
             }
             else {

@@ -5,7 +5,8 @@ module.exports = class Admin {
     constructor(params) {
         this.id = params.admin_id,
         this.email = params.email,
-        this.password = params.password
+        this.password = params.password,
+        this.role = params.role
     }
 
     static insert(userInput) {
