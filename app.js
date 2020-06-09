@@ -62,13 +62,13 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(function (req, res, next){
-  if (!req.session.loggedin && req.url != '/login') {
-    res.redirect('/login');
-    return;
-  }
-  next();
-});
+// app.use(function (req, res, next){
+//   if (!req.session.loggedin && req.url != '/login') {
+//     res.redirect('/login');
+//     return;
+//   }
+//   next();
+// });
 
 //Session Variables
 app.use(function (req, res, next) {

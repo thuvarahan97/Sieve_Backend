@@ -19,7 +19,7 @@ exports.viewAll = (req, res, next) => {
     //updated
 
     exports.viewAddForm = (req, res, next) => {
-        res.render('privacy_tips.add.ejs');
+        res.status(200).render('privacy_tips.add.ejs');
     }
     
     exports.insert = (req, res, next) => {
