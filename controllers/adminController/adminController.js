@@ -10,9 +10,13 @@ exports.admin_login = (req, res, next) => {
     Admin.getAdminFromEmail(email).then((result) => {
         if (result) {
             if (hashFunctions.checkHash(password, result.password)) {
-                req.session.loggedin = true;
-                req.session.admin = result.admin;
-                res.redirect('/categories');
+                if (result.permitted == 'yes') {
+                    req.session.loggedin = true;
+                    req.session.admin = result.admin;
+                    res.redirect('/categories');
+                } else {
+                    res.status(404).render('admin-login', { serverError: false, error: 'Access denied!' });
+                }
             }
             else {
                 res.status(404).render('admin-login', { serverError: false, error: 'Incorrect Password' });

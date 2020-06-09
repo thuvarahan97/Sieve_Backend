@@ -25,7 +25,7 @@ module.exports = class Admin {
         }).then(value => {
             const detail = value[0];
             const admin = new Admin(detail);
-            return { admin: admin, password: detail.password };
+            return { admin: admin, password: detail.password, permitted: detail.permitted };
         }).catch((err) => {
             console.log(err);
         });
