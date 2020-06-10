@@ -1,3 +1,17 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<%- include ('login-header') %>
+
+    <div class="error-area ptb--100 text-center">
+        <div class="container">
+            <div class="error-content" style="margin-top: 0;">
+                <h2><%= error.status %></h2>
+                <% if (error.status == 500) { %>
+                    <p>Internal Server Error!</p>
+                <% } else { %>
+                    <p>Ooops! Something went wrong.</p>
+                <% } %>
+                <a href="/">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+<%- include ('login-footer') %>

@@ -33,9 +33,9 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <!-- preloader area start -->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="loader"></div>
-    </div>
+    </div> -->
     <!-- preloader area end -->
     <!-- page container area start -->
     <div class="page-container">
@@ -69,10 +69,12 @@
                                 <a href="/privacy_laws" aria-expanded="true"><i class="fa fa-table"></i><span>privacy
                                         laws</span></a>
                             </li>
+                            <% if (admin.privilege_level == 1) { %>
                             <li>
                                 <a href="/admins" aria-expanded="true"><i
                                         class="fa fa-table"></i><span>admins</span></a>
                             </li>
+                            <% } %>
                             <li>
                                 <a href="/users" aria-expanded="true"><i class="fa fa-table"></i><span>users</span></a>
                             </li>
@@ -104,7 +106,7 @@
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
                             <img class="avatar user-thumb" src="images/author/avatar.png" alt="avatar">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%= admin_email; %> <i
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%= admin.email; %> <i
                                     class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <!-- <a class="dropdown-item" href="#">Settings</a> -->

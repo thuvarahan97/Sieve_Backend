@@ -4,7 +4,7 @@
     <div class="col-12 mt-5">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Categories Table</h4>
+                <h4 class="header-title">Admins Table</h4>
                 <div class="single-table">
                     <div class="table-responsive">
                         <table class="table table-hover progress-table text-center">
@@ -27,8 +27,15 @@
                                     <!-- <td><span class="status-p bg-success">Active</span></td> -->
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                           
+                                            <!-- <li class="mr-3"><a href="/" class="text-secondary"><i class="fa fa-edit"></i></a></li> -->
+                                           <% id=result[i]['admin_id'];%>
+                                           <% if (result[i]['permitted'] == "no") { %>
+                                           <li><a onclick="return confirmUpdate('/admins/update?id=<%= id %>', 'Do you want to approve this as Admin ?');" class="text-secondary"><i class="fa fa-ban" style="font-size:20px;color:red"></i> </i></a></li>
+                                           <% } else { %>
+                                           <li><a onclick="return confirmUpdate('/admins/update_no?id=<%= id %>', 'Do u want to block this Admin ?');" class="text-secondary" ><i class="fa fa-check-circle" style="font-size:20px;color:green"></i></a></li>
+                                           
+                                           <% } %>
                                         </ul>
                                     </td>
                                 </tr>

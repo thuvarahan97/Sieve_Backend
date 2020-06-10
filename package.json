@@ -8,6 +8,7 @@
     "test-watch": "nodemon --exec \"npm test\""
   },
   "dependencies": {
+    "bluebird": "^3.7.2",
     "cookie-parser": "~1.4.4",
     "cryptr": "^6.0.2",
     "debug": "~2.6.9",

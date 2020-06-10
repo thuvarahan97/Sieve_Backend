@@ -176,15 +176,18 @@ describe('Getting Link',()=>{
         done();
         })
     })
-    it("It should GET the Link admin",(done)=>{
-        chai.request(server)
-        .get('/admins')
-        .end((err,res)=>{
-            res.should.have.status(200);
-            // console.log(res);
-        done();
-        })
-    })
+    // it("It should post object",(done)=>{
+    //     chai.request(server)
+    //     .get('/admins')
+    //     .end((err,res)=>{
+    //         // res.should.have.status(200);
+    //         res.should.be.a('object');
+    //         res.body.should.have.property('admin_id');
+    //         // console.log(res);
+    //     done();
+    //     })
+    // })
+    
 
 
 })

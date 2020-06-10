@@ -10,12 +10,12 @@ exports.viewAll = (req, res, next) => {
             res.status(200).render('privacy_laws', { result: result });
         }).catch((err) => {
             if (err) {
-                res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+                res.status(500).render('error',{ serverError: true, error: createError(500)});
             }
         });
     }
 
-    //upated from here
+
 exports.viewAddForm=(req,res,next)=>{
     res.render('privacy_laws.add.ejs');
 }
@@ -24,7 +24,7 @@ exports.insert=(req,res,next)=>{
     const title = req.body.title;
     const description = req.body.description;
     const link = req.body.link;
-    const admin_id = req.session.admin_id;
+    const admin_id = req.session.admin.id;
 
     if((title !== "") && (description !== "") && (link !== "")){
         PrivacyLaws.insert(req.body, admin_id).then((result)=>{
@@ -76,7 +76,7 @@ exports.update = (req, res, next) => {
                 res.status(404).render('privacy_laws.edit.ejs', { serverError: false, error: 'Unable to update data!' });
             }
         }).catch(()=>{
-            res.status(404).render('privacy_laws.edit.ejs', { serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).render('error',{ serverError: true, error: createError(500)});
         });
     }
     else{

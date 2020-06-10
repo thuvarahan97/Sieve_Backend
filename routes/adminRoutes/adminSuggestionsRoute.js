@@ -3,6 +3,5 @@ const suggestionsController = require('../../controllers/adminController/adminSu
 const router = express.Router();
 
 router.get('/', suggestionsController.viewAll);
-// router.get('/delete', suggestionsController.delete);
 
 module.exports = router;

@@ -41,11 +41,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/categories', express.static(path.join(__dirname, 'public')));
 app.use('/interesting_news', express.static(path.join(__dirname, 'public')));
-app.use('/apps', express.static(path.join(__dirname, 'public')));
-app.use('/users', express.static(path.join(__dirname, 'public')));
 app.use('/privacy_laws', express.static(path.join(__dirname, 'public')));
 app.use('/privacy_tips', express.static(path.join(__dirname, 'public')));
-app.use('/suggestions', express.static(path.join(__dirname, 'public')));
+app.use('/admins', express.static(path.join(__dirname, 'public')));
+app.use('/apps', express.static(path.join(__dirname, 'public')));
+app.use('/users', express.static(path.join(__dirname, 'public')));
+
 app.use(session({
 	secret: 'SieveSession',
   resave: false,
@@ -62,20 +63,26 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(function (req, res, next){
-//   if (!req.session.loggedin && req.url != '/login') {
-//     res.redirect('/login');
-//     return;
-//   }
-//   next();
-// });
+//User session redirection
+app.use(function (req, res, next){
+  // if (!req.session.loggedin) {
+  //   if (req.url != '/' && req.url != '/login' && req.url != '/signup') {
+  //     res.redirect('/login');
+  //     return;
+  //   }
+  // } else {
+  //   if (req.url == '/' || req.url == '/login' || req.url == '/signup') {
+  //     res.redirect('/categories');
+  //     return;
+  //   }
+  // }
+  next();
+});
 
 //Session Variables
 app.use(function (req, res, next) {
   res.locals.loggedin = req.session.loggedin;
-  res.locals.admin_id = req.session.admin_id;
-  res.locals.admin_email = req.session.admin_email;
-  res.locals.admin_role = req.session.admin_role;
+  res.locals.admin = req.session.admin;
   next();
 });
 
