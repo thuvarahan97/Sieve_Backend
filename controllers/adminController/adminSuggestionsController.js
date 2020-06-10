@@ -14,3 +14,4 @@ exports.viewAll = (req, res, next) => {
         }
     });
 }
+

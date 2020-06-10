@@ -46,6 +46,7 @@ app.use('/privacy_tips', express.static(path.join(__dirname, 'public')));
 app.use('/admins', express.static(path.join(__dirname, 'public')));
 app.use('/apps', express.static(path.join(__dirname, 'public')));
 app.use('/users', express.static(path.join(__dirname, 'public')));
+app.use('/suggestions', express.static(path.join(__dirname, 'public')));
 
 app.use(session({
 	secret: 'SieveSession',
