@@ -72,7 +72,7 @@ app.use(function (req, res, next){
       return;
     }
   } else if (req.session.loggedin && req.url != '/app') {
-    if (req.url == '/' || req.url == '/login' || req.url == '/signup') {
+    if (req.url == '/' || req.url == '/login' || req.url == '/signup' || req.url == '/login/' || req.url == '/signup/') {
       res.redirect('/categories');
       return;
     }
@@ -81,7 +81,7 @@ app.use(function (req, res, next){
 });
 
 app.use(function (req, res, next) {
-  if (req.session.admin && req.session.admin.privilege_level == 0 && req.url == '/admins') {
+  if (req.session.admin && req.session.admin.privilege_level == "0" && req.url == '/admins/') {
     res.redirect('/categories');
     return;
   }

@@ -4,8 +4,6 @@ const router = express.Router();
 
 router.get('/', privacyTipsController.viewAll);
 
-
-
 router.get('/add', privacyTipsController.viewAddForm);
 
 router.post('/add', privacyTipsController.insert);
