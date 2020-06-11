@@ -15,3 +15,23 @@ exports.viewAll = (req, res, next) => {
         }
     });
 }
+
+exports.delete = (req, res, next) => {
+    const id = req.query.id;
+
+    if((id != "") && (id != null)){
+        Users.delete(id).then((result)=>{
+            if (result != null) {
+                res.status(404).redirect('/users');
+            }
+            else {
+                res.status(404).redirect('/users');
+            }
+        }).catch(()=>{
+            res.status(404).redirect('/users');
+        });
+    }
+    else{
+        res.status(404).redirect('/users');
+    }
+}

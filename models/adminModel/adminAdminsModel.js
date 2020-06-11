@@ -5,7 +5,7 @@ module.exports = class Admins {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_admin WHERE NOT(admin_id=6) ORDER BY admin_id DESC"));
+            resolve(db.query("SELECT * FROM tbl_admin ORDER BY admin_id DESC"));
         }).catch((err) => {
             console.log(err);
         });
