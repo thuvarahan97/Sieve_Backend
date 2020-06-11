@@ -7,7 +7,7 @@ exports.viewAll = (req, res, next) => {
             resolve((Categories.getAllData()));
         });
     };
-    fetchData().then((result)=>{
+    return fetchData().then((result)=>{
         res.status(200).render('categories', { result: result });
     }).catch((err) => {
         if (err) {
@@ -25,7 +25,7 @@ exports.insert = (req, res, next) => {
     const icon = req.body.icon;
 
     if((name !== "") && (icon !== "")){
-        Categories.insert(req.body).then((result)=>{
+        return Categories.insert(req.body).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('/categories');
             }
@@ -45,7 +45,7 @@ exports.viewEditForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Categories.fetch(id).then((result)=>{
+        return Categories.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('categories.edit.ejs', { result: result, id: id });
             }
@@ -67,9 +67,9 @@ exports.update = (req, res, next) => {
     const icon = req.body.icon;
 
     if((id != "") && (id != null)){
-        Categories.fetch(id).then((results)=>{
+        return Categories.fetch(id).then((results)=>{
             if((name !== "") && (icon !== "")){
-                Categories.update(req.body).then((result)=>{
+                return Categories.update(req.body).then((result)=>{
                     if (result != null) {
                         res.status(200).redirect('/categories');
                     }
@@ -96,9 +96,9 @@ exports.delete = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Categories.delete(id).then((result)=>{
+        return Categories.delete(id).then((result)=>{
             if (result != null) {
-                res.status(404).redirect('/categories');
+                res.status(200).redirect('/categories');
             }
             else {
                 res.status(404).redirect('/categories');
