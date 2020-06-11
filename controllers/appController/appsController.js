@@ -4,7 +4,6 @@ exports.view_all = (req, res, next) => {
     const category_id = req.body.category_id
 
     Apps.getAllApps(category_id).then((apps)=>{
-        console.log(apps[0])
         res.json({
             apps: apps
         });
@@ -17,7 +16,6 @@ exports.view_all = (req, res, next) => {
 
 exports.view_all_search = (req, res, next) => {
     Apps.getAllAppsForSearch().then((apps)=>{
-        console.log(apps[0])
         res.json({
             apps: apps
         });
