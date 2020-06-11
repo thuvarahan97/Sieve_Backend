@@ -4,9 +4,7 @@
     <div class="col-12 mt-5">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Users Table
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
-                </h4>
+                <h4 class="header-title">Users Table</h4>
                 <div class="single-table">
                     <div class="table-responsive">
                         <table class="table table-hover progress-table text-center">
@@ -27,7 +25,8 @@
                                     <td><%= result[i]['email']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% id=result[i]['common_user_id'];%>
+                                            <li><a onclick="return confirmUpdate('/users/delete?id=<%= id %>', 'Do you want to delete this user ?');" class="text-danger"><i class="ti-trash"></i></a></li>
                                         </ul>
                                     </td>
                                 </tr>

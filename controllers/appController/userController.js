@@ -49,13 +49,52 @@ exports.user_login = (req, res, next) => {
 exports.user_signup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password
-    if((validation.emailValidation(email))&&(validation.passwordValidation(password))){
+    if ((validation.emailValidation(email)) && (validation.passwordValidation(password))) {
         User.insert(req.body).then(() => {
-            res.status(200).json({ success: true});
+            res.status(200).json({ success: true });
         }).catch(() => {
-            res.status(404).json({serverError: true,error: 'Database Connection Faliure!' })
+            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
         });
-    }else{
+    } else {
+        res.status(404).json({ serverError: false, error: 'Incorrect Email or Password' });
+    }
+}
+
+exports.user_signup_gf = (req, res, next) => {
+    const email = req.body.email;
+    const uid = req.body.uid;
+    const imageUrl = req.body.imageUrl;
+    if (validation.emailValidation(email)) {
+        User.getUserFromUid(uid).then((user) => {
+            console.log(user);
+            if (user==undefined) {
+                User.insertGF(req.body).then(() => {
+                    User.getUserFromUid(uid).then((user1)=>{
+                        res.json({
+                            id: user1.id.toString(),
+                            email: user1.email,
+                            imageUrl: user1.imageUrl,
+                            uid: user1.uid,
+                        });
+                    }).catch(()=>{
+                        res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+                    });
+                    
+                }).catch(() => {
+                    res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+                });
+            } else {
+                res.json({
+                    id: user.id.toString(),
+                    email: user.email,
+                    imageUrl: user.imageUrl,
+                    uid: user.uid,
+                });
+            }
+        }).catch(() => {
+            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
+        });
+    } else {
         res.status(404).json({ serverError: false, error: 'Incorrect Email or Password' });
     }
 }

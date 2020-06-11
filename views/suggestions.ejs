@@ -4,9 +4,7 @@
     <div class="col-12 mt-5">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Suggestions Table
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
-                </h4>
+                <h4 class="header-title">Suggestions Table</h4>
                 <div class="single-table">
                     <div class="table-responsive">
                         <table class="table table-hover progress-table text-center">
@@ -15,7 +13,6 @@
                                     <th scope="col">#</th>
                                     <th scope="col">User_ID</th>
                                     <th scope="col">Suggestion</th>
-                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -25,17 +22,10 @@
                                     <th scope="row"><%= i+1; %></th>
                                     <td><%= result[i]['common_user_id']; %></td>
                                     <td><%= result[i]['suggestion']; %></td>
-                                    <td><img src="<%= result[i]['icon_link']; %>" width="35px" height="35px"></td>
-                                    <td>
-                                        <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
-                                        </ul>
-                                    </td>
                                 </tr>
                                 <% } %>
                             <% } else { %>
-                                <tr style="text-align: center; padding: 100px;"><td colspan="5">No results found.</td></tr>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="3">No results found.</td></tr>
                             <% } %>
                             </tbody>
                         </table>

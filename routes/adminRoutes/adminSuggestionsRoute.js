@@ -4,4 +4,5 @@ const router = express.Router();
 
 router.get('/', suggestionsController.viewAll);
 
+
 module.exports = router;

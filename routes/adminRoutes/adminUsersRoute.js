@@ -4,4 +4,6 @@ const router = express.Router();
 
 router.get('/', usersController.viewAll);
 
+router.get('/delete', usersController.delete);
+
 module.exports = router;

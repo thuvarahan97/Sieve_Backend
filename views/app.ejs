@@ -1,0 +1,224 @@
+<%- include ('header') %>
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Application: <%= result.content[0].app_name;%></h4>
+                <div class="cripto-live mt-5" style="margin-bottom: 40px;">
+                    <ul>
+                        <li>
+                            <i class="fa fa-asterisk"></i> ID:<span><%= result.content[0].app_id;%></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Name:<span><%= result.content[0].app_name;%></span>&ensp;<a href="/apps/edit_app?id=<%= result.content[0].app_id; %>"><i class="fa fa-edit"></i></a></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Description:<span><%= result.content[0].description;%></span>&ensp;<a href="/apps/edit_app?id=<%= result.content[0].app_id; %>"><i class="fa fa-edit"></i></a></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Category:&ensp;<a href="/apps/edit_appcategory?id=<%= result.content[0].app_id; %>"><i class="fa fa-edit"></i></a><span><%= result.content[0].app_category;%></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Privacy Policy Link:&ensp;<a href="/apps/edit_app?id=<%= result.content[0].app_id; %>"><i class="fa fa-edit"></i></a><span><a target="_blank" href="<%= result.content[0].privacy_policy_link;%>"><%= result.content[0].privacy_policy_link;%></a></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Icon:&ensp;<a href="/apps/edit_appicon?id=<%= result.content[0].app_id; %>"><i class="fa fa-edit"></i></a><span><img  src="<%= result.content[0]['icon_image']; %>" width="35px" height="35px"></span></li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Background Image:&ensp;<a href="/apps/edit_appbg?id=<%= result.content[0].app_id; %>"><i class="fa fa-edit"></i></a><div style="margin: 10px 0px;"><img src="<%= result.content[0].background_image;%>" width="300px" height="300px"></div></li>
+                    </ul>
+                </div>
+                <h6>App Privacy Officer Contact Details:
+                    <% if (!result.contacts[0]) { %>
+                        &ensp;<a href="/apps/add_appcontacts?id=<%= result.content[0].app_id; %>" class="text-success"><i class="fa fa-plus-square"></i></a>
+                    <% } else { %>
+                        &ensp;<a href="/apps/edit_appcontacts?id=<%= result.content[0].app_id; %>" class="text-secondary"><i class="fa fa-edit"></i></a>
+                        &ensp;<a style="cursor: pointer;" onclick="return confirmDelete('/apps/delete_appcontacts?id=<%= result.content[0].app_id; %>');" class="text-danger"><i class="ti-trash"></i></a>
+                    <% } %>
+                </h6>
+                <div class="cripto-live mt-4">
+                    <ul>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Contact Link:
+                            <span>
+                                <% if (result.contacts[0] && result.contacts[0].contact_link!=="" && result.contacts[0].contact_link) { %>
+                                    <%= result.contacts[0].contact_link;%>
+                                <% } else { %>
+                                    <i style="color: grey;">Unavailable</i>
+                                <% } %>
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Email Address:
+                            <span>
+                                <% if (result.contacts[0] && result.contacts[0].email_address!=="" && result.contacts[0].email_address) { %>
+                                    <%= result.contacts[0].email_address;%>
+                                <% } else { %>
+                                    <i style="color: grey;">Unavailable</i>
+                                <% } %>
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fa fa-asterisk"></i> Address:
+                            <span>
+                                <% if (result.contacts[0] && result.contacts[0].first_line!=="" && result.contacts[0].first_line) { %>
+                                    <div style="display: block; float: left"><%= result.contacts[0].first_line;%></div>
+                                <% } %>
+                                <% if (result.contacts[0] && result.contacts[0].second_line!=="" && result.contacts[0].second_line) { %>
+                                    ,<br>
+                                    <div style="display: block; float: left"><%= result.contacts[0].second_line;%></div>
+                                <% } %>
+                                <% if (result.contacts[0] && result.contacts[0] && result.contacts[0].third_line!=="" && result.contacts[0].third_line) { %>
+                                    ,<br>
+                                    <div style="display: block; float: left"><%= result.contacts[0].third_line;%></div>
+                                <% } %>
+                                <% if (result.contacts[0] && result.contacts[0].fourth_line!=="" && result.contacts[0].fourth_line) { %>
+                                    ,<br>
+                                    <div style="display: block; float: left"><%= result.contacts[0].fourth_line;%></div>
+                                <% } %>
+                                <% if (!result.contacts[0] || result.contacts[0].first_line=="" || !result.contacts[0].first_line) { %>
+                                    <i style="color: grey;">Unavailable</i>
+                                <% } %>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Data Types Collected
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/apps/add_appdatatypes?id=<%= result.content[0].app_id; %>"><i class="fa fa-plus"></i></a>
+                </h4>
+                <div class="single-table">
+                    <div class="table-responsive">
+                        <table class="table table-hover progress-table text-center">
+                            <thead class="text-uppercase">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Data Type</th>
+                                    <th scope="col">Date Modified</th>
+                                    <th scope="col">action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% if (result.types.length > 0) { %>
+                                <% for (var i = 0; i < result.types.length; i++) { %>
+                                <tr>
+                                    <th scope="row"><%= i+1; %></th>
+                                    <td><%= result.types[i]['data_type_id']; %></td>
+                                    <td><a><%= result.types[i]['data_type_name']; %></a></td>
+                                    <td><%= result.types[i]['date_modified']; %></td>
+                                    <td>
+                                        <ul class="d-flex justify-content-center">
+                                            <% id = result.content[0].app_id; %>
+                                            <% data_type_id = result.types[i]['data_type_id']; %>
+                                            <li><a onclick="return confirmDelete('/apps/delete_appdatatypes?id=<%= id %>&data_type_id=<%= data_type_id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            <% } else { %>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="6">No results found.</td></tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Data Usage Policy
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/apps/add_appdatausagepolicy?id=<%= result.content[0].app_id; %>"><i class="fa fa-plus"></i></a>
+                </h4>
+                <div class="single-table">
+                    <div class="table-responsive">
+                        <table class="table table-hover progress-table text-center">
+                            <thead class="text-uppercase">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Usage Policy</th>
+                                    <th scope="col">Date Modified</th>
+                                    <th scope="col">action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% if (result.usages.length > 0) { %>
+                                <% for (var i = 0; i < result.usages.length; i++) { %>
+                                <tr>
+                                    <th scope="row"><%= i+1; %></th>
+                                    <td><%= result.usages[i]['id']; %></td>
+                                    <td class="text-left"><a><%= result.usages[i]['policy']; %></a></td>
+                                    <td><%= result.usages[i]['date_modified']; %></td>
+                                    <td>
+                                        <ul class="d-flex justify-content-center">
+                                            <% id = result.content[0].app_id; %>
+                                            <% data_usage_id = result.usages[i]['id']; %>
+                                            <li class="mr-3"><a href="/apps/edit_appdatausagepolicy?id=<%= id %>&policy_id=<%= data_usage_id %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <li><a onclick="return confirmDelete('/apps/delete_appdatausagepolicy?id=<%= id %>&policy_id=<%= data_usage_id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            <% } else { %>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="6">No results found.</td></tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Data Removal Policy
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/apps/add_appdataremovalpolicy?id=<%= result.content[0].app_id; %>"><i class="fa fa-plus"></i></a>
+                </h4>
+                <div class="single-table">
+                    <div class="table-responsive">
+                        <table class="table table-hover progress-table text-center">
+                            <thead class="text-uppercase">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Removal Policy</th>
+                                    <th scope="col">Date Modified</th>
+                                    <th scope="col">action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% if (result.removals.length > 0) { %>
+                                <% for (var i = 0; i < result.removals.length; i++) { %>
+                                <tr>
+                                    <th scope="row"><%= i+1; %></th>
+                                    <td><%= result.removals[i]['id']; %></td>
+                                    <td class="text-left"><a><%= result.removals[i]['policy']; %></a></td>
+                                    <td><%= result.removals[i]['date_modified']; %></td>
+                                    <td>
+                                        <ul class="d-flex justify-content-center">
+                                            <% id = result.content[0].app_id; %>
+                                            <% data_removal_id = result.removals[i]['id']; %>
+                                            <li class="mr-3"><a href="/apps/edit_appdataremovalpolicy?id=<%= id %>&policy_id=<%= data_removal_id %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <li><a onclick="return confirmDelete('/apps/delete_appdataremovalpolicy?id=<%= id %>&policy_id=<%= data_removal_id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            <% } else { %>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="6">No results found.</td></tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%- include ('footer') %>

@@ -3,8 +3,8 @@ const db = require('../../utils/database');
 module.exports = class PrivacyTips {
     constructor(params) {
         this.id = params.pt_id,
-            this.tip = params.tip,
-            this.desc = params.description
+        this.tip = params.tip,
+        this.desc = params.description
     }
 
     static getPrivacyTipsFromId(id) {
