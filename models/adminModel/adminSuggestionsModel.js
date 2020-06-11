@@ -13,7 +13,4 @@ module.exports = class Suggestions {
             console.log(err);
         });
     }
-    
-
 };
-

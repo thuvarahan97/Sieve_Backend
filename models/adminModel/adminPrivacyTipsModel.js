@@ -2,7 +2,6 @@ const db = require('../../utils/database');
 
 module.exports = class PrivacyTips {
 
-
     static getAllData() {
         return new Promise((resolve) => {
             resolve(db.query("SELECT * FROM tbl_content A INNER JOIN tbl_privacy_tip B USING (content_id) WHERE A.deleted='false'"))
@@ -10,9 +9,7 @@ module.exports = class PrivacyTips {
             console.log(err);
         });
     }
-
-//updated 
-
+  
     static insert(input, admin_id) {
         return new Promise((resolve) => {
             db.transaction(function(done){
