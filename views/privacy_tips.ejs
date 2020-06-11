@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Privacy Tips Table
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/privacy_tips/add"><i class="fa fa-plus"></i></a>
                 </h4>
                 <div class="single-table">
                     <div class="table-responsive">
@@ -32,14 +32,15 @@
 
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit" ></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
-                                        </ul>
+                                            <li class="mr-3"><a href="/privacy_tips/edit?id=<%= result[i]['pt_id']; %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
+                                            <% id = result[i]['pt_id']; %>
+                                            <li><a onclick="return confirmDelete('/privacy_tips/delete?id=<%= id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            </ul>
                                     </td>
                                 </tr>
                                 <% } %>
                             <% } else { %>
-                                <tr style="text-align: center; padding: 100px;"><td colspan="5">No results found.</td></tr>
+                                <tr style="text-align: center; padding: 100px;"><td colspan="6">No results found.</td></tr>
                             <% } %>
                             </tbody>
                         </table>
