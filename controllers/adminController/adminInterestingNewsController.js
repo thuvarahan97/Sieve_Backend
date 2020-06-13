@@ -7,7 +7,7 @@ exports.viewAll = (req, res, next) => {
             resolve((InterestingNews.getAllData()));
         });
     };
-    fetchData().then((result)=>{
+    return fetchData().then((result)=>{
         res.status(200).render('interesting_news', { result: result });
     }).catch((err) => {
         if (err) {
@@ -17,7 +17,7 @@ exports.viewAll = (req, res, next) => {
 }
 
 exports.viewAddForm = (req, res, next) => {
-    res.render('interesting_news.add.ejs');
+    res.status(200).render('interesting_news.add.ejs');
 }
 
 exports.insert = (req, res, next) => {
@@ -27,18 +27,18 @@ exports.insert = (req, res, next) => {
     const admin_id = req.session.admin.id;
 
     if((title !== "") && (description !== "") && (link !== "")){
-        InterestingNews.insert(req.body, admin_id).then((result)=>{
+        return InterestingNews.insert(req.body, admin_id).then((result)=>{
             if (result == 'success') {
                 res.status(200).redirect('/interesting_news');
             }
             else {
-                res.status(404).render('interesting_news.add.ejs', {serverError: false, error: 'Unable to save data!'});
+                res.status(409).render('interesting_news.add.ejs', {serverError: false, error: 'Unable to save data!'});
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         })
     }else{
-        res.status(404).render('interesting_news.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(400).render('interesting_news.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
     }
 }
 
@@ -46,19 +46,19 @@ exports.viewEditForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        InterestingNews.fetch(id).then((result)=>{
+        return InterestingNews.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('interesting_news.edit.ejs', { result: result, id: id });
             }
             else {
-                res.status(404).redirect('/interesting_news');
+                res.status(204).redirect('/interesting_news');
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('/interesting_news');
+        res.status(400).redirect('/interesting_news');
     }
 }
 
@@ -69,28 +69,28 @@ exports.update = (req, res, next) => {
     const link = req.body.link;
 
     if((id != "") && (id != null)){
-        InterestingNews.fetch(id).then((results)=>{
+        return InterestingNews.fetch(id).then((results)=>{
             if((title !== "") && (description !== "") && (link !== "")){
-                InterestingNews.update(req.body).then((result)=>{
+                return InterestingNews.update(req.body).then((result)=>{
                     if (result != null) {
                         res.status(200).redirect('/interesting_news');
                     }
                     else {
-                        res.status(404).render('interesting_news.edit.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                        res.status(409).render('interesting_news.edit.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
                     }
                 }).catch(()=>{
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });
             }
             else{
-                res.status(404).render('interesting_news.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
+                res.status(400).render('interesting_news.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('/interesting_news');
+        res.status(400).redirect('/interesting_news');
     }
 }
 
@@ -98,18 +98,18 @@ exports.delete = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        InterestingNews.delete(id).then((result)=>{
+        return InterestingNews.delete(id).then((result)=>{
             if (result != null) {
-                res.status(404).redirect('/interesting_news');
+                res.status(200).redirect('/interesting_news');
             }
             else {
-                res.status(404).redirect('/interesting_news');
+                res.status(409).redirect('/interesting_news');
             }
         }).catch(()=>{
-            res.status(404).redirect('/interesting_news');
+            res.status(500).redirect('/interesting_news');
         });
     }
     else{
-        res.status(404).redirect('/interesting_news');
+        res.status(400).redirect('/interesting_news');
     }
 }

@@ -50,10 +50,12 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
+                            <% if (admin && admin.privilege_level == 1) { %>
                             <li>
                                 <a href="/categories" aria-expanded="true"><i
                                         class="fa fa-table"></i><span>categories</span></a>
                             </li>
+                            <% } %>
                             <li>
                                 <a href="/apps" aria-expanded="true"><i class="fa fa-table"></i><span>apps</span></a>
                             </li>

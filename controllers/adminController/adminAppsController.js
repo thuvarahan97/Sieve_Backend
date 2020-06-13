@@ -3,7 +3,7 @@ const Categories = require('../../models/adminModel/adminCategoriesModel');
 var createError = require('http-errors');
 
 exports.viewAll = (req, res, next) => {
-    Apps.getAllData().then((result)=>{
+    return Apps.getAllData().then((result)=>{
         res.status(200).render('apps', { result: result });
     }).catch((err) => {
         if (err) {
@@ -30,21 +30,21 @@ exports.insert = (req, res, next) => {
     const icon_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[0].filename;
     const bg_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[1].filename;
 
-    Categories.getAllData().then((categories)=>{
+    return Categories.getAllData().then((categories)=>{
         if((name !== "") && (description !== "") && (category_id != "") && (link !== "")){
-            Apps.insert(req.body, icon_link, bg_link).then((result)=>{
+            return Apps.insert(req.body, icon_link, bg_link).then((result)=>{
                 if (result == 'success') {
                     res.status(200).redirect('/apps');
                 }
                 else {
-                    res.status(404).render('apps.add.ejs', { serverError: false, error: 'Unable to add data!', categories: categories });
+                    res.status(409).render('apps.add.ejs', { serverError: false, error: 'Unable to add data!', categories: categories });
                 }
             }).catch(()=>{
                 res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
-            res.status(404).render('apps.add.ejs', { serverError: false, error: 'Input fields cannot be empty.', categories: categories });
+            res.status(400).render('apps.add.ejs', { serverError: false, error: 'Input fields cannot be empty.', categories: categories });
         }
     }).catch((err) => {
         if (err) {
@@ -57,19 +57,19 @@ exports.viewEditForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((result)=>{
+        return Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.ejs', { result: result });
             }
             else {
-                res.status(404).redirect('/apps');
+                res.status(204).redirect('/apps');
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('/apps');
+        res.status(400).redirect('/apps');
     }
 }
 
@@ -80,28 +80,28 @@ exports.update = (req, res, next) => {
     const link = req.body.link;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((results)=>{
+        return Apps.fetch(id).then((results)=>{
             if((name !== "") && (description !== "") && (link !== "")){
-                Apps.update(req.body).then((result)=>{
+                return Apps.update(req.body).then((result)=>{
                     if (result != null) {
                         res.status(200).redirect('/apps');
                     }
                     else {
-                        res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                        res.status(409).render('apps.edit.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
                     }
                 }).catch(()=>{
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });
             }
             else{
-                res.status(404).render('apps.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
+                res.status(400).render('apps.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('/apps');
+        res.status(400).redirect('/apps');
     }
 }
 
@@ -109,19 +109,19 @@ exports.delete = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.delete(id).then((result)=>{
+        return Apps.delete(id).then((result)=>{
             if (result != null) {
-                res.status(404).redirect('/apps');
+                res.status(200).redirect('/apps');
             }
             else {
-                res.status(404).redirect('/apps');
+                res.status(409).redirect('/apps');
             }
         }).catch(()=>{
-            res.status(404).redirect('/apps');
+            res.status(500).redirect('/apps');
         });
     }
     else{
-        res.status(404).redirect('/apps');
+        res.status(400).redirect('/apps');
     }
 }
 
@@ -134,14 +134,14 @@ exports.viewEditAppForm = (req, res, next) => {
                 res.status(200).render('apps.edit.app.ejs', { result: result });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -159,21 +159,21 @@ exports.updateApp = (req, res, next) => {
                         res.status(200).redirect('app?app_id=' + id);
                     }
                     else {
-                        res.status(404).render('apps.edit.app.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                        res.status(409).render('apps.edit.app.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
                     }
                 }).catch(()=>{
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });
             }
             else{
-                res.status(404).render('apps.edit.app.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
+                res.status(400).render('apps.edit.app.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -187,14 +187,14 @@ exports.viewEditAppCategoryForm = (req, res, next) => {
                     res.status(200).render('apps.edit.appcategory.ejs', { result: result, categories: categories });
                 }
                 else {
-                    res.status(404).redirect('app?app_id=' + id);
+                    res.status(204).redirect('app?app_id=' + id);
                 }
             }).catch(()=>{
                 res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(400).redirect('app?app_id=' + id);
         }
     }).catch((err) => {
         if (err) {
@@ -216,21 +216,21 @@ exports.updateAppCategory = (req, res, next) => {
                             res.status(200).redirect('app?app_id=' + id);
                         }
                         else {
-                            res.status(404).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results, categories: categories });
+                            res.status(409).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results, categories: categories });
                         }
                     }).catch(()=>{
                         res.status(500).render('error', { serverError: true, error: createError(500) });
                     });
                 }
                 else{
-                    res.status(404).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results, categories: categories });
+                    res.status(400).render('apps.edit.appcategory.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results, categories: categories });
                 }
             }).catch(()=>{
                 res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(400).redirect('app?app_id=' + id);
         }
     }).catch((err) => {
         if (err) {
@@ -255,7 +255,7 @@ exports.viewEditAppIconForm = (req, res, next) => {
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -271,21 +271,21 @@ exports.updateAppIcon = (req, res, next) => {
                         res.status(200).redirect('app?app_id=' + id);
                     }
                     else {
-                        res.status(404).render('apps.edit.appicon.ejs', { serverError: false, error: 'Unable to update icon!', id: id, result: results });
+                        res.status(409).render('apps.edit.appicon.ejs', { serverError: false, error: 'Unable to update icon!', id: id, result: results });
                     }
                 }).catch(()=>{
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });
             }
             else{
-                res.status(404).render('apps.edit.appicon.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
+                res.status(400).render('apps.edit.appicon.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -298,14 +298,14 @@ exports.viewEditAppBGForm = (req, res, next) => {
                 res.status(200).render('apps.edit.appbg.ejs', { result: result });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -321,21 +321,21 @@ exports.updateAppBG = (req, res, next) => {
                         res.status(200).redirect('app?app_id=' + id);
                     }
                     else {
-                        res.status(404).render('apps.edit.appbg.ejs', { serverError: false, error: 'Unable to update background image!', id: id, result: results });
+                        res.status(409).render('apps.edit.appbg.ejs', { serverError: false, error: 'Unable to update background image!', id: id, result: results });
                     }
                 }).catch(()=>{
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });
             }
             else{
-                res.status(404).render('apps.edit.appbg.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
+                res.status(400).render('apps.edit.appbg.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, result: results });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -348,14 +348,14 @@ exports.viewAddAppContactsForm = (req, res, next) => {
                 res.status(200).render('apps.add.appcontacts.ejs', { result: result });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -370,14 +370,14 @@ exports.insertAppContacts = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + req.body.id);
             }
             else {
-                res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to add data!', result: [{app_id: req.body.id}] });
+                res.status(409).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to add data!', result: [{app_id: req.body.id}] });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', result: [{app_id: req.body.id}] });
+        res.status(400).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', result: [{app_id: req.body.id}] });
     }
 }
 
@@ -390,14 +390,14 @@ exports.viewEditAppContactsForm = (req, res, next) => {
                 res.status(200).render('apps.edit.appcontacts.ejs', { result: result });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -415,21 +415,21 @@ exports.updateAppContacts = (req, res, next) => {
                         res.status(200).redirect('app?app_id=' + id);
                     }
                     else {
-                        res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
+                        res.status(409).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to update data!', id: id, result: results });
                     }
                 }).catch(()=>{
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });
             }
             else{
-                res.status(404).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id, result: results });
+                res.status(400).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id, result: results });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -442,14 +442,14 @@ exports.deleteAppContacts = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + id);
             }
             else {
-                res.status(200).redirect('app?app_id=' + id);
+                res.status(409).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(200).redirect('app?app_id=' + id);
+            res.status(500).redirect('app?app_id=' + id);
         });
     }
     else{
-        res.status(200).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -463,14 +463,14 @@ exports.viewAddAppDataTypesForm = (req, res, next) => {
                     res.status(200).render('apps.add.appdatatypes.ejs', { id: id, datatypes: datatypes });
                 }
                 else {
-                    res.status(404).redirect('app?app_id=' + id);
+                    res.status(204).redirect('app?app_id=' + id);
                 }
             }).catch(()=>{
                 res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
-            res.status(404).redirect('app?app_id=' + id);
+            res.status(400).redirect('app?app_id=' + id);
         }
     }).catch((err) => {
         if (err) {
@@ -490,14 +490,14 @@ exports.insertAppDataTypes = (req, res, next) => {
                     res.status(200).redirect('app?app_id=' + id);
                 }
                 else {
-                    res.status(404).render('apps.add.appdatatypes.ejs', { serverError: false, error: 'Unable to add data!', id: id, datatypes: datatypes });
+                    res.status(409).render('apps.add.appdatatypes.ejs', { serverError: false, error: 'Unable to add data!', id: id, datatypes: datatypes });
                 }
             }).catch(()=>{
                 res.status(500).render('error', { serverError: true, error: createError(500) });
             });
         }
         else{
-            res.status(404).render('apps.add.appdatatypes.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id, datatypes: datatypes });
+            res.status(400).render('apps.add.appdatatypes.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id, datatypes: datatypes });
         }
     }).catch((err) => {
         if (err) {
@@ -516,14 +516,14 @@ exports.deleteAppDataTypes = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + id);
             }
             else {
-                res.status(200).redirect('app?app_id=' + id);
+                res.status(409).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(200).redirect('app?app_id=' + id);
         });
     }
     else{
-        res.status(200).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -536,14 +536,14 @@ exports.viewAddAppDataUsagePolicyForm = (req, res, next) => {
                 res.status(200).render('apps.add.appdatausagepolicy.ejs', { id: id });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -557,14 +557,14 @@ exports.insertAppDataUsagePolicy = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + id);
             }
             else {
-                res.status(404).render('apps.add.appdatausagepolicy.ejs', { serverError: false, error: 'Unable to add data!', id: id });
+                res.status(409).render('apps.add.appdatausagepolicy.ejs', { serverError: false, error: 'Unable to add data!', id: id });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.add.appdatausagepolicy.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id });
+        res.status(400).render('apps.add.appdatausagepolicy.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id });
     }
 }
 
@@ -578,14 +578,14 @@ exports.viewEditAppDataUsagePolicyForm = (req, res, next) => {
                 res.status(200).render('apps.edit.appdatausagepolicy.ejs', { id: id, policy_id: policy_id, result: result });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -603,24 +603,24 @@ exports.updateAppDataUsagePolicy = (req, res, next) => {
                             res.status(200).redirect('app?app_id=' + id);
                         }
                         else {
-                            res.status(404).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: results });
+                            res.status(409).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: results });
                         }
                     }).catch(()=>{
                         res.status(500).render('error', { serverError: true, error: createError(500) });
                     });
                 }
                 else{
-                    res.status(404).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: results });
+                    res.status(400).render('apps.edit.appdatausagepolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: results });
                 }
             } else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -634,14 +634,14 @@ exports.deleteAppDataUsagePolicy = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + id);
             }
             else {
-                res.status(200).redirect('app?app_id=' + id);
+                res.status(409).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(200).redirect('app?app_id=' + id);
+            res.status(500).redirect('app?app_id=' + id);
         });
     }
     else{
-        res.status(200).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -654,14 +654,14 @@ exports.viewAddAppDataRemovalPolicyForm = (req, res, next) => {
                 res.status(200).render('apps.add.appdataremovalpolicy.ejs', { id: id });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -675,14 +675,14 @@ exports.insertAppDataRemovalPolicy = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + id);
             }
             else {
-                res.status(404).render('apps.add.appdataremovalpolicy.ejs', { serverError: false, error: 'Unable to add data!', id: id });
+                res.status(409).render('apps.add.appdataremovalpolicy.ejs', { serverError: false, error: 'Unable to add data!', id: id });
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).render('apps.add.appdataremovalpolicy.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id });
+        res.status(400).render('apps.add.appdataremovalpolicy.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id });
     }
 }
 
@@ -696,14 +696,14 @@ exports.viewEditAppDataRemovalPolicyForm = (req, res, next) => {
                 res.status(200).render('apps.edit.appdataremovalpolicy.ejs', { id: id, policy_id: policy_id, result: result });
             }
             else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -721,24 +721,24 @@ exports.updateAppDataRemovalPolicy = (req, res, next) => {
                             res.status(200).redirect('app?app_id=' + id);
                         }
                         else {
-                            res.status(404).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: results });
+                            res.status(409).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Unable to update data!', id: id, policy_id: policy_id, result: results });
                         }
                     }).catch(()=>{
                         res.status(500).render('error', { serverError: true, error: createError(500) });
                     });
                 }
                 else{
-                    res.status(404).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: results });
+                    res.status(400).render('apps.edit.appdataremovalpolicy.ejs', { serverError: false, error: 'Input fields cannot be empty.', id: id, policy_id: policy_id, result: results });
                 }
             } else {
-                res.status(404).redirect('app?app_id=' + id);
+                res.status(204).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
             res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(404).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -752,14 +752,14 @@ exports.deleteAppDataRemovalPolicy = (req, res, next) => {
                 res.status(200).redirect('app?app_id=' + id);
             }
             else {
-                res.status(200).redirect('app?app_id=' + id);
+                res.status(409).redirect('app?app_id=' + id);
             }
         }).catch(()=>{
-            res.status(200).redirect('app?app_id=' + id);
+            res.status(500).redirect('app?app_id=' + id);
         });
     }
     else{
-        res.status(200).redirect('app?app_id=' + id);
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 

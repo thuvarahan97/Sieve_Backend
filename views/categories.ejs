@@ -31,7 +31,11 @@
                                         <ul class="d-flex justify-content-center">
                                             <li class="mr-3"><a href="/categories/edit?id=<%= result[i]['category_id']; %>" class="text-secondary"><i class="fa fa-edit"></i></a></li>
                                             <% id = result[i]['category_id']; %>
+                                            <% if (result[i]['app_count'] > 0) { %>
                                             <li><a onclick="return confirmDelete('/categories/delete?id=<%= id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% } else { %>
+                                                <li><a class="text-secondary" style="pointer-events: none;"><i class="ti-trash"></i></a></li>
+                                            <% } %>
                                         </ul>
                                     </td>
                                 </tr>

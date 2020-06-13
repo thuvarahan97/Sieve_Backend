@@ -83,8 +83,8 @@ app.use(function (req, res, next){
 });
 
 app.use(function (req, res, next) {
-  if (req.session.admin && req.session.admin.privilege_level == "0" && req.url == '/admins/') {
-    res.redirect('/categories');
+  if (req.session.admin && req.session.admin.privilege_level == "0" && (req.url == '/admins/' || req.url == '/categories/')) {
+    res.redirect('/apps');
     return;
   }
   next();
@@ -135,7 +135,8 @@ app.use(function (req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = err;
 
   // render the error page
   res.status(err.status || 500);

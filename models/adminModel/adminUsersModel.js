@@ -10,9 +10,17 @@ module.exports = class Users {
         });
     }
 
-    static delete(id) {
+    static blockUser(id) {
         return new Promise((resolve) => {
-            resolve(db.query("DELETE FROM tbl_common_user WHERE common_user_id = ?", [id]));
+            resolve(db.query("UPDATE tbl_common_user SET permitted = ? WHERE common_user_id = ?", ['no', id]));
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static unblockUser(id) {
+        return new Promise((resolve) => {
+            resolve(db.query("UPDATE tbl_common_user SET permitted = ? WHERE common_user_id = ?", ['yes', id]));
         }).catch((err) => {
             console.log(err);
         });

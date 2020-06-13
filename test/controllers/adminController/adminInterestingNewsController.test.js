@@ -1,19 +1,13 @@
 const sinon = require("sinon");
 var chai = require('chai');
 var expect = chai.expect;
-const Model = require("../../../models/adminModel/adminCategoriesModel");
-const controller = require("../../../controllers/adminController/adminCategoriesController");
+const Model = require("../../../models/adminModel/adminInterestingNewsModel");
+const Admin = require("../../../models/adminModel/adminModel");
+const controller = require("../../../controllers/adminController/adminInterestingNewsController");
 
-describe('Test Categories Controller - viewAll', function() {
+describe('Test InterestingNews Controller - viewAll', function() {
     it('viewAll', function() {
-        const validReqObj = {
-            // body: {
-
-            // },
-            // query: {
-
-            // }
-        };
+        const validReqObj = {};
 
         const mock = sinon.mock(Model);
         mock.expects("getAllData")
@@ -38,29 +32,31 @@ describe('Test Categories Controller - viewAll', function() {
 });
 
 
-describe('Test Categories Controller - insert', function() {
+describe('Test InterestingNews Controller - insert', function() {
     it('insert', function() {
         const validReqObj = {
             body: {
-                name: "Test 1",
-                icon: "abcd"
+                title: "Test 1",
+                description: "abcd",
+                link: "www.abc.lk"
             },
-            // query: {
-                
-            // }
+            session: {
+                admin: new Admin({admin_id: 1, email: "abc@gmail.com", privilege_level: "1"})
+            }
         };
 
         const mock = sinon.mock(Model);
-        mock.expects("insert").withArgs(validReqObj.body)
-            .resolves(validReqObj.body);
+        mock.expects("insert").withArgs(validReqObj.body, validReqObj.session.admin.id)
+            .resolves(validReqObj.body, validReqObj.session.admin.id);
 
         const validRes = {
             status: function(statusCode) {
-                sinon.assert.match(statusCode, 200);
+                sinon.assert.match(statusCode, 500);
 
                 return {
                     status: sinon.stub(),
-                    redirect: sinon.spy()
+                    redirect: sinon.spy(),
+                    render: sinon.spy()
                 };
             }
         };
@@ -73,12 +69,9 @@ describe('Test Categories Controller - insert', function() {
 });
 
 
-describe('Test Categories Controller - viewEditForm', function() {
+describe('Test InterestingNews Controller - viewEditForm', function() {
     it('viewEditForm', function() {
         const validReqObj = {
-            // body: {
-
-            // },
             query: {
                 id: "1"
             }
@@ -107,13 +100,14 @@ describe('Test Categories Controller - viewEditForm', function() {
 });
 
 
-describe('Test Categories Controller - update', function() {
+describe('Test InterestingNews Controller - update', function() {
     it('update', function() {
         const validReqObj = {
             body: {
                 id: "1",
-                name: "Test 1",
-                icon: "abcd"
+                title: "Test 1",
+                description: "abcd",
+                link: "www.abc.lk"
             },
             query: {
                 id: "1"
@@ -143,12 +137,9 @@ describe('Test Categories Controller - update', function() {
 });
 
 
-describe('Test Categories Controller - delete', function() {
+describe('Test InterestingNews Controller - delete', function() {
     it('delete', function() {
         const validReqObj = {
-            // body: {
-
-            // },
             query: {
                 id: "1"
             }
