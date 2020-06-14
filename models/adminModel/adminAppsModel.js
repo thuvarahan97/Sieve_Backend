@@ -4,7 +4,7 @@ module.exports = class Apps {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT A.*, C.category_name AS app_category FROM tbl_application A INNER JOIN tbl_app_category B ON A.app_id = B.app_id INNER JOIN tbl_category C ON B.category_id = C.category_id"))
+            resolve(db.query("SELECT A.*, C.category_name AS app_category, type_count, usage_count, removal_count, officer_count FROM tbl_application A INNER JOIN tbl_app_category B ON A.app_id = B.app_id INNER JOIN tbl_category C ON B.category_id = C.category_id LEFT OUTER JOIN (SELECT COUNT(app_id) AS type_count, app_id FROM tbl_app_data_type GROUP BY app_id) D ON A.app_id = D.app_id LEFT OUTER JOIN (SELECT COUNT(app_id) AS usage_count, app_id FROM tbl_app_data_usage GROUP BY app_id) E ON A.app_id = E.app_id LEFT OUTER JOIN (SELECT COUNT(app_id) AS removal_count, app_id FROM tbl_app_data_removal GROUP BY app_id) F ON A.app_id = F.app_id LEFT OUTER JOIN (SELECT COUNT(app_id) AS officer_count, app_id FROM tbl_app_officer GROUP BY app_id) G ON A.app_id = G.app_id"))
         }).catch((err) => {
             console.log(err);
         });

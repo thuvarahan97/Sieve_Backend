@@ -84,6 +84,12 @@
                                 <a href="/suggestions" aria-expanded="true"><i
                                         class="fa fa-table"></i><span>suggestions</span></a>
                             </li>
+                            <% if (admin && admin.privilege_level == 1) { %>
+                            <li>
+                                <a href="/datatypes" aria-expanded="true"><i
+                                        class="fa fa-table"></i><span>data types</span></a>
+                            </li>
+                            <% } %>
                         </ul>
                     </nav>
                 </div>
