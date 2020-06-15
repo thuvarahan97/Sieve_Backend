@@ -3,15 +3,15 @@ const adminController = require('../../controllers/adminController/adminControll
 const router = express.Router();
 
 router.get('/', function(req, res, next) {
-    res.render('admin-login.ejs');
+    res.status(200).render('admin-login.ejs');
 });
 
 router.get('/login', function(req, res, next) {
-    res.render('admin-login.ejs');
+    res.status(200).render('admin-login.ejs');
 });
 
 router.get('/signup', function(req, res, next) {
-    res.render('admin-signup.ejs');
+    res.status(200).render('admin-signup.ejs');
 });
 
 router.get('/logout', adminController.admin_logout);

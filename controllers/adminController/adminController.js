@@ -7,22 +7,22 @@ exports.admin_login = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password
     
-    Admin.getAdminFromEmail(email).then((result) => {
+    return Admin.getAdminFromEmail(email).then((result) => {
         if (result) {
             if (hashFunctions.checkHash(password, result.password)) {
                 if (result.permitted == 'yes') {
                     req.session.loggedin = true;
                     req.session.admin = result.admin;
-                    res.redirect('/categories');
+                    res.status(200).redirect('/categories');
                 } else {
-                    res.status(404).render('admin-login', { serverError: false, error: 'Access denied!' });
+                    res.status(401).render('admin-login', { serverError: false, error: 'Access denied!' });
                 }
             }
             else {
-                res.status(404).render('admin-login', { serverError: false, error: 'Incorrect Password' });
+                res.status(401).render('admin-login', { serverError: false, error: 'Incorrect Password' });
             }
         } else {
-            res.status(404).render('admin-login', { serverError: false, error: 'Incorrect Email' });
+            res.status(401).render('admin-login', { serverError: false, error: 'Incorrect Email' });
         }
     }).catch((err) => {
         if (err) {
@@ -39,36 +39,36 @@ exports.admin_signup = (req, res, next) => {
     if(validation.emailValidation(email)){
         if (validation.passwordValidation(password)) {
             if (password === confirmPassword) {
-                Admin.checkEmailAvailability(email).then(count => {
+                return Admin.checkEmailAvailability(email).then(count => {
                     if (count == 0) {
-                        Admin.insert(req.body).then(() => {
+                        return Admin.insert(req.body).then(() => {
                             res.status(200).render('admin-signup', { success: true });
                         }).catch(() => {
                             res.status(500).render('error', { serverError: true, error: createError(500) });
                         });
                     }
                     else {
-                        res.status(404).render('admin-signup', { serverError: false, error: 'Email already exists!' });
+                        res.status(409).render('admin-signup', { serverError: false, error: 'Email already exists!' });
                     }
                 }).catch(() => {
                     res.status(500).render('error', { serverError: true, error: createError(500) });
                 });;
             }
             else {
-                res.status(404).render('admin-signup', { serverError: false, error: 'Passwords do not match!' });
+                res.status(401).render('admin-signup', { serverError: false, error: 'Passwords do not match!' });
             }
         }
         else {
-            res.status(404).render('admin-signup', { serverError: false, error: 'Invalid Password' });
+            res.status(401).render('admin-signup', { serverError: false, error: 'Invalid Password' });
         }
     }
     else {
-        res.status(404).render('admin-signup', { serverError: false, error: 'Invalid Email' });
+        res.status(401).render('admin-signup', { serverError: false, error: 'Invalid Email' });
     }
 }
 
 exports.admin_logout = function(req, res){
     req.session.destroy(function(err) {
-       res.redirect("/login");
+       res.status(200).redirect("/login");
     });
 };
