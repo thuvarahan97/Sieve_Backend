@@ -31,17 +31,19 @@ describe('Test Users Controller - viewAll', function() {
 });
 
 
-describe('Test Users Controller - delete', function() {
-    it('delete', function() {
+describe('Test Users Controller - blockUser', function() {
+    it('blockUser', function() {
         const validReqObj = {
             query: {
                 id: "1"
             }
         };
 
+        const resultObj = {};
+
         const mock = sinon.mock(Model);
-        mock.expects("delete").withArgs(validReqObj.query.id)
-            .resolves(validReqObj.query.id);
+        mock.expects("blockUser").withArgs(validReqObj.query.id)
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {
@@ -54,7 +56,40 @@ describe('Test Users Controller - delete', function() {
             }
         };
 
-        return controller.delete(validReqObj, validRes).then(function() {
+        return controller.blockUser(validReqObj, validRes).then(function() {
+            mock.restore();
+            mock.verify();
+        });
+    });
+});
+
+
+describe('Test Users Controller - unblockUser', function() {
+    it('unblockUser', function() {
+        const validReqObj = {
+            query: {
+                id: "1"
+            }
+        };
+
+        const resultObj = {};
+
+        const mock = sinon.mock(Model);
+        mock.expects("unblockUser").withArgs(validReqObj.query.id)
+            .resolves(resultObj);
+
+        const validRes = {
+            status: function(statusCode) {
+                sinon.assert.match(statusCode, 200);
+
+                return {
+                    status: sinon.stub(),
+                    redirect: sinon.spy()
+                };
+            }
+        };
+
+        return controller.unblockUser(validReqObj, validRes).then(function() {
             mock.restore();
             mock.verify();
         });

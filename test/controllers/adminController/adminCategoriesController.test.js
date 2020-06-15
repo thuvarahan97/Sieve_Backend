@@ -44,15 +44,14 @@ describe('Test Categories Controller - insert', function() {
             body: {
                 name: "Test 1",
                 icon: "abcd"
-            },
-            // query: {
-                
-            // }
+            }
         };
+
+        const resultObj = {};
 
         const mock = sinon.mock(Model);
         mock.expects("insert").withArgs(validReqObj.body)
-            .resolves(validReqObj.body);
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {
@@ -76,17 +75,21 @@ describe('Test Categories Controller - insert', function() {
 describe('Test Categories Controller - viewEditForm', function() {
     it('viewEditForm', function() {
         const validReqObj = {
-            // body: {
-
-            // },
             query: {
                 id: "1"
             }
         };
 
+        const resultObj = [
+            {
+                id: 1,
+                name: "test 1"
+            }
+        ];
+
         const mock = sinon.mock(Model);
         mock.expects("fetch").withArgs(validReqObj.query.id)
-            .resolves(validReqObj.query.id);
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {
@@ -120,9 +123,11 @@ describe('Test Categories Controller - update', function() {
             }
         };
 
+        const resultObj = {};
+
         const mock = sinon.mock(Model);
         mock.expects("update").withArgs(validReqObj.body)
-            .resolves(validReqObj.body);
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {
@@ -146,17 +151,16 @@ describe('Test Categories Controller - update', function() {
 describe('Test Categories Controller - delete', function() {
     it('delete', function() {
         const validReqObj = {
-            // body: {
-
-            // },
             query: {
                 id: "1"
             }
         };
 
+        const resultObj = {};
+
         const mock = sinon.mock(Model);
         mock.expects("delete").withArgs(validReqObj.query.id)
-            .resolves(validReqObj.query.id);
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {

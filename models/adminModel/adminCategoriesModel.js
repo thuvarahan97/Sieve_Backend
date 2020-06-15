@@ -9,7 +9,7 @@ module.exports = class Categories {
 
     static getAllData() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT * FROM tbl_category A LEFT OUTER JOIN (SELECT COUNT(app_id) AS app_count, category_id FROM tbl_app_category) B USING (category_id) GROUP BY (A.category_id)"));
+            resolve(db.query("SELECT * FROM tbl_category A LEFT OUTER JOIN (SELECT COUNT(app_id) AS app_count, category_id FROM tbl_app_category GROUP BY (category_id)) B USING (category_id)"));
         }).catch((err) => {
             console.log(err);
         });

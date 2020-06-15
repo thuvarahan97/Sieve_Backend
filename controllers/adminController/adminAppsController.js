@@ -13,7 +13,7 @@ exports.viewAll = (req, res, next) => {
 }
 
 exports.viewAddForm = (req, res, next) => {
-    Categories.getAllData().then((categories)=>{
+    return Categories.getAllData().then((categories)=>{
         res.status(200).render('apps.add.ejs', { categories: categories });
     }).catch((err) => {
         if (err) {
@@ -129,7 +129,7 @@ exports.viewEditAppForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((result)=>{
+        return Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.app.ejs', { result: result });
             }
@@ -152,7 +152,7 @@ exports.updateApp = (req, res, next) => {
     const link = req.body.link;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((results)=>{
+        return Apps.fetch(id).then((results)=>{
             if((name !== "") && (description !== "") && (link !== "")){
                 Apps.update(req.body).then((result)=>{
                     if (result != null) {
@@ -180,9 +180,9 @@ exports.updateApp = (req, res, next) => {
 exports.viewEditAppCategoryForm = (req, res, next) => {
     const id = req.query.id;
 
-    Categories.getAllData().then((categories)=>{
+    return Categories.getAllData().then((categories)=>{
         if((id != "") && (id != null)){
-            Apps.fetchAppCategory(id).then((result)=>{
+            return Apps.fetchAppCategory(id).then((result)=>{
                 if (result.length > 0) {
                     res.status(200).render('apps.edit.appcategory.ejs', { result: result, categories: categories });
                 }
@@ -207,11 +207,11 @@ exports.updateAppCategory = (req, res, next) => {
     const id = req.query.id;
     const category_id = req.body.category_id;
 
-    Categories.getAllData().then((categories)=>{
+    return Categories.getAllData().then((categories)=>{
         if((id != "") && (id != null)){
-            Apps.fetchAppCategory(id).then((results)=>{
+            return Apps.fetchAppCategory(id).then((results)=>{
                 if(category_id !== ""){
-                    Apps.updateAppCategory(req.body).then((result)=>{
+                    return Apps.updateAppCategory(req.body).then((result)=>{
                         if (result != null) {
                             res.status(200).redirect('app?app_id=' + id);
                         }
@@ -243,7 +243,7 @@ exports.viewEditAppIconForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((result)=>{
+        return Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.appicon.ejs', { result: result });
             }
@@ -264,9 +264,9 @@ exports.updateAppIcon = (req, res, next) => {
     const icon_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[0].filename;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((results)=>{
+        return Apps.fetch(id).then((results)=>{
             if((req.files[0].filename !== "")){
-                Apps.updateAppIcon(req.body, icon_link).then((result)=>{
+                return Apps.updateAppIcon(req.body, icon_link).then((result)=>{
                     if (result != null) {
                         res.status(200).redirect('app?app_id=' + id);
                     }
@@ -293,7 +293,7 @@ exports.viewEditAppBGForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((result)=>{
+        return Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.appbg.ejs', { result: result });
             }
@@ -314,9 +314,9 @@ exports.updateAppBG = (req, res, next) => {
     const bg_link = req.protocol + '://' + req.get('host') + '/images/uploads/' + req.files[0].filename;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((results)=>{
+        return Apps.fetch(id).then((results)=>{
             if((req.files[0].filename !== "")){
-                Apps.updateAppBG(req.body, bg_link).then((result)=>{
+                return Apps.updateAppBG(req.body, bg_link).then((result)=>{
                     if (result != null) {
                         res.status(200).redirect('app?app_id=' + id);
                     }
@@ -343,7 +343,7 @@ exports.viewAddAppContactsForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((result)=>{
+        return Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.add.appcontacts.ejs', { result: result });
             }
@@ -360,24 +360,32 @@ exports.viewAddAppContactsForm = (req, res, next) => {
 }
 
 exports.insertAppContacts = (req, res, next) => {
+    const id = req.query.id;
     const contact_link = req.body.contact_link;
     const email_address = req.body.email_address;
     const first_line = req.body.first_line;
 
-    if((contact_link !== "") || (email_address !== "") || (first_line !== "")){
-        Apps.insertAppContacts(req.body).then((result)=>{
-            if (result == 'success') {
-                res.status(200).redirect('app?app_id=' + req.body.id);
+    if((id != "") && (id != null)){
+        return Apps.fetch(id).then((results)=>{
+            if((contact_link !== "") || (email_address !== "") || (first_line !== "")){
+                return Apps.insertAppContacts(req.body).then((result)=>{
+                    if (result == 'success') {
+                        res.status(200).redirect('app?app_id=' + id);
+                    }
+                    else {
+                        res.status(409).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to add data!', id: id, result: results });
+                    }
+                }).catch(()=>{
+                    res.status(500).render('error', { serverError: true, error: createError(500) });
+                });
             }
-            else {
-                res.status(409).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Unable to add data!', result: [{app_id: req.body.id}] });
+            else{
+                res.status(400).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', id: id });
             }
-        }).catch(()=>{
-            res.status(500).render('error', { serverError: true, error: createError(500) });
         });
     }
     else{
-        res.status(400).render('apps.add.appcontacts.ejs', { serverError: false, error: 'Atleast one input field must not be empty.', result: [{app_id: req.body.id}] });
+        res.status(400).redirect('app?app_id=' + id);
     }
 }
 
@@ -385,7 +393,7 @@ exports.viewEditAppContactsForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetchAppContacts(id).then((result)=>{
+        return Apps.fetchAppContacts(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.appcontacts.ejs', { result: result });
             }
@@ -408,9 +416,9 @@ exports.updateAppContacts = (req, res, next) => {
     const first_line = req.body.first_line;
 
     if((id != "") && (id != null)){
-        Apps.fetchAppContacts(id).then((results)=>{
+        return Apps.fetchAppContacts(id).then((results)=>{
             if((contact_link !== "") || (email_address !== "") || (first_line !== "")){
-                Apps.updateAppContacts(req.body).then((result)=>{
+                return Apps.updateAppContacts(req.body).then((result)=>{
                     if (result != null) {
                         res.status(200).redirect('app?app_id=' + id);
                     }
@@ -437,7 +445,7 @@ exports.deleteAppContacts = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.deleteAppContacts(id).then((result)=>{
+        return Apps.deleteAppContacts(id).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('app?app_id=' + id);
             }
@@ -456,9 +464,9 @@ exports.deleteAppContacts = (req, res, next) => {
 exports.viewAddAppDataTypesForm = (req, res, next) => {
     const id = req.query.id;
 
-    Apps.fetchCommonDataTypes().then(datatypes => {
+    return Apps.fetchCommonDataTypes().then(datatypes => {
         if((id != "") && (id != null)){
-            Apps.fetch(id).then((result)=>{
+            return Apps.fetch(id).then((result)=>{
                 if (result.length > 0) {
                     res.status(200).render('apps.add.appdatatypes.ejs', { id: id, datatypes: datatypes });
                 }
@@ -483,9 +491,9 @@ exports.insertAppDataTypes = (req, res, next) => {
     const id = req.query.id;
     const data_type_id = req.body.data_type_id;
 
-    Apps.fetchCommonDataTypes().then(datatypes => {
+    return Apps.fetchCommonDataTypes().then(datatypes => {
         if((id != "") && (id != null) && (data_type_id !== "")){
-            Apps.insertAppDataTypes(req.body).then((result)=>{
+            return Apps.insertAppDataTypes(req.body).then((result)=>{
                 if (result != null) {
                     res.status(200).redirect('app?app_id=' + id);
                 }
@@ -511,7 +519,7 @@ exports.deleteAppDataTypes = (req, res, next) => {
     const data_type_id = req.query.data_type_id;
 
     if((id != "") && (id != null) && (data_type_id != "") && (data_type_id != null)){
-        Apps.deleteAppDataTypes(id, data_type_id).then((result)=>{
+        return Apps.deleteAppDataTypes(id, data_type_id).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('app?app_id=' + id);
             }
@@ -531,7 +539,7 @@ exports.viewAddAppDataUsagePolicyForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((result)=>{
+        return Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.add.appdatausagepolicy.ejs', { id: id });
             }
@@ -552,7 +560,7 @@ exports.insertAppDataUsagePolicy = (req, res, next) => {
     const policy = req.body.policy;
 
     if((id != "") && (id != null) && (policy !== "")){
-        Apps.insertAppDataUsagePolicy(req.body).then((result)=>{
+        return Apps.insertAppDataUsagePolicy(req.body).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('app?app_id=' + id);
             }
@@ -573,7 +581,7 @@ exports.viewEditAppDataUsagePolicyForm = (req, res, next) => {
     const policy_id = req.query.policy_id;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.fetchAppDataUsagePolicy(id, policy_id).then((result)=>{
+        return Apps.fetchAppDataUsagePolicy(id, policy_id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.appdatausagepolicy.ejs', { id: id, policy_id: policy_id, result: result });
             }
@@ -595,10 +603,10 @@ exports.updateAppDataUsagePolicy = (req, res, next) => {
     const policy = req.body.policy;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.fetchAppDataUsagePolicy(id, policy_id).then((results)=>{
+        return Apps.fetchAppDataUsagePolicy(id, policy_id).then((results)=>{
             if (results.length > 0) {
                 if((policy != "") && (policy != null)){
-                    Apps.updateAppDataUsagePolicy(req.body).then((result)=>{
+                    return Apps.updateAppDataUsagePolicy(req.body).then((result)=>{
                         if (result != null) {
                             res.status(200).redirect('app?app_id=' + id);
                         }
@@ -629,7 +637,7 @@ exports.deleteAppDataUsagePolicy = (req, res, next) => {
     const policy_id = req.query.policy_id;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.deleteAppDataUsagePolicy(policy_id).then((result)=>{
+        return Apps.deleteAppDataUsagePolicy(policy_id).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('app?app_id=' + id);
             }
@@ -649,7 +657,7 @@ exports.viewAddAppDataRemovalPolicyForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        Apps.fetch(id).then((result)=>{
+        return Apps.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.add.appdataremovalpolicy.ejs', { id: id });
             }
@@ -670,7 +678,7 @@ exports.insertAppDataRemovalPolicy = (req, res, next) => {
     const policy = req.body.policy;
 
     if((id != "") && (id != null) && (policy !== "")){
-        Apps.insertAppDataRemovalPolicy(req.body).then((result)=>{
+        return Apps.insertAppDataRemovalPolicy(req.body).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('app?app_id=' + id);
             }
@@ -691,7 +699,7 @@ exports.viewEditAppDataRemovalPolicyForm = (req, res, next) => {
     const policy_id = req.query.policy_id;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.fetchAppDataRemovalPolicy(id, policy_id).then((result)=>{
+        return Apps.fetchAppDataRemovalPolicy(id, policy_id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('apps.edit.appdataremovalpolicy.ejs', { id: id, policy_id: policy_id, result: result });
             }
@@ -713,10 +721,10 @@ exports.updateAppDataRemovalPolicy = (req, res, next) => {
     const policy = req.body.policy;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.fetchAppDataRemovalPolicy(id, policy_id).then((results)=>{
+        return Apps.fetchAppDataRemovalPolicy(id, policy_id).then((results)=>{
             if (results.length > 0) {
                 if((policy != "") && (policy != null)){
-                    Apps.updateAppDataRemovalPolicy(req.body).then((result)=>{
+                    return Apps.updateAppDataRemovalPolicy(req.body).then((result)=>{
                         if (result != null) {
                             res.status(200).redirect('app?app_id=' + id);
                         }
@@ -747,7 +755,7 @@ exports.deleteAppDataRemovalPolicy = (req, res, next) => {
     const policy_id = req.query.policy_id;
 
     if((id != "") && (id != null) && (policy_id != "") && (policy_id != null)){
-        Apps.deleteAppDataRemovalPolicy(policy_id).then((result)=>{
+        return Apps.deleteAppDataRemovalPolicy(policy_id).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('app?app_id=' + id);
             }
@@ -797,12 +805,12 @@ exports.viewApp = (req, res, next) => {
         });
     };
 
-    fetchAppData().then((content) => {
+    return fetchAppData().then((content) => {
         if (content.length > 0) {
-            fetchDataTypes().then((types) => {
-                fetchDataUsage().then((usages) => {
-                    fetchDataRemoval().then((removals) => {
-                        fetchContacts().then((contacts) => {
+            return fetchDataTypes().then((types) => {
+                return fetchDataUsage().then((usages) => {
+                    return fetchDataRemoval().then((removals) => {
+                        return fetchContacts().then((contacts) => {
                             result = {
                                 content: content,
                                 types: types,

@@ -1,11 +1,10 @@
 const sinon = require("sinon");
 var chai = require('chai');
 var expect = chai.expect;
-const Model = require("../../../models/adminModel/adminInterestingNewsModel");
-const Admin = require("../../../models/adminModel/adminModel");
-const controller = require("../../../controllers/adminController/adminInterestingNewsController");
+const Model = require("../../../models/adminModel/adminDataTypesModel");
+const controller = require("../../../controllers/adminController/adminDataTypesController");
 
-describe('Test InterestingNews Controller - viewAll', function() {
+describe('Test Data Types Controller - viewAll', function() {
     it('viewAll', function() {
         const validReqObj = {};
 
@@ -32,22 +31,19 @@ describe('Test InterestingNews Controller - viewAll', function() {
 });
 
 
-describe('Test InterestingNews Controller - insert', function() {
+describe('Test Data Types Controller - insert', function() {
     it('insert', function() {
         const validReqObj = {
             body: {
-                title: "Test 1",
-                description: "abcd",
-                link: "www.abc.lk"
-            },
-            session: {
-                admin: new Admin({admin_id: 1, email: "abc@gmail.com", privilege_level: "1"})
+                name: "Test 1"
             }
         };
 
+        const resultObj = {};
+
         const mock = sinon.mock(Model);
-        mock.expects("insert").withArgs(validReqObj.body, validReqObj.session.admin.id)
-            .resolves('success');
+        mock.expects("insert").withArgs(validReqObj.body)
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {
@@ -55,8 +51,7 @@ describe('Test InterestingNews Controller - insert', function() {
 
                 return {
                     status: sinon.stub(),
-                    redirect: sinon.spy(),
-                    render: sinon.spy()
+                    redirect: sinon.spy()
                 };
             }
         };
@@ -69,7 +64,7 @@ describe('Test InterestingNews Controller - insert', function() {
 });
 
 
-describe('Test InterestingNews Controller - viewEditForm', function() {
+describe('Test Data Types Controller - viewEditForm', function() {
     it('viewEditForm', function() {
         const validReqObj = {
             query: {
@@ -107,14 +102,12 @@ describe('Test InterestingNews Controller - viewEditForm', function() {
 });
 
 
-describe('Test InterestingNews Controller - update', function() {
+describe('Test Data Types Controller - update', function() {
     it('update', function() {
         const validReqObj = {
             body: {
                 id: "1",
-                title: "Test 1",
-                description: "abcd",
-                link: "www.abc.lk"
+                name: "Test 1"
             },
             query: {
                 id: "1"
@@ -139,39 +132,6 @@ describe('Test InterestingNews Controller - update', function() {
         };
 
         return controller.update(validReqObj, validRes).then(function() {
-            mock.restore();
-            mock.verify();
-        });
-    });
-});
-
-
-describe('Test InterestingNews Controller - delete', function() {
-    it('delete', function() {
-        const validReqObj = {
-            query: {
-                id: "1"
-            }
-        };
-
-        const resultObj = {};
-
-        const mock = sinon.mock(Model);
-        mock.expects("delete").withArgs(validReqObj.query.id)
-            .resolves(resultObj);
-
-        const validRes = {
-            status: function(statusCode) {
-                sinon.assert.match(statusCode, 200);
-
-                return {
-                    status: sinon.stub(),
-                    redirect: sinon.spy()
-                };
-            }
-        };
-
-        return controller.delete(validReqObj, validRes).then(function() {
             mock.restore();
             mock.verify();
         });
