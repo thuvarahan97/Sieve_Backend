@@ -1,8 +1,8 @@
 const Categories = require('../../models/appModel/categoriesModel');
 
 exports.view_all = (req, res, next) => {
-    Categories.getAllCategories().then((categories)=>{
-        res.json({
+    return Categories.getAllCategories().then((categories)=>{
+        res.status(200).json({
             categories: categories
         });
     }).catch((err) => {
