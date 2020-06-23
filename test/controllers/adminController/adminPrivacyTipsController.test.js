@@ -3,6 +3,7 @@ var chai = require('chai');
 var expect = chai.expect;
 const Model = require("../../../models/adminModel/adminPrivacyTipsModel");
 const controller = require("../../../controllers/adminController/adminPrivacyTipsController");
+const Admin = require("../../../models/adminModel/adminModel");
 
 describe('Test Privacy_tips Controller - viewAll', function() {
     it('viewAll', function() {
@@ -38,43 +39,43 @@ describe('Test Privacy_tips Controller - viewAll', function() {
 });
 
 
-// describe('Test Privacy tips Controller - insert', function() {
-//     it('insert', function() {
-//         const validReqObj = {
-//             body: {
-//                 title: "Test 1",
-//                 description: "Description"
-//                 // link:"Link"
+describe('Test Privacy tips Controller - insert', function() {
+    it('insert', function() {
+        const validReqObj = {
+            body: {
+                title: "Test 1",
+                description: "Description"
+                // link:"Link"
                 
-//             },
-//             session: {
-//                 admin:{
-//                         id:1
-//                 }
-//             }
-//         };
+            },
+            session: {
+                admin:{
+                        id:1
+                }
+            }
+        };
 
-//         const mock = sinon.mock(Model);
-//         mock.expects("insert").withArgs(validReqObj.body,1)
-//             .resolves(validReqObj.body,1);
+        const mock = sinon.mock(Model);
+        mock.expects("insert").withArgs(validReqObj.body,1)
+            .resolves('success');
 
-//         const validRes = {
-//             status: function(statusCode) {
-//                 sinon.assert.match(statusCode, 200);
+        const validRes = {
+            status: function(statusCode) {
+                sinon.assert.match(statusCode, 200);
 
-//                 return {
-//                     status: sinon.stub(),
-//                     redirect: sinon.spy()
-//                 };
-//             }
-//         };
+                return {
+                    status: sinon.stub(),
+                    redirect: sinon.spy()
+                };
+            }
+        };
 
-//         return controller.insert(validReqObj, validRes).then(function() {
-//             mock.restore();
-//             mock.verify();
-//         });
-//     });
-// });
+        return controller.insert(validReqObj, validRes).then(function() {
+            mock.restore();
+            mock.verify();
+        });
+    });
+});
 
 
 describe('Test Privacy_tips Controller - viewEditForm', function() {

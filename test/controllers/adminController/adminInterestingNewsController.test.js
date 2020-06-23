@@ -1,21 +1,13 @@
 const sinon = require("sinon");
 var chai = require('chai');
 var expect = chai.expect;
-const Model = require("../../../models/adminModel/adminPrivacyLawsModel");
-const controller = require("../../../controllers/adminController/adminPrivacyLawsController");
-const { render } = require("ejs");
+const Model = require("../../../models/adminModel/adminInterestingNewsModel");
 const Admin = require("../../../models/adminModel/adminModel");
+const controller = require("../../../controllers/adminController/adminInterestingNewsController");
 
-describe('Test Privacy_law Controller - viewAll', function() {
+describe('Test InterestingNews Controller - viewAll', function() {
     it('viewAll', function() {
-        const validReqObj = {
-            // body: {
-
-            // },
-            // query: {
-
-            // }
-        };
+        const validReqObj = {};
 
         const mock = sinon.mock(Model);
         mock.expects("getAllData")
@@ -40,22 +32,21 @@ describe('Test Privacy_law Controller - viewAll', function() {
 });
 
 
-describe('Test Privacy Law Controller - insert', function() {
+describe('Test InterestingNews Controller - insert', function() {
     it('insert', function() {
         const validReqObj = {
             body: {
                 title: "Test 1",
-                description: "Description",
-                link:"Link"
-                
+                description: "abcd",
+                link: "www.abc.lk"
             },
             session: {
-                admin: new Admin({admin_id: 1, email: "meenusivarasan@gmail.com", privilege_level: "1"})
+                admin: new Admin({admin_id: 1, email: "abc@gmail.com", privilege_level: "1"})
             }
         };
 
         const mock = sinon.mock(Model);
-        mock.expects("insert").withArgs(validReqObj.body,validReqObj.session.admin.id)
+        mock.expects("insert").withArgs(validReqObj.body, validReqObj.session.admin.id)
             .resolves('success');
 
         const validRes = {
@@ -65,7 +56,7 @@ describe('Test Privacy Law Controller - insert', function() {
                 return {
                     status: sinon.stub(),
                     redirect: sinon.spy(),
-                    render:sinon.spy()
+                    render: sinon.spy()
                 };
             }
         };
@@ -78,20 +69,24 @@ describe('Test Privacy Law Controller - insert', function() {
 });
 
 
-describe('Test Privacy_law Controller - viewEditForm', function() {
+describe('Test InterestingNews Controller - viewEditForm', function() {
     it('viewEditForm', function() {
         const validReqObj = {
-            // body: {
-
-            // },
             query: {
                 id: "1"
             }
         };
 
+        const resultObj = [
+            {
+                id: 1,
+                name: "test 1"
+            }
+        ];
+
         const mock = sinon.mock(Model);
         mock.expects("fetch").withArgs(validReqObj.query.id)
-            .resolves(validReqObj.query.id);
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {
@@ -112,22 +107,25 @@ describe('Test Privacy_law Controller - viewEditForm', function() {
 });
 
 
-describe('Test Privacy_Law Controller - update', function() {
+describe('Test InterestingNews Controller - update', function() {
     it('update', function() {
         const validReqObj = {
             body: {
+                id: "1",
                 title: "Test 1",
-                description: "description",
-                link:"link"
+                description: "abcd",
+                link: "www.abc.lk"
             },
-            // query: {
-            //     id: "1"
-            // }
+            query: {
+                id: "1"
+            }
         };
+
+        const resultObj = {};
 
         const mock = sinon.mock(Model);
         mock.expects("update").withArgs(validReqObj.body)
-            .resolves(validReqObj.body);
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {
@@ -148,20 +146,19 @@ describe('Test Privacy_Law Controller - update', function() {
 });
 
 
-describe('Test Privacy_law Controller - delete', function() {
+describe('Test InterestingNews Controller - delete', function() {
     it('delete', function() {
         const validReqObj = {
-            // body: {
-
-            // },
             query: {
                 id: "1"
             }
         };
 
+        const resultObj = {};
+
         const mock = sinon.mock(Model);
         mock.expects("delete").withArgs(validReqObj.query.id)
-            .resolves(validReqObj.query.id);
+            .resolves(resultObj);
 
         const validRes = {
             status: function(statusCode) {

@@ -32,13 +32,13 @@ exports.insert=(req,res,next)=>{
                 res.status(200).redirect('/privacy_laws');
             }
             else {
-                res.status(404).render('privacy_laws.add.ejs', {serverError: false, error: 'Unable to save data!'});
+                res.status(409).render('privacy_laws.add.ejs', {serverError: false, error: 'Unable to save data!'});
             }
         }).catch(()=>{
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).json({ serverError: true, error: 'Database Connection Faliure!' })
         })
     }else{
-        res.status(404).render('privacy_laws.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(400).render('privacy_laws.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
     }
 }
 
