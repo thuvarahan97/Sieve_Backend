@@ -69,7 +69,7 @@
                                 <a href="/privacy_laws" aria-expanded="true"><i class="fa fa-table"></i><span>privacy
                                         laws</span></a>
                             </li>
-                            <% if (admin.privilege_level == 1) { %>
+                            <% if (admin && admin.privilege_level == 1) { %>
                             <li>
                                 <a href="/admins" aria-expanded="true"><i
                                         class="fa fa-table"></i><span>admins</span></a>
@@ -106,7 +106,7 @@
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
                             <img class="avatar user-thumb" src="images/author/avatar.png" alt="avatar">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%= admin.email; %> <i
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><% if (admin) { %><%= admin.email; %><% } %> <i
                                     class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <!-- <a class="dropdown-item" href="#">Settings</a> -->
