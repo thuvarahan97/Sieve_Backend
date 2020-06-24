@@ -6,7 +6,7 @@ exports.viewAll = (req, res, next) => {
                 resolve((PrivacyLaws.getAllData()));
             });
         };
-        fetchData().then((result)=>{
+        return fetchData().then((result)=>{
             res.status(200).render('privacy_laws', { result: result });
         }).catch((err) => {
             if (err) {
@@ -27,18 +27,18 @@ exports.insert=(req,res,next)=>{
     const admin_id = req.session.admin.id;
 
     if((title !== "") && (description !== "") && (link !== "")){
-        PrivacyLaws.insert(req.body, admin_id).then((result)=>{
+        return PrivacyLaws.insert(req.body, admin_id).then((result)=>{
             if (result == 'success') {
                 res.status(200).redirect('/privacy_laws');
             }
             else {
-                res.status(404).render('privacy_laws.add.ejs', {serverError: false, error: 'Unable to save data!'});
+                res.status(409).render('privacy_laws.add.ejs', {serverError: false, error: 'Unable to save data!'});
             }
         }).catch(()=>{
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
+            res.status(500).json({ serverError: true, error: 'Database Connection Faliure!' })
         })
     }else{
-        res.status(404).render('privacy_laws.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(400).render('privacy_laws.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
     }
 }
 
@@ -46,7 +46,7 @@ exports.viewEditForm = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        PrivacyLaws.fetch(id).then((result)=>{
+        return PrivacyLaws.fetch(id).then((result)=>{
             if (result.length > 0) {
                 res.status(200).render('privacy_laws.edit.ejs', { result: result });
             }
@@ -68,7 +68,7 @@ exports.update = (req, res, next) => {
     const link = req.body.link;
 
     if((title !== "") && (description !== "") && (link !== "")){
-        PrivacyLaws.update(req.body).then((result)=>{
+        return PrivacyLaws.update(req.body).then((result)=>{
             if (result != null) {
                 res.status(200).redirect('/privacy_laws');
             }
@@ -88,9 +88,9 @@ exports.delete = (req, res, next) => {
     const id = req.query.id;
 
     if((id != "") && (id != null)){
-        PrivacyLaws.delete(id).then((result)=>{
+        return PrivacyLaws.delete(id).then((result)=>{
             if (result != null) {
-                res.status(404).redirect('/privacy_laws');
+                res.status(200).redirect('/privacy_laws');
             }
             else {
                 res.status(404).redirect('/privacy_laws');

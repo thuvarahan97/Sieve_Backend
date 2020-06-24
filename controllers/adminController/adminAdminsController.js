@@ -8,7 +8,8 @@ exports.viewAll = (req, res, next) => {
             });
         };
         
-        fetchData().then((result)=>{
+        // fetchData().then((result)=>{
+            return fetchData().then((result)=>{
             res.status(200).render('admins', { result: result });
 
         }).catch((err) => {
@@ -21,9 +22,9 @@ exports.viewAll = (req, res, next) => {
         const id = req.query.id;
     
         if((id != "") && (id != null)){
-            Admins.update(id).then((result)=>{
+           return Admins.update(id).then((result)=>{
                 if (result != null) {
-                    res.status(404).redirect('/admins');
+                    res.status(200).redirect('/admins');
                 }
                 else {
                     res.status(404).redirect('/admins');
@@ -41,9 +42,9 @@ exports.viewAll = (req, res, next) => {
         const id = req.query.id;
     
         if((id != "") && (id != null)){
-            Admins.update_no(id).then((result)=>{
+            return Admins.update_no(id).then((result)=>{
                 if (result != null) {
-                    res.status(404).redirect('/admins');
+                    res.status(200).redirect('/admins');
                 }
                 else {
                     res.status(404).redirect('/admins');
