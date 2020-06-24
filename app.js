@@ -64,7 +64,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-User session redirection
+// User session redirection
 app.use(function (req, res, next){
   if (req.url.split("/")[1] !== 'app') {
     if (!req.session.loggedin) {
