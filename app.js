@@ -64,31 +64,31 @@ app.use(function (req, res, next) {
   next();
 });
 
-//User session redirection
-// app.use(function (req, res, next){
-//   if (req.url.split("/")[1] !== 'app') {
-//     if (!req.session.loggedin) {
-//       if (req.url != '/' && req.url != '/login' && req.url != '/signup') {
-//         res.redirect('/login');
-//         return;
-//       }
-//     } else {
-//       if (req.url == '/' || req.url == '/login' || req.url == '/signup' || req.url == '/login/' || req.url == '/signup/') {
-//         res.redirect('/categories');
-//         return;
-//       }
-//     }
-//   }
-//   next();
-// });
+User session redirection
+app.use(function (req, res, next){
+  if (req.url.split("/")[1] !== 'app') {
+    if (!req.session.loggedin) {
+      if (req.url != '/' && req.url != '/login' && req.url != '/signup') {
+        res.redirect('/login');
+        return;
+      }
+    } else {
+      if (req.url == '/' || req.url == '/login' || req.url == '/signup' || req.url == '/login/' || req.url == '/signup/') {
+        res.redirect('/categories');
+        return;
+      }
+    }
+  }
+  next();
+});
 
-// app.use(function (req, res, next) {
-//   if (req.session.admin && req.session.admin.privilege_level == "0" && req.url == '/admins/') {
-//     res.redirect('/categories');
-//     return;
-//   }
-//   next();
-// });
+app.use(function (req, res, next) {
+  if (req.session.admin && req.session.admin.privilege_level == "0" && req.url == '/admins/') {
+    res.redirect('/categories');
+    return;
+  }
+  next();
+});
 
 //Session Variables
 app.use(function (req, res, next) {
