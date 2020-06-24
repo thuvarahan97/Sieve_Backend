@@ -1,11 +1,12 @@
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require('../../../app');
+let url = require('../../../appURL');
 
 chai.should();
 chai.use(chaiHttp);
 
-var agent = chai.request.agent('http://localhost:8000');
+var agent = chai.request.agent(url.server);
 
 describe("adminDataTypes Route Test",()=>{
     it("It should perform user login",(done)=>{
