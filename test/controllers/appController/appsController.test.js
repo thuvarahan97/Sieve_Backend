@@ -34,7 +34,7 @@ describe('Test App - Apps Controller - view_all', function() {
     });
 });
 
-describe('Test App - Apps Controller - view_all', function() {
+describe('Test App - Apps Controller - view_all_search', function() {
     it('view_all_search', function() {
         const validReqObj = {};
 

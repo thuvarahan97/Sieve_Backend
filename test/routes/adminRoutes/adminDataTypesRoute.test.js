@@ -1,7 +1,7 @@
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require('../../../app');
-let url = require('../../../appURL');
+let url = require('../../appURL');
 
 chai.should();
 chai.use(chaiHttp);
@@ -13,8 +13,8 @@ describe("adminDataTypes Route Test",()=>{
         agent
             .post('/login')
             .send({ 
-                email: 'thuva@gmail.com',
-                password: 'Thuva@123' 
+                email: 'test@gmail.com',
+                password: 'Test@123' 
             })
             .end((err,res)=>{
                 res.should.have.status(200);
