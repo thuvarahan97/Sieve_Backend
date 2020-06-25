@@ -71,12 +71,12 @@ app.use(function (req, res, next){
   if (req.url.split("/")[1] !== 'app') {
     if (!req.session.loggedin) {
       if (req.url != '/' && req.url != '/login' && req.url != '/signup') {
-        res.redirect('/login');
+        res.status(302).redirect('/login');
         return;
       }
     } else {
       if (req.url == '/' || req.url == '/login' || req.url == '/signup' || req.url == '/login/' || req.url == '/signup/') {
-        res.redirect('/categories');
+        res.status(302).redirect('/categories');
         return;
       }
     }
@@ -86,7 +86,7 @@ app.use(function (req, res, next){
 
 app.use(function (req, res, next) {
   if (req.session.admin && req.session.admin.privilege_level == "0" && (req.url == '/admins/' || req.url == '/categories/' || req.url == '/datatypes/')) {
-    res.redirect('/apps');
+    res.status(302).redirect('/apps');
     return;
   }
   next();

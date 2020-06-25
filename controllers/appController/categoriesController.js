@@ -7,7 +7,7 @@ exports.view_all = (req, res, next) => {
         });
     }).catch((err) => {
         if (err) {
-            res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
+            res.status(500).json({ serverError: true, error: 'Database Connection Faliure!' });
         }
     });
 }

@@ -7,8 +7,8 @@ exports.viewAll = (req, res, next) => {
                 resolve((PrivacyTips.getAllData()));
             });
         };
-        fetchData().then((result)=>{
-            console.log(result);
+        return fetchData().then((result)=>{
+            // console.log(result);
             res.status(200).render('privacy_tips', { result: result });
         }).catch((err) => {
             if (err) {
@@ -29,7 +29,7 @@ exports.viewAll = (req, res, next) => {
         const admin_id = req.session.admin.id;
     
         if((title !== "") && (description !== "")){
-            PrivacyTips.insert(req.body, admin_id).then((result)=>{
+            return PrivacyTips.insert(req.body, admin_id).then((result)=>{
                 if (result == 'success') {
                     res.status(200).redirect('/privacy_tips');
                 }
@@ -48,7 +48,7 @@ exports.viewAll = (req, res, next) => {
         const id = req.query.id;
     
         if((id != "") && (id != null)){
-            PrivacyTips.fetch(id).then((result)=>{
+           return PrivacyTips.fetch(id).then((result)=>{
                 if (result.length > 0) {
                     res.status(200).render('privacy_tips.edit.ejs', { result: result });
                 }
@@ -69,7 +69,7 @@ exports.viewAll = (req, res, next) => {
         const description = req.body.description;
     
         if((title !== "") && (description !== "") ){
-            PrivacyTips.update(req.body).then((result)=>{
+            return PrivacyTips.update(req.body).then((result)=>{
                 if (result != null) {
                     res.status(200).redirect('/privacy_tips');
                 }
@@ -89,9 +89,9 @@ exports.viewAll = (req, res, next) => {
         const id = req.query.id;
     
         if((id != "") && (id != null)){
-            PrivacyTips.delete(id).then((result)=>{
+           return PrivacyTips.delete(id).then((result)=>{
                 if (result != null) {
-                    res.status(404).redirect('/privacy_tips');
+                    res.status(200).redirect('/privacy_tips');
                 }
                 else {
                     res.status(404).redirect('/privacy_tips');

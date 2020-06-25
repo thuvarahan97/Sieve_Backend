@@ -12,9 +12,9 @@
                     <% if (locals.error) { %>
                         <div class="alert alert-danger"><%= error %></div>
                     <% } %>
-                    <% if (locals.success) { %>
+                    <!-- <% if (locals.success) { %>
                         <div class="alert alert-success">Successfully Registered!</div>
-                    <% } %>
+                    <% } %> -->
                     <div class="login-form-body">
                         <div class="form-gp">
                             <label for="exampleInputEmail1">Email address</label>
@@ -55,4 +55,34 @@
     </div>
     <!-- login area end -->
 
+    <!-- Vertically centered modal start -->
+    <div class="col-lg-6 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="modal fade" id="successModalCenter">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <h2 id="success_heading" class="text-success">Success!</h2>
+                                <img src="images/icon/success.png" width="80px" height="80px"/>
+                                <h6 class="text-dark" style="margin: 10px 0px;">Successfully registered! Your account will be activated soon.</h6>
+                                <br/>
+                                <a href="/login" class="btn btn-primary text-white btn-sm mb-3" style="background-color: #265699; width: 80px;">OK</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vertically centered modal end -->
+
 <%- include ('login-footer') %>
+
+<% if (locals.success) { %>
+    <script type="text/javascript">
+        $(window).on('load', function(){
+            $('#successModalCenter').modal({backdrop: 'static', keyboard: false});
+        });
+    </script>
+<% } %>

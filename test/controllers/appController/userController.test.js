@@ -1,21 +1,20 @@
 const sinon = require("sinon");
 var chai = require('chai');
 var expect = chai.expect;
-const controller = require("../../../controllers/adminController/adminController");
-const Admin = require("../../../models/adminModel/adminModel");
+const Model = require("../../../models/appModel/userModel");
+const controller = require("../../../controllers/appController/userController");
 const hashFunctions = require('../../../utils/hash_function');
 
-describe('Test Admin Controller - admin_signup', function() {
-    it('admin_signup', function() {
+describe('Test App - User Controller - user_signup', function() {
+    it('user_signup', function() {
         const validReqObj = {
             body: {
                 email: "abcd@gmail.com",
-                password: "Thuva@123",
-                confirmPassword: "Thuva@123"
+                password: "Thuva@123"
             }
         };
 
-        const mock = sinon.mock(Admin);
+        const mock = sinon.mock(Model);
         mock.expects("insert").withArgs(validReqObj.body)
             .resolves();
 
@@ -25,12 +24,12 @@ describe('Test Admin Controller - admin_signup', function() {
 
                 return {
                     status: sinon.stub(),
-                    render: sinon.spy()
+                    json: sinon.spy()
                 };
             }
         };
 
-        return controller.admin_signup(validReqObj, validRes).then(function() {
+        return controller.user_signup(validReqObj, validRes).then(function() {
             mock.restore();
             mock.verify();
         });
@@ -38,27 +37,19 @@ describe('Test Admin Controller - admin_signup', function() {
 });
 
 
-describe('Test Admin Controller - admin_login', function() {
-    it('admin_login', function() {
+describe('Test App - User Controller - user_login', function() {
+    it('user_login', function() {
         const validReqObj = {
             body: {
                 email: "abc@gmail.com",
                 password: "abc123"
-            },
-            session: {
-                loggedin: null,
-                admin: null
             }
         };
 
-        const resultObj = {
-            admin: new Admin({admin_id: 1, email: "abc@gmail.com", privilege_level: "1"}),
-            password: hashFunctions.encrypt("abc123"),
-            permitted: "yes"
-        }
+        const resultObj = new Model({id: 1, email: "abc@gmail.com", password: hashFunctions.encrypt("abc123"), imageUrl: "www.img.com", uid: 1});
 
-        const mock = sinon.mock(Admin);
-        mock.expects("getAdminFromEmail").withArgs(validReqObj.body.email)
+        const mock = sinon.mock(Model);
+        mock.expects("getUserFromEmail").withArgs(validReqObj.body.email)
             .resolves(resultObj);
 
         const validRes = {
@@ -67,12 +58,12 @@ describe('Test Admin Controller - admin_login', function() {
 
                 return {
                     status: sinon.stub(),
-                    redirect: sinon.spy()
+                    json: sinon.spy()
                 };
             }
         };
 
-        return controller.admin_login(validReqObj, validRes).then(function() {
+        return controller.user_login(validReqObj, validRes).then(function() {
             mock.restore();
             mock.verify();
         });
