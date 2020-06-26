@@ -1,3 +1,4 @@
+//Local Server Database
 exports.database = {
     host: 'localhost',
     user: 'root',
@@ -7,6 +8,7 @@ exports.database = {
     multipleStatements: true
 };
 
+//Heroku Server Database
 // exports.database = {
 //     host: 'eporqep6b4b8ql12.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
 //     user: 'xnvxi3kclh1ehyiz',
