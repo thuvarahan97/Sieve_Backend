@@ -90,12 +90,17 @@ exports.user_signup_gf = (req, res, next) => {
                     res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
                 });
             } else {
-                res.json({
-                    id: user.id.toString(),
-                    email: user.email,
-                    imageUrl: user.imageUrl,
-                    uid: user.uid,
-                });
+                if (user.permitted == 'yes') {
+                    console.log(user);
+                    res.json({
+                        id: user.id.toString(),
+                        email: user.email,
+                        imageUrl: user.imageUrl,
+                        uid: user.uid,
+                    });
+                } else {
+                    res.status(404).json({ serverError: false, blockedError: true, error: 'Account Blocked!' });
+                }
             }
         }).catch(() => {
             res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
