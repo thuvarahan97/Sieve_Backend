@@ -32,7 +32,6 @@ exports.getConnection=() =>{
 }
 
 exports.query = (sql, parameters) => {
-    // console.log(sql,parameters)
     return new Promise((resolve, reject) => {
         pool.query(sql, parameters, function (err, results, fields) {
             if (err) {
@@ -45,3 +44,27 @@ exports.query = (sql, parameters) => {
         });
     })
 }
+
+exports.transaction = function(body, done) {
+
+    pool.getConnection(function(err, conn) {
+
+        conn.beginTransaction(function(err) {
+            if (err) return done(err);
+
+            body(function(err) {
+                if (err) return conn.rollback(function(ff, fff) {
+                    done(err);
+                });
+        
+                conn.commit(function(err) {
+                    if (err) return conn.rollback(function() {
+                        done(err);
+                    });
+    
+                    done();
+                });
+            });
+        });
+    });
+};

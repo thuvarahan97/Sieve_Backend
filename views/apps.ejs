@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Apps Table
-                    <button class="btn btn-rounded btn-xs btn-success ml-3"><i class="fa fa-plus"></i></button>
+                    <a class="btn btn-rounded btn-xs btn-success ml-3" href="/apps/add"><i class="fa fa-plus"></i></a>
                 </h4>
                 <div class="single-table">
                     <div class="table-responsive">
@@ -31,8 +31,13 @@
                                     <td><img src="<%= result[i]['icon_image']; %>" width="35px" height="35px"></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li class="mr-3"><a href="#" class="text-secondary"><i class="fa fa-edit"></i></a></li>
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <!-- <li class="mr-3"><a href="/apps/edit?id=<%= result[i]['app_id']; %>" class="text-secondary"><i class="fa fa-edit"></i></a></li> -->
+                                            <% id = result[i]['app_id']; %>
+                                            <% if ((result[i]['type_count'] > 0) || (result[i]['usage_count'] > 0) || (result[i]['removal_count'] > 0) || (result[i]['officer_count'] > 0)) { %>
+                                                <li><a class="text-secondary" style="pointer-events: none;"><i class="ti-trash"></i></a></li>
+                                            <% } else { %>
+                                                <li><a onclick="return confirmDelete('/apps/delete?id=<%= id %>');" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% } %>
                                         </ul>
                                     </td>
                                 </tr>

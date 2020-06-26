@@ -25,7 +25,12 @@
                                     <td><%= result[i]['email']; %></td>
                                     <td>
                                         <ul class="d-flex justify-content-center">
-                                            <li><a href="#" class="text-danger"><i class="ti-trash"></i></a></li>
+                                            <% id=result[i]['common_user_id'];%>
+                                            <% if (result[i]['permitted'] == 'yes') { %>
+                                                <li><a onclick="return confirmUpdate('/users/block_user?id=<%= id %>', 'Do you want to block this user ?');" class="text-danger" style="cursor: pointer; font-weight: 400;">Block</a></li>
+                                            <% } else { %>
+                                                <li><a onclick="return confirmUpdate('/users/unblock_user?id=<%= id %>', 'Do you want to unblock this user ?');" class="text-primary" style="cursor: pointer; font-weight: 400;">Unblock</a></li>
+                                            <% } %>
                                         </ul>
                                     </td>
                                 </tr>

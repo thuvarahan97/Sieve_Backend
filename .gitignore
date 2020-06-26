@@ -7,3 +7,13 @@ esparse.cmd
 esparse
 cdl.cmd
 cdl
+*.cmd
+ejs
+flat
+he
+jake
+js-yaml
+mkdirp
+node-which
+package-lock.json
+npm-audit-html

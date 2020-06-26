@@ -4,4 +4,8 @@ const router = express.Router();
 
 router.get('/', adminsController.viewAll);
 
+router.get('/update',adminsController.update);
+
+router.get('/update_no',adminsController.update_no);
+
 module.exports = router;

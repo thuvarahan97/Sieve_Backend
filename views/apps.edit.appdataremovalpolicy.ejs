@@ -1,0 +1,30 @@
+<%- include ('header') %>
+
+    <div class="col-12 mt-5">
+        <div class="card form-card">
+            <div class="card-body">
+                <h4 class="header-title">Edit App Data Removal Policy</h4>
+                <form action="/apps/edit_appdataremovalpolicy?id=<%= id %>&policy_id=<%= policy_id %>" method="POST">
+                    <% if (locals.error) { %>
+                        <div class="alert alert-danger error-msg"><%= error %></div>
+                    <% } %>
+                    <div class="form-group">
+                        <label for="id" class="col-form-label">App ID</label>
+                        <input class="form-control" type="text" id="id" name="id" value="<%= id %>" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="policy_id" class="col-form-label">Policy ID</label>
+                        <input class="form-control" type="text" id="policy_id" name="policy_id" value="<%= policy_id %>" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="policy" class="col-form-label">Data Removal Policy</label>
+                        <input class="form-control" type="text" id="policy" name="policy" value="<%= result[0].policy %>" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Submit</button>
+                    <a href="/apps/app?app_id=<%= id %>" class="btn btn-secondary mt-4 pr-4 pl-4" style="color: #FFF;">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<%- include ('footer') %>
