@@ -10,7 +10,7 @@ describe('Test App - User Controller - user_signup', function() {
         const validReqObj = {
             body: {
                 email: "abcd@gmail.com",
-                password: "Thuva@123"
+                password: "Test@123"
             }
         };
 
@@ -41,12 +41,12 @@ describe('Test App - User Controller - user_login', function() {
     it('user_login', function() {
         const validReqObj = {
             body: {
-                email: "abc@gmail.com",
-                password: "abc123"
+                email: "abcd@gmail.com",
+                password: "Test@123"
             }
         };
 
-        const resultObj = new Model({id: 1, email: "abc@gmail.com", password: hashFunctions.encrypt("abc123"), imageUrl: "www.img.com", uid: 1});
+        const resultObj = new Model({common_user_id: 1, email: "abcd@gmail.com", password: hashFunctions.encrypt("Test@123"), imageUrl: "www.img.com", uid: 1, permitted: "yes"});
 
         const mock = sinon.mock(Model);
         mock.expects("getUserFromEmail").withArgs(validReqObj.body.email)
