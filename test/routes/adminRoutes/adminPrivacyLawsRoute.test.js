@@ -13,8 +13,8 @@ describe("adminPrivacyLaws Route Test",()=>{
         agent
             .post('/login')
             .send({ 
-                email: 'meenusivarasan@gmail.com',
-                password: 'Meenu123+' 
+                email: 'test@gmail.com',
+                password: 'Test@123' 
             })
             .end((err,res)=>{
                 res.should.have.status(200);

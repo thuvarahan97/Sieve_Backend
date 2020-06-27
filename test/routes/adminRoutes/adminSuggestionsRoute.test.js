@@ -1,33 +1,3 @@
-//  let chai=require("chai");
-// let chaiHttp=require("chai-http");
-// let server = require('../../../app');
-// chai.should();
-// chai.use(chaiHttp);
-
-
- 
-// describe("Suggestions Route Test",()=>{
- 
-// it("It should GET the Link suggestions",(done)=>{
-//         chai.request(server)
-//         .get('/suggestions')
-//         .end((err,res)=>{
-//             res.should.have.status(200);
-//             // console.log(res);
-//         done();
-//         })
-//     })
-//     it("It should GET wrong link ",(done)=>{
-//         chai.request(server)
-//         .get('/suggestions/not_found_link')
-//         .end((err,res)=>{
-//             res.should.have.status(404);
-//             // console.log(res);
-//         done();
-//         })
-//     })
-// })
-
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require('../../../app');
@@ -43,8 +13,8 @@ describe("adminSuggestions Route Test",()=>{
         agent
             .post('/login')
             .send({ 
-                email: 'meenusivarasan@gmail.com',
-                password: 'Meenu123+' 
+                email: 'test@gmail.com',
+                password: 'Test@123' 
             })
             .end((err,res)=>{
                 res.should.have.status(200);
@@ -57,13 +27,14 @@ describe("adminSuggestions Route Test",()=>{
         .end((err,res)=>{
             res.should.have.status(200);
             done();
-        })})
-        it("It should GET wrong link and render 404 page",(done)=>{
-            agent
-            .get('/suggestions/not_found_link')
-            .end((err,res)=>{
-                res.should.have.status(404);
-                done();
-            })
         })
     })
+    it("It should GET wrong link and render 404 page",(done)=>{
+        agent
+        .get('/suggestions/not_found_link')
+        .end((err,res)=>{
+            res.should.have.status(404);
+            done();
+        })
+    })
+})

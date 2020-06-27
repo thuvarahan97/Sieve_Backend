@@ -13,8 +13,8 @@ describe("adminAdmins Route Test",()=>{
         agent
             .post('/login')
             .send({ 
-                email: 'meenusivarasan@gmail.com',
-                password: 'Meenu123+' 
+                email: 'test@gmail.com',
+                password: 'Test@123' 
             })
             .end((err,res)=>{
                 res.should.have.status(200);
@@ -29,7 +29,6 @@ describe("adminAdmins Route Test",()=>{
             done();
         })
     })
-
     it("It should GET the link admins/update",(done)=>{
         agent
         .get('/admins/update')
@@ -41,7 +40,6 @@ describe("adminAdmins Route Test",()=>{
             done();
         })
     })
-
     it("It should GET the link admins/update_no",(done)=>{
         agent
         .get('/admins/update_no')
@@ -53,7 +51,4 @@ describe("adminAdmins Route Test",()=>{
             done();
         })
     })
-
-
-
 })
