@@ -1,4 +1,5 @@
 const PrivacyLaws = require('../../models/adminModel/adminPrivacyLawsModel');
+var createError = require('http-errors');
 
 exports.viewAll = (req, res, next) => {
     const fetchData =  () => {
@@ -17,7 +18,7 @@ exports.viewAll = (req, res, next) => {
 
 
 exports.viewAddForm=(req,res,next)=>{
-    res.render('privacy_laws.add.ejs');
+    res.status(200).render('privacy_laws.add.ejs');
 }
 
 exports.insert=(req,res,next)=>{
@@ -51,14 +52,14 @@ exports.viewEditForm = (req, res, next) => {
                 res.status(200).render('privacy_laws.edit.ejs', { result: result });
             }
             else {
-                res.status(404).redirect('/privacy_laws');
+                res.status(204).redirect('/privacy_laws');
             }
         }).catch(()=>{
-            res.status(404).redirect('/privacy_laws');
+            res.status(500).redirect('/privacy_laws');
         });
     }
     else{
-        res.status(404).redirect('/privacy_laws');
+        res.status(400).redirect('/privacy_laws');
     }
 }
 
@@ -73,14 +74,14 @@ exports.update = (req, res, next) => {
                 res.status(200).redirect('/privacy_laws');
             }
             else {
-                res.status(404).render('privacy_laws.edit.ejs', { serverError: false, error: 'Unable to update data!' });
+                res.status(409).render('privacy_laws.edit.ejs', { serverError: false, error: 'Unable to update data!' });
             }
         }).catch(()=>{
             res.status(500).render('error',{ serverError: true, error: createError(500)});
         });
     }
     else{
-        res.status(404).render('privacy_laws.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+        res.status(400).render('privacy_laws.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
     }
 }
 
@@ -93,13 +94,13 @@ exports.delete = (req, res, next) => {
                 res.status(200).redirect('/privacy_laws');
             }
             else {
-                res.status(404).redirect('/privacy_laws');
+                res.status(409).redirect('/privacy_laws');
             }
         }).catch(()=>{
-            res.status(404).redirect('/privacy_laws');
+            res.status(500).redirect('/privacy_laws');
         });
     }
     else{
-        res.status(404).redirect('/privacy_laws');
+        res.status(400).redirect('/privacy_laws');
     }
 }

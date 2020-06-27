@@ -8,7 +8,6 @@ exports.viewAll = (req, res, next) => {
             });
         };
         return fetchData().then((result)=>{
-            // console.log(result);
             res.status(200).render('privacy_tips', { result: result });
         }).catch((err) => {
             if (err) {
@@ -34,13 +33,13 @@ exports.viewAll = (req, res, next) => {
                     res.status(200).redirect('/privacy_tips');
                 }
                 else {
-                    res.status(404).render('privacy_tips.add.ejs', {serverError: false, error: 'Unable to save data!'});
+                    res.status(409).render('privacy_tips.add.ejs', {serverError: false, error: 'Unable to save data!'});
                 }
             }).catch(()=>{
-                res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })
+                res.status(500).json({ serverError: true, error: 'Database Connection Faliure!' })
             })
         }else{
-            res.status(404).render('privacy_tips.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+            res.status(400).render('privacy_tips.add.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
         }
     }
     
@@ -53,14 +52,14 @@ exports.viewAll = (req, res, next) => {
                     res.status(200).render('privacy_tips.edit.ejs', { result: result });
                 }
                 else {
-                    res.status(404).redirect('/privacy_tips');
+                    res.status(204).redirect('/privacy_tips');
                 }
             }).catch(()=>{
-                res.status(404).redirect('/privacy_tips');
+                res.status(500).redirect('/privacy_tips');
             });
         }
         else{
-            res.status(404).redirect('/privacy_tips');
+            res.status(400).redirect('/privacy_tips');
         }
     }
     
@@ -74,14 +73,14 @@ exports.viewAll = (req, res, next) => {
                     res.status(200).redirect('/privacy_tips');
                 }
                 else {
-                    res.status(404).render('privacy_tips.edit.ejs', { serverError: false, error: 'Unable to update data!' });
+                    res.status(409).render('privacy_tips.edit.ejs', { serverError: false, error: 'Unable to update data!' });
                 }
             }).catch(()=>{
                 res.status(500).render('error',{ serverError: true, error: createError(500)});
             });
         }
         else{
-            res.status(404).render('privacy_tips.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
+            res.status(400).render('privacy_tips.edit.ejs', { serverError: false, error: 'Input fields cannot be empty.' });
         }
     }
     
@@ -94,13 +93,13 @@ exports.viewAll = (req, res, next) => {
                     res.status(200).redirect('/privacy_tips');
                 }
                 else {
-                    res.status(404).redirect('/privacy_tips');
+                    res.status(409).redirect('/privacy_tips');
                 }
             }).catch(()=>{
-                res.status(404).redirect('/privacy_tips');
+                res.status(500).redirect('/privacy_tips');
             });
         }
         else{
-            res.status(404).redirect('/privacy_tips');
+            res.status(400).redirect('/privacy_tips');
         }
     }

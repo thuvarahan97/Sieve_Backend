@@ -27,14 +27,14 @@ exports.viewAll = (req, res, next) => {
                     res.status(200).redirect('/admins');
                 }
                 else {
-                    res.status(404).redirect('/admins');
+                    res.status(409).redirect('/admins');
                 }
             }).catch(()=>{
-                res.status(404).redirect('/admins');
+                res.status(500).redirect('/admins');
             });
         }
         else{
-            res.status(404).redirect('/admins');
+            res.status(400).redirect('/admins');
         }
     }
 
@@ -47,14 +47,14 @@ exports.viewAll = (req, res, next) => {
                     res.status(200).redirect('/admins');
                 }
                 else {
-                    res.status(404).redirect('/admins');
+                    res.status(409).redirect('/admins');
                 }
             }).catch(()=>{
-                res.status(404).redirect('/admins');
+                res.status(500).redirect('/admins');
             });
         }
         else{
-            res.status(404).redirect('/admins');
+            res.status(400).redirect('/admins');
         }
     }
 
