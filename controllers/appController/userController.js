@@ -24,14 +24,20 @@ exports.user_login = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password
     User.getUserFromEmail(email).then((user) => {
+        console.log(user);
         if (user) {
             if (hashFunctions.checkHash(password, user.password)) {
-                console.log(user);
-                res.json({
-                    id: user.id.toString(),
-                    email: user.email,
-                    password: password
-                });
+                if (user.permitted == 'yes') {
+                    console.log(user);
+                    res.json({
+                        id: user.id.toString(),
+                        email: user.email,
+                        password: password
+                    });
+                } else {
+                    res.status(404).json({ serverError: false, blockedError: true, error: 'Account Blocked!' });
+                }
+
             }
             else {
                 res.status(404).json({ serverError: false, error: 'Wrong Password' });
@@ -67,29 +73,34 @@ exports.user_signup_gf = (req, res, next) => {
     if (validation.emailValidation(email)) {
         User.getUserFromUid(uid).then((user) => {
             console.log(user);
-            if (user==undefined) {
+            if (user == undefined) {
                 User.insertGF(req.body).then(() => {
-                    User.getUserFromUid(uid).then((user1)=>{
+                    User.getUserFromUid(uid).then((user1) => {
                         res.json({
                             id: user1.id.toString(),
                             email: user1.email,
                             imageUrl: user1.imageUrl,
                             uid: user1.uid,
                         });
-                    }).catch(()=>{
+                    }).catch(() => {
                         res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
                     });
-                    
+
                 }).catch(() => {
                     res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' });
                 });
             } else {
-                res.json({
-                    id: user.id.toString(),
-                    email: user.email,
-                    imageUrl: user.imageUrl,
-                    uid: user.uid,
-                });
+                if (user.permitted == 'yes') {
+                    console.log(user);
+                    res.json({
+                        id: user.id.toString(),
+                        email: user.email,
+                        imageUrl: user.imageUrl,
+                        uid: user.uid,
+                    });
+                } else {
+                    res.status(404).json({ serverError: false, blockedError: true, error: 'Account Blocked!' });
+                }
             }
         }).catch(() => {
             res.status(404).json({ serverError: true, error: 'Database Connection Faliure!' })

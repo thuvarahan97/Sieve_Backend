@@ -7,7 +7,8 @@ module.exports = class User {
         this.email = params.email,
         this.password = params.password,
         this.imageUrl = params.imageUrl,
-        this.uid = params.uid
+        this.uid = params.uid,
+        this.permitted = params.permitted
     }
 
     static insert(userInput) {
@@ -34,6 +35,7 @@ module.exports = class User {
     }
 
     static getUserFromEmail(email) {
+        console.log(email);
         return new Promise((resolve) => {
             resolve(db.query("SELECT * FROM tbl_common_user WHERE email = ?", [email]))
         }).then(value => {
